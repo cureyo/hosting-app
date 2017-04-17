@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon-76X76.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon-96x96.png">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="assets/css/gaia.css" rel="stylesheet"/>
+    
+
+    <!--     Fonts and icons     -->
+    <link href='https://fonts.googleapis.com/css?family=Cambo|Poppins:400,600' rel='stylesheet' type='text/css'>
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/fonts/pe-icon-7-stroke.css" rel="stylesheet">
+</head>
+
+<body>
+   <div >
+    <nav class="navbar navbar-default navbar-fixed-top navbar-transparent" id="navbr" color-on-scroll="200">
+        <!-- if you want to keep the navbar hidden you can add this class to the navbar "navbar-burger"-->
+        <div class="container">
+            <div class="navbar-header">
+           
+                <a *ngIf="pageDetails" href="#" class="navbar-brand">
+                    {{pageDetails.content.profileTile.doctor.name}}
+                   
+                </a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <!--<ul class="nav navbar-nav navbar-right navbar-uppercase">
+                    <li>
+                        <a href="http://www.creative-tim.com/product/gaia-bootstrap-template-pro" target="_blank">Get PRO Version</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#gaia" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-share-alt"></i> Share
+                        </a>
+                        <ul class="dropdown-menu dropdown-danger">
+                            <li>
+                                <a href="#"><i class="fa fa-facebook-square"></i> Facebook</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-twitter"></i> Twitter</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-instagram"></i> Instagram</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="http://www.creative-tim.com/product/gaia-bootstrap-template" class="btn btn-danger btn-fill">Free Download</a>
+                    </li>
+                </ul>-->
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+    </nav>
+
+
+    <div class="section section-header">
+        <div *ngIf="pageDetails" class="parallax filter filter-color-blue"   style="min-height: 800px;">
+            <div class="image" 
+               [style.background-image]=getSafeURL(pageDetails.content.heroTile.bgImage)
+               style="min-height: 800px;">
+            </div>
+            <div *ngIf="pageDetails" class="container">
+                <div class="content">
+                    <div class="title-area">
+                        <p>{{pageDetails.content.heroTile.title}}</p>
+                        <h1 class="title-modern" style="margin-bottom: 20px;">{{pageDetails.content.heroTile.text}}</h1>
+                        <!--<h2>{{pageDetails.Content.heroText2}}</h2>-->
+                        <div class="col-sm-6 col-sm-offset-3">
+                          <div class="card card-profile" style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
+                        <div class="card-avatar" style="width: 90px; height: 90px; border-radius: 50%; padding: 1px; background-color:#fff; ">
+<!--<i class="material-icons">content_copy</i>-->
+<img src="{{pageDetails.content.heroTile.card.image}}" style="border-radius: 50%; width: 88px; height: 88px;">
+</div>
+<div class="card-content">
+    <!--<p class="category">{{pageDetails.content.heroTile.card.title}}</p>-->
+    <h3 class="title-modern">{{pageDetails.content.heroTile.card.title}}
+        <br><small>{{pageDetails.content.heroTile.card.qual}}</small>
+        <br><small>{{pageDetails.content.heroTile.card.experience}} years of experience</small></h3>
+   
+</div>
+
+</div>
+                        </div>
+                        
+                    </div>
+
+                   
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="section">
+        <div *ngIf="pageDetails" class="container">
+            <div class="row">
+                <div class="title-area">
+                    <div class="title-modern">
+                    <h1>{{pageDetails.content.bookingTile.title}}</h1>
+                    </div>
+                   
+                   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="info-icon">
+                       
+                         <p style="margin-left: 15%; margin-right: 15%; margin-top: 20px;  text-align: left;" class="description">{{pageDetails.content.bookingTile.text}}</p>
+                         <p style="margin-left: 15%; margin-right: 15%; margin-top: 20px; text-align: left; font-weight: 700;" class="description">Consultation Fee: Rs. {{pageDetails.content.bookingTile.fee}}</p>
+                         <p style="margin-left: 15%; margin-right: 15%; margin-top: 20px;  text-align: left;" class="description">Additional Rs. 30 for Phone Consultation charges</p>
+                       
+                    </div>
+                </div>
+                  <div class="col-sm-6">
+                <div class="col-sm-10">
+                        
+
+        <div class="card card-stats">
+            <div class="card-header" style="width: 60px; height: 60px; padding: 0px;" data-background-color="orange">
+<i class="material-icons">local_hospital</i>
+
+</div>
+
+<div class="card-content">
+     <h3 class="title">{{pageDetails.content.bookingTile.booking.title}}
+            <br>
+            <small>{{pageDetails.content.bookingTile.booking.text}}</small></h3>
+        
+<div class="card-footer">
+    <app-caredone-form
+        [clinicId]="clinicId"
+        [availableSlots]="pageDetails.availability.dailySlots"
+        [fee]="fee"
+        ></app-caredone-form>
+   </div>
+
+</div>
+</div>
+
+                </div>
+                  </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="section" style="background-color: #137a9c;">
+       
+           
+            <div *ngIf="pageDetails" class="container">
+                <div class="content">
+                    <div class="row">
+                    <div class="title-area">
+                        <p></p>
+                        <h2 style="color: #fff;">{{pageDetails.content.profileTile.title}}</h2>
+                        <br>
+                        <div class="col-sm-10 col-sm-offset-1">
+                          <div class="card card-profile" style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
+                        <div class="card-avatar" style="width: 120px; height: 120px; border-radius: 50%; padding: 2px; background-color:#fff; ">
+<!--<i class="material-icons">content_copy</i>-->
+<img src="{{pageDetails.content.profileTile.doctor.image}}" style="border-radius: 50%; width: 116px; height: 116px;">
+</div>
+<div class="card-content">
+    <!--<p class="category">{{pageDetails.content.heroTile.card.title}}</p>-->
+    <h3 class="title-modern">{{pageDetails.content.profileTile.doctor.name}}
+        <br><small>{{pageDetails.content.profileTile.doctor.qual}}</small>
+        <br><small>{{pageDetails.content.profileTile.doctor.experience}} of experience</small>
+        <br>
+        <br>
+        <p>{{pageDetails.content.profileTile.doctor.brief}}</p></h3>
+        <a href="{{pageDetails.content.footer.linkedin}}" target="blank" class="btn btn-round"> View on Linkedin</a>
+        
+</div>
+
+</div>
+                        </div>
+                        
+                    </div>
+                    </div>
+
+                   
+                </div>
+
+            </div>
+      
+    </div>
+ 
+
+ 
+
+
+
+
+    <!--<div *ngIf="pageDetails" class="section section-small section-get-started" id="map">
+        <div class="parallax filter" *ngIf="pageDetails.content">
+            <maps-cmp></maps-cmp>
+            <div class="container">
+                <div class="title-area">
+                    <h2 class="text-white">{{pageDetails.content.map.title}}</h2>
+                    
+                    <p class="description"> {{pageDetails.content.map.text}}</p>
+                </div>
+
+                <div class="button-get-started">
+                    <a href="#gaia" class="btn btn-danger btn-fill btn-lg">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+
+    <footer class="footer footer-big footer-color-black" data-color="black" *ngIf="pageDetails">
+        <div class="container">
+            <div class="row">
+              
+              
+                <div class="col-md-2 col-md-offset-1 col-sm-3">
+                    <div class="info">
+                        <h5 class="title">Follow me on</h5>
+                        <nav>
+                            <ul>
+                                <li>
+                                    <a href="{{pageDetails.content.footer.facebook}}" class="btn btn-social btn-facebook btn-simple">
+                                        <i class="fa fa-facebook-square"></i> Facebook
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{pageDetails.content.footer.twitter}}" class="btn btn-social btn-twitter btn-simple">
+                                        <i class="fa fa-twitter"></i> Twitter
+                                    </a>
+                                </li>
+                               
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <a href="https://cureyo.com">
+            <div class="copyright">
+                 © <script> document.write(new Date().getFullYear()) </script> Built on Cureyo.com with care
+            </div>
+            </a>
+        </div>
+    </footer>
+</div>
+</body>
+
+<!--   core js files    -->
+<script src="assets/js/jquery.min.js" type="text/javascript"></script>
+<script src="assets/js/bootstrap.js" type="text/javascript"></script>
+
+<!--  js library for devices recognition -->
+<script type="text/javascript" src="assets/js/modernizr.js"></script>
+
+<!--  script for google maps   -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+
+<!--   file where we handle all the script from the Gaia - Bootstrap Template   -->
+<script type="text/javascript" src="assets/js/gaia.js"></script>
+
+</html>

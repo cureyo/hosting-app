@@ -1,0 +1,82 @@
+<div class="social-line" style="font-size: 20px; width: 100%;">
+										<a (click)="login('facebook')" class="btn btn-primary" style="width: 100%;">
+											<i class="fa fa-facebook-square"></i> Login using Facebook
+										</a>
+										
+									
+									</div>
+
+<form [formGroup]="caredone" (ngSubmit)="onSubmit(caredone.value, $event)" (keydown.enter)="$event.preventDefault()" class="form" novalidate>
+
+  <div class="form-group" style="width: 100%; float: left; z-index: 100; margin-top: 0px; margin-bottom: 0px;" [ngClass]="{'has-error':!caredone.controls['name'].valid && (caredone.controls['name'].touched || showErrorFlag)}">
+
+    <label class="control-label" for="co_name">Name</label>
+    <input type="text" class="form-control" name="co_name" id="co_name"
+           [formControl]="caredone.controls['name']"
+    />
+  </div>
+  <div class="form-group" style="float: left; width: 48%; z-index: 100; margin-top: 0px; margin-bottom: 0px;" [ngClass]="{'has-error':!caredone.controls['email'].valid && (caredone.controls['email'].touched || showErrorFlag)}">
+    <label class="control-label" for="co_email">Email</label>
+    <input
+      type="text"
+      class="form-control"
+      name="co_email"
+      id="co_email"
+      [formControl]="caredone.controls['email']"
+      pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,8})+$"
+    />
+  </div>
+
+
+  <div class="form-group" style="float: left; width: 48%; z-index: 100; margin-top: 0px; margin-bottom: 0px; margin-left: 4%;" [ngClass]="{'has-error':!caredone.controls['phone'].valid && (caredone.controls['phone'].touched || showErrorFlag)}">
+    <label class="control-label" for="co_phone">10-digit Mobile Number</label>
+    <input type="text" class="form-control" id="co_phone"
+           [formControl]="caredone.controls['phone']"
+          
+    />
+    
+  </div>
+
+     <div class="form-group" style="width: 48%; float: left; z-index: 100; margin-top: 0px; margin-bottom: 0px;" [ngClass]="{'has-error':!caredone.controls['consultType'].valid && (caredone.controls['consultType'].touched || showErrorFlag)}">
+    <label class="control-label" for="co_consultType">Consultation Type</label>
+    <select formControlName="consultType" id="co_consultType" class="form-control">
+      <option value="follow-up">Follow-up Consultation</option>
+      <option value="first">First Consultation</option>
+    </select>
+  </div>
+      <div class="form-group" style="width: 48%; float: left; z-index: 100; margin-top: 0px; margin-bottom: 0px; margin-left:4%;"  [ngClass]="{'has-error':!caredone.controls['consultMode'].valid && (caredone.controls['consultMode'].touched || showErrorFlag)}">
+    <label class="control-label" for="co_consultMode">Consultation Mode</label>
+    <select formControlName="consultMode" id="co_consultMode" class="form-control">
+      <option value="video">Video Consultation</option>
+      <option value="phone">Phone Consultation</option>
+    </select>
+  </div>
+  <div class="form-group" style="float: left; width: 48%; z-index: 100; margin-top: 0px; margin-bottom: 0px;" [ngClass]="{'has-error':!caredone.controls['consultDate'].valid && (caredone.controls['consultDate'].touched || showErrorFlag2)}" (change)="updateDate(caredone.controls['consultDate'].value)">
+    <label class="control-label" for="consultDate">Select date</label>
+      <select formControlName="consultDate"  class="form-control">
+      <option [attr.selected]="" value="{{ i | date }}" *ngFor="let i of cbDay">{{ i | date }}</option>
+    </select>
+  </div>
+  <div class="form-group" style="float: left; width: 48%; z-index: 100; margin-top: 0px; margin-bottom: 0px; margin-left:4%;" [ngClass]="{'has-error':!caredone.controls['consultTime'].valid && (caredone.controls['consultTime'].touched || showErrorFlag2)}">
+  <label class="control-label" for="consultTime">Select time</label>
+    <select formControlName="consultTime"  class="form-control">
+      <option [attr.selected]="" value="{{i}}" *ngFor="let i of cbTime">{{i}}</option>
+    </select>
+  </div>
+ 
+
+  <div class="form-group">
+    <a *ngIf="!caredone.valid" class="btn btn-primary" (click)="showError()" >Proceed</a>
+    <button *ngIf="caredone.valid" type="submit" class="btn btn-primary" [disabled]="!caredone.valid">Proceed</button>
+    
+    </div>
+    <div class="alert alert-danger" *ngIf="!caredone.controls['phone'].valid && (caredone.controls['phone'].touched || showErrorFlag)">You must provide a 10 digit phone number</div>
+    <div class="alert alert-danger" *ngIf="!caredone.controls['email'].valid && (caredone.controls['email'].touched || showErrorFlag)">You must provide a valid email.</div>
+    <div class="alert alert-danger" *ngIf="!caredone.controls['name'].valid && (caredone.controls['name'].touched || showErrorFlag)">You must provide your name</div>
+    <div class="alert alert-danger" *ngIf="!caredone.controls['consultDate'].valid && (caredone.controls['consultDate'].touched || showErrorFlag)">You must select a consultation date.</div>
+    <div class="alert alert-danger" *ngIf="!caredone.controls['consultTime'].valid && (caredone.controls['consultTime'].touched || showErrorFlag)">You must select a consultation time.</div>
+    <div class="alert alert-danger" *ngIf="!caredone.controls['consultMode'].valid && (caredone.controls['consultMode'].touched || showErrorFlag)">You must select a consultation mode.</div>
+    <div class="alert alert-danger" *ngIf="!caredone.controls['consultType'].valid && (caredone.controls['consultType'].touched || showErrorFlag)">You must select a consultation type.</div>
+
+</form>
+
