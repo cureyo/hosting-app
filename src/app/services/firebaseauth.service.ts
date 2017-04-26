@@ -48,7 +48,18 @@ export class AuthService {
 
   }//login
 
-
+  createMailUser(details) {
+    console.log(details)
+    this.af.auth.createUser(details).catch( error => { console.log("user exists")})
+  }
+  loginMailUser(details) {
+    console.log(details)
+    return this.af.auth.login(details,
+          {
+            provider: AuthProviders.Password,
+            method: AuthMethods.Password,
+          });
+  }//login
   doclogin() {
 
     this.af.auth.login({
@@ -104,17 +115,91 @@ export class AuthService {
     return
 
   }//_updateReminders
-    public _getDoctorPage(pageId) {
+  public _getDoctorPage(pageId) {
     console.log(this.db.doctorPages + pageId);
     return this.af.database.object(this.db.doctorPages + pageId);
   }//_findCaredoneByKey
-  public _DoctorConsultation(clinicId, consultDate, consultTime, consultData) {
-    var update = this.af.database.object(this.db.doctorPages + clinicId + '/consultations/' + consultDate + '/' + consultTime);
-      update.set(consultData);
+  public _DoctorConsultationSlot(clinicId, consultDate, consultTime, consultData) {
+    var update = this.af.database.object(this.db.clinicConsultSlots + clinicId + '/' + consultDate + '/' + consultTime);
+    update.set(consultData);
   }
-    public _getAvailableSlots(clinicId, consultDate) {
-    return this.af.database.object(this.db.doctorPages + clinicId + '/consultations/' + consultDate);
-      
+  public _DoctorConsultationDetails(transId, data) {
+    var update = this.af.database.object(this.db.clinicConsultDets + transId);
+    update.set(data);
+  }
+
+
+  public _ConsultationPayment(transId, status, paymentId) {
+    var update = this.af.database.object(this.db.clinicConsultDets + transId + '/payment');
+    update.set({
+      status: status,
+      paymentId: paymentId
+    });
+  }
+  public _RequestOTP(number, code) {
+    var update = this.af.database.object(this.db.OTPRequests + number );
+    update.set({code: code, status: 'requested'});
+  }
+    public _UpdateOTP(number) {
+    var update = this.af.database.object(this.db.OTPRequests + number + '/status');
+    update.set('confirmed');
+  }
+   public _SendMessage(transId, messageData, index) {
+    var update = this.af.database.object(this.db.clinicConsults + transId + '/Message/' + index );
+    update.set(messageData);
+  }
+     public _GetMessages(transId) {
+   return this.af.database.object(this.db.clinicConsults + transId + '/Message/')
+  }
+       public _GetDoctorEmail(pageId) {
+   this.af.database.object(this.db.doctorPages + pageId + '/docDetails')
+   .subscribe(
+     data => {
+       return data.drEmail;
+     }
+   )
+  }
+  public _GetDoctorDetails(pageId) {
+   return this.af.database.object(this.db.doctorPages + pageId + '/docDetails')
+   
+  }
+  public _GetDoctorPhone(pageId) {
+    console.log(this.db.doctorPages + pageId + '/docDetails');
+   this.af.database.object(this.db.doctorPages + pageId + '/docDetails')
+   .subscribe(
+     data => {
+       return data.drPhone;
+     }
+   )
+  }
+    public _GetDoctorPwd(pageId) {
+   this.af.database.object(this.db.doctorPages + pageId + '/docDetails')
+   .subscribe(
+     data => {
+       return data.drPwd;
+     }
+   )
+  }
+       public _GetConsultIds(consultId) {
+   return this.af.database.object(this.db.clinicConsultDets + consultId)
+  }
+    public _UpdatePeerVideo(transId, status, peerId, role) {
+    var update = this.af.database.object(this.db.clinicConsults + transId + '/' + role);
+    update.set({
+      status: status,
+      peerId: peerId
+    });
+  }
+  public _GetPeerVideo(transId, peer) {
+    return this.af.database.object(this.db.clinicConsults + transId + '/' + peer);
+  }
+    public _GetSharedReports(clinicId, transId) {
+    return this.af.database.object(this.db.patientFiles + clinicId + '/' + transId);
+  }
+
+  public _getAvailableSlots(clinicId, consultDate) {
+    return this.af.database.object(this.db.clinicConsultSlots + clinicId + '/' + consultDate);
+
   }
 
 
@@ -124,7 +209,7 @@ export class AuthService {
   }//_saveReminders
 
   public _saveOnboardingReview(data, caredoneId, route) {
-    const onboardingdata = this.af.database.object(this.db.onboardingReview+ '/' + caredoneId + '/' + route)
+    const onboardingdata = this.af.database.object(this.db.onboardingReview + '/' + caredoneId + '/' + route)
     return onboardingdata.set(data);
 
 
@@ -197,8 +282,8 @@ export class AuthService {
     return this.af.database.object(this.db.onboardingReview + caredId);
   }//_findCaredoneByKey
   public _findOnboardingReviewItem(caredId, item) {
-    console.log(this.db.onboardingReview+ caredId + '/' + item)
-    return this.af.database.list(this.db.onboardingReview+ caredId + '/' + item, {
+    console.log(this.db.onboardingReview + caredId + '/' + item)
+    return this.af.database.list(this.db.onboardingReview + caredId + '/' + item, {
       query: {
 
         orderByKey: true,
@@ -208,11 +293,11 @@ export class AuthService {
     });
   }//_findCaredoneByKey
   public _findOnboardingReviewItemNext(caredId, item, next) {
-    console.log(this.db.onboardingReview+ caredId + '/' + item)
+    console.log(this.db.onboardingReview + caredId + '/' + item)
     console.log(next - 1);
     var count = parseInt(next) - 1;
     var limitAt = count.toString();
-    return this.af.database.list(this.db.onboardingReview+ caredId + '/' + item, {
+    return this.af.database.list(this.db.onboardingReview + caredId + '/' + item, {
       query: {
 
         orderByKey: true,
@@ -224,12 +309,12 @@ export class AuthService {
       }
     });
   }//_findCaredoneByKey
-    public _findOnboardingReviewItemPrev(caredId, item, next) {
-    console.log(this.db.onboardingReview+ caredId + '/' + item)
+  public _findOnboardingReviewItemPrev(caredId, item, next) {
+    console.log(this.db.onboardingReview + caredId + '/' + item)
     console.log(next - 1);
     var count = parseInt(next) - 1;
     var limitAt = count.toString();
-    return this.af.database.list(this.db.onboardingReview+ caredId + '/' + item, {
+    return this.af.database.list(this.db.onboardingReview + caredId + '/' + item, {
       query: {
 
         orderByKey: true,
@@ -373,9 +458,9 @@ export class AuthService {
 
     let data = user.auth.providerData[0];
     return {
-      firstName: data.displayName.split(' ')[0],
-      lastName: data.displayName.split(' ')[1],
-      avatar: "https://graph.facebook.com/" + data.uid + "/picture?type=large",
+      // firstName: data.displayName.split(' ')[0],
+      // lastName: data.displayName.split(' ')[1],
+      // avatar: "https://graph.facebook.com/" + data.uid + "/picture?type=large",
       email: data.email,
       provider: data.providerId,
       uid: data.uid
@@ -469,7 +554,7 @@ export class AuthService {
   public _saveHealthReports(data, caredoneId, index) {
     if (index == null || index == undefined)
       index = 0;
-    return this.af.database.object(this.db.healthReports + caredoneId + '/' + index)
+    return this.af.database.object(this.db.patientFiles + caredoneId + '/' + index)
       .set(data);
   }
 

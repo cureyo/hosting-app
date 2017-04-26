@@ -50,7 +50,13 @@ export const AppConfig = {
     orderDetails:       environment.envName +  '/Orders/',
     docUsers:           environment.envName + '/DoctorUsers/',
     doctorPages:        environment.envName + '/DoctorPages/',
-    pathologicalTestDetails :  environment.envName + '/PathologicalTests'
+    pathologicalTestDetails :  environment.envName + '/PathologicalTests',
+    patientFiles:       environment.envName + '/Files/',
+    clinicConsultSlots: environment.envName + '/ClinicConsultations/Slots/',
+    clinicConsultDets:  environment.envName + '/ClinicConsultations/Details/',
+    clinicConsults:     environment.envName + '/ClinicConsultations/Calls/',
+    OTPRequests:        environment.envName + '/OTPRequests/',
+    consultIds:         environment.envName + '/ConsultIds/'
   
   }
 }

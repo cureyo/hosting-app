@@ -140,8 +140,10 @@
 <div class="card-footer">
     <app-caredone-form
         [clinicId]="clinicId"
-        [availableSlots]="pageDetails.availability.dailySlots"
+        [availableSlots]="pageDetails.availability.SLots"
         [fee]="fee"
+        [drName]="pageDetails.content.profileTile.doctor.name"
+        [drImage]="pageDetails.content.profileTile.doctor.image" 
         ></app-caredone-form>
    </div>
 

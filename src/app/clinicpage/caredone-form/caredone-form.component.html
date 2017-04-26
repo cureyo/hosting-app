@@ -1,10 +1,10 @@
-<div class="social-line" style="font-size: 20px; width: 100%;">
+<!--<div class="social-line" style="font-size: 20px; width: 100%;">
 										<a (click)="login('facebook')" class="btn btn-primary" style="width: 100%;">
 											<i class="fa fa-facebook-square"></i> Login using Facebook
 										</a>
 										
 									
-									</div>
+									</div>-->
 
 <form [formGroup]="caredone" (ngSubmit)="onSubmit(caredone.value, $event)" (keydown.enter)="$event.preventDefault()" class="form" novalidate>
 
@@ -29,9 +29,10 @@
 
 
   <div class="form-group" style="float: left; width: 48%; z-index: 100; margin-top: 0px; margin-bottom: 0px; margin-left: 4%;" [ngClass]="{'has-error':!caredone.controls['phone'].valid && (caredone.controls['phone'].touched || showErrorFlag)}">
-    <label class="control-label" for="co_phone">10-digit Mobile Number</label>
+    <label class="control-label" for="co_phone">Mobile Number</label>
     <input type="text" class="form-control" id="co_phone"
            [formControl]="caredone.controls['phone']"
+           pattern="^[0-9]{10}$"
           
     />
     
@@ -63,12 +64,28 @@
       <option [attr.selected]="" value="{{i}}" *ngFor="let i of cbTime">{{i}}</option>
     </select>
   </div>
+  <a (click)="reportsReqd()" style="width: 100%; cursor: pointer; float: left; z-index:100000;">Have reports?</a>
+  <div class="form-group">
  
+ <div *ngIf="reportsRequired">
+     <div class="form-group" style="width: 100%; float: left; z-index: 100; margin-top: 0px; margin-bottom: 0px;" [ngClass]="{'has-error':!caredone.controls['description'].valid && (caredone.controls['description'].touched || showErrorFlag)}">
 
+    <label class="control-label" for="co_description">Provide a Description</label>
+    <input type="text" class="form-control" name="co_description" id="co_description"
+           [formControl]="caredone.controls['description']"
+    />
+      </div>
+<app-file-upload 
+[clinicId]="clinicId"
+[transId]="temp"></app-file-upload>
+</div>
+  </div>
+<br>
   <div class="form-group">
     <a *ngIf="!caredone.valid" class="btn btn-primary" (click)="showError()" >Proceed</a>
     <button *ngIf="caredone.valid" type="submit" class="btn btn-primary" [disabled]="!caredone.valid">Proceed</button>
-    
+    <!--<button id="rzp-button1">Proceed</button>-->
+    <!--<a  (click)="correctIM()"><a href="https://www.instamojo.com/Cureyo/cureyo-care-on-boarding-tests/" rel="im-checkout" data-behaviour="remote" data-style="light" data-text="Checkout With Instamojo"></a></a>-->
     </div>
     <div class="alert alert-danger" *ngIf="!caredone.controls['phone'].valid && (caredone.controls['phone'].touched || showErrorFlag)">You must provide a 10 digit phone number</div>
     <div class="alert alert-danger" *ngIf="!caredone.controls['email'].valid && (caredone.controls['email'].touched || showErrorFlag)">You must provide a valid email.</div>
@@ -79,4 +96,6 @@
     <div class="alert alert-danger" *ngIf="!caredone.controls['consultType'].valid && (caredone.controls['consultType'].touched || showErrorFlag)">You must select a consultation type.</div>
 
 </form>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 

@@ -1,0 +1,87 @@
+		<div class="header header-filter" style="background-image: url('/assets/img/testimonials-background.jpg'); background-size: cover;background-position: top center; min-height: 800px;">
+			<div class="container" style="background: rgba(0, 0, 0, 0.5); padding-top:20%; padding-bottom: 20%; margin-left:0px; margin-right:0px; width: 100%; height: 100%; min-height: 800px;">
+				<div class="row" >
+					<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+						  <div class="card card-stats" style="text-align: center; padding: 20px;">
+						  <!--<div class="card-header" style="border-radius: 8px; width: 90px; height: 90px; padding: 0px; background-color: #fff">
+
+<img src="/assets/img/AppIcon-01.ico" style="border-radius: 12px; width: 90px; height: 90px;">
+</div>-->
+
+						<div class="card-signup">
+							<button *ngIf="!otpAsked" (click)="sendOTP()" class="btn btn-primary btn-round" >Send OTP</button>
+							<form *ngIf="otpAsked"  [formGroup]="otp" (ngSubmit)="onSubmit(otp.value, $event)" (keydown.enter)="$event.preventDefault()" class="form" novalidate>
+
+  <div class="form-group"  [ngClass]="{'has-error':!otp.controls['otp'].valid && (otp.controls['otp'].touched || showErrorFlag)}">
+
+    <label class="control-label" for="otp">Enter OTP</label>
+    <input type="text" style="text-align: center;"  class="form-control" name="otp" id="otp"
+           [formControl]="otp.controls['otp']"
+    />
+  </div>
+  <div class="form-group">
+  
+    <button type="submit" class="btn btn-primary btn-round" [disabled]="!otp.valid || otpCheck(otp.value)">Confirm</button>
+    <!--<button id="rzp-button1">Proceed</button>-->
+    <!--<a  (click)="correctIM()"><a href="https://www.instamojo.com/Cureyo/cureyo-care-on-boarding-tests/" rel="im-checkout" data-behaviour="remote" data-style="light" data-text="Checkout With Instamojo"></a></a>-->
+    </div>
+							</form>
+							<!--<form class="form" method="" action="">-->
+
+								<!--<div class="header header-primary text-center" style="padding: 10%;">
+									<h4>Login to start Caring using doctor</h4>
+									<div class="social-line" style="font-size: 20px;">
+										<a (click)="doclogin('facebook')" class="btn btn-primary">
+											<i class="fa fa-facebook-square"></i> otp using Facebook
+										</a>
+										
+									
+									</div>
+								</div>-->
+								<!--<p class="text-divider">Or Be Classical</p>
+								<div class="content">
+
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="material-icons">face</i>
+										</span>
+										<input type="text" class="form-control" placeholder="First Name...">
+									</div>
+
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="material-icons">email</i>
+										</span>
+										<input type="text" class="form-control" placeholder="Email...">
+									</div>
+
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="material-icons">lock_outline</i>
+										</span>
+										<input type="password" placeholder="Password..." class="form-control" />
+									</div>
+
+									<!-- If you want to add a checkbox to this form, uncomment this code
+
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" name="optionsCheckboxes" checked>
+											Subscribe to newsletter
+										</label>
+									</div> -->
+								<!--</div>
+								<div class="footer text-center">
+									<a href="#pablo" class="btn btn-simple btn-primary btn-lg">Get Started</a>
+								</div>-->
+							<!--</form>-->
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		
+
+		</div>
+

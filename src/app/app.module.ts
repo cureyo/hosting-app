@@ -17,6 +17,7 @@ import { FileSelectDirective, FileDropDirective, FileUploader, FileUploadModule 
 import { PathLocationStrategy, LocationStrategy, APP_BASE_HREF } from '@angular/common';
 import {Ng2AutoCompleteModule} from "ng2-auto-complete/dist/index";
 import {GooglePlaceModule} from 'ng2-google-place-autocomplete';
+import {VideoCallComponent} from "./video-call/video-call.component"
 
 // Must export the config
 export const firebaseConfig = {
