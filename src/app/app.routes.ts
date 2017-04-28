@@ -7,11 +7,13 @@ import {FileUploadComponent} from "./clinicpage/file-upload/file-upload.componen
 import {VideoCallComponent} from "./video-call/video-call.component";
 import {LoginComponent} from "./login/login.component"
 import {DoctorLoginComponent} from "./doctor-login/doctor-login.component"
+import {FbloginComponent} from "./fblogin/fblogin.component";
 export const MODULE_ROUTES: Route[] =[
     { path: '', component: ClinicPageComponent },
     { path: 'consultation/:id', component: VideoCallComponent},
     { path: 'login/:id', component: LoginComponent},
-    { path: 'doctor-login/:id', component: DoctorLoginComponent}
+    { path: 'doctor-login/:id', component: DoctorLoginComponent},
+    {path : 'fblogin', component: FbloginComponent}
 ]
 
 export const MODULE_COMPONENTS = [
@@ -22,6 +24,7 @@ export const MODULE_COMPONENTS = [
     FileUploadComponent,
     VideoCallComponent,
     LoginComponent,
-    DoctorLoginComponent
+    DoctorLoginComponent,
+    FbloginComponent
 
 ]

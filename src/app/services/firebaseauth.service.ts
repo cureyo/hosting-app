@@ -77,6 +77,23 @@ export class AuthService {
     });
 
   }//fb App login
+  clinicFblogin() {
+  console.log("clinic login firebasee called:");
+   return (
+    this.af.auth.login({
+      provider: AuthProviders.Facebook,
+      method: AuthMethods.Popup,
+      scope: [
+            "user_birthday",
+            "user_work_history", 
+            "user_hometown",
+            "user_education_history",
+            "user_location"
+       ]
+    })
+   )
+
+  }//clinic fb-login
 
   logout() {
 
