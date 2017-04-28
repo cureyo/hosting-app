@@ -18,7 +18,8 @@ import { PathLocationStrategy, LocationStrategy, APP_BASE_HREF } from '@angular/
 import {Ng2AutoCompleteModule} from "ng2-auto-complete/dist/index";
 import {GooglePlaceModule} from 'ng2-google-place-autocomplete';
 import {VideoCallComponent} from "./video-call/video-call.component";
-import { FbloginComponent } from './fblogin/fblogin.component'
+import { FbloginComponent } from './fblogin/fblogin.component';
+import { CheckUpFormComponent } from './check-up-form/check-up-form.component'
 
 // Must export the config
 export const firebaseConfig = {
@@ -51,7 +52,7 @@ export const firebaseAuthConfig = {
   ],
 
 
-  declarations: [ MODULE_COMPONENTS, FbloginComponent],
+  declarations: [ MODULE_COMPONENTS, FbloginComponent, CheckUpFormComponent],
 
   providers: [{ provide: LocationStrategy, useClass: PathLocationStrategy }, AuthService, AngularFire, FacebookService, FbService, MetadataService],
 

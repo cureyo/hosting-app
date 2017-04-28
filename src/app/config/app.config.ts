@@ -56,7 +56,8 @@ export const AppConfig = {
     clinicConsultDets:  environment.envName + '/ClinicConsultations/Details/',
     clinicConsults:     environment.envName + '/ClinicConsultations/Calls/',
     OTPRequests:        environment.envName + '/OTPRequests/',
-    consultIds:         environment.envName + '/ConsultIds/'
+    consultIds:         environment.envName + '/ConsultIds/',
+    checkIns:           environment.envName + '/DoctorPages/Check-Ins/',
   
   }
 }

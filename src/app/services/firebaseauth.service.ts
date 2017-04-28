@@ -108,6 +108,27 @@ export class AuthService {
     db.set(formData)
     //this.router.navigate(['dashboard']);
   }//_saveUser
+  
+  //By Chatty - save new Check-in
+    public _saveCheckInData(doctorId,patientId, data) {
+    const db = this.af.database.object(this.db.caredOnes  + doctorId + '/' + patientId + '/Insights');
+    db.set(data)
+    
+  }//_saveCheckIn
+  //By Chatty - save new Check-in
+    public _saveCheckIn(clinicId, date, id, count) {
+    const db = this.af.database.object(this.db.checkIns + '/' + clinicId + '/' + date + '/' + count);
+    db.set(id)
+    
+  }//_saveCheckIn
+
+   //By Chatty - save new Check-in
+    public _getNoOfCheckIns(clinicId, date) {
+    return this.af.database.object(this.db.checkIns + '/' + clinicId + '/' + date) 
+    
+  }//_saveCheckIn
+
+
   public _updateReminders(data, key) {
 
     console.log("testing the data and key", data, key)

@@ -1,0 +1,156 @@
+<!-- script-->
+  <script>
+          $(function MyFunction() {
+              $('input[name="birthdate"]').daterangepicker({
+                  singleDatePicker: true,
+                  showDropdowns: true
+              }, 
+              function(start, end, label) {
+                  var years = moment().diff(start, 'years');
+                  //alert("You are " + years + " years old.");
+              });
+          });
+          </script>
+
+<!-- end of script-->
+<div class="main-content">
+        <div class="container-fluid">
+           <!-- above container classes-->
+<!-- *******************************************************************************-->           
+    <br/> <br/>
+ <div class="col-md-2"></div>
+
+  <div class="col-md-8">
+                <div class="card">
+                  <!--<form [formGroup]="teForm" class="formGroup" novalidate >-->
+                    <!-- card header portion-->
+                    <div class="card-header" data-background-color="blue">
+                        <h4 class="title">Check Up Form </h4>
+
+                        <p class="category"> This Is Check Up Form  </p>
+
+                    </div> <!-- card header portion end-->
+                    
+              <div class="card-content table-responsive">
+                <!-- first row-->
+              <div class="row" >
+                   <!-- first name formcontrol-->
+                    <div class="col-md-3">
+                            <div class="form-group">
+                                 <label for="name">first Name </label>
+  
+                                  <input type="text" class="form-control" />
+                            </div>
+                    </div>  
+                    <!-- end of  first name formcontrol-->
+                     <!-- last name formcontrol-->
+                    <div class="col-md-3">
+                            <div class="form-group">
+                                 <label for="name">last Name </label>
+  
+                                  <input type="text" class="form-control" />
+                            </div>
+                    </div>
+                     <!-- end of first name formcontrol--> 
+                      <!-- email formcontrol-->
+                    <div class="col-md-3">
+                            <div class="form-group">
+                                 <label for="name">Email </label>
+  
+                                  <input type="text" class="form-control" />
+                            </div>
+                    </div>
+                      <!-- end of email formcontrol-->
+                      <!-- phone number  formcontrol-->
+                    <div class="col-md-3">
+                            <div class="form-group">
+                                 <label for="name">phone number  </label>
+  
+                                  <input type="text" class="form-control" />
+                            </div>
+                    </div>
+                      <!-- phone number  formcontrol-->  
+              
+              </div> <!-- end of row-->
+
+              <!--second row-->
+              <div class="row" >
+
+                          <!-- date of birth formcontrol-->
+                    <div class="col-md-3">
+                            <div class="form-group">
+                                 <label for="name">date of birth </label>
+  
+                                 <input type="text" name="birthdate" id="test" onclick="MyFunction()" class="form-control"/>
+                                  
+                            </div>
+                    </div>  
+                    <!-- end of  date of birth formcontrol-->
+                     <!-- visit type formcontrol-->
+                    <div class="col-md-3">
+                            <div class="form-group">
+                                 <label for="name">visit type </label>
+  
+                                 <select class="form-control">
+                                   <option  value="firstconsultation">First Consultation</option>
+                                   <option  value="followupconsultation">Follow-Up Consultation</option>
+                                 </select>
+                            </div>
+                    </div>
+                     <!-- end of visit type formcontrol--> 
+                      
+                      <!-- Description formcontrol-->
+                    <div class="col-md-6">
+                            <div class="form-group">
+                                 <label for="name">Discription of Issue  </label>
+  
+                                  <input type="text" class="form-control" />
+                            </div>
+                    </div>
+                      <!-- phone number  formcontrol--> 
+                      
+             </div> <!-- end of second row-->
+
+
+<!-- submit button code    -->
+                <div class="actions clearfix">
+                      <div class="pull-right" >
+                          <button type="submit"  class="btn btn-warning">Add</button>
+                      </div>
+
+                        <!--<div [ngClass]="{'hide': !itemAdded5}" class="bareP">
+                            <p>Thanks! This Care Item has been scheduled!</p>
+                        </div>-->
+                </div>
+<!-- end of submit button-->
+                    </div>
+                  <!--</form>-->
+                </div>
+            </div><!--  end of medication reminder-->
+
+<div class="col-md-2"></div>
+
+
+
+
+
+<!-- *******************************************************************************-->
+           <!-- end of container classes-->
+      </div>
+</div>
+
+<!-- script-->
+  <script>
+          $(function MyFunction() {
+              $('input[name="birthdate"]').daterangepicker({
+                  singleDatePicker: true,
+                  showDropdowns: true
+              }, 
+              function(start, end, label) {
+                  var years = moment().diff(start, 'years');
+                  //alert("You are " + years + " years old.");
+              });
+          });
+          </script>
+
+<!-- end of script-->
