@@ -1,18 +1,4 @@
-<!-- script-->
-  <script>
-          $(function MyFunction() {
-              $('input[name="birthdate"]').daterangepicker({
-                  singleDatePicker: true,
-                  showDropdowns: true
-              }, 
-              function(start, end, label) {
-                  var years = moment().diff(start, 'years');
-                  //alert("You are " + years + " years old.");
-              });
-          });
-          </script>
-
-<!-- end of script-->
+>
 <div class="main-content">
         <div class="container-fluid">
            <!-- above container classes-->
@@ -81,7 +67,7 @@
                             <div class="form-group">
                                  <label for="name">date of birth </label>
   
-                                 <input type="text" name="birthdate" id="test" onclick="MyFunction()" class="form-control"/>
+                                 <input type="text" name="birthdate" id="test" (click)="MyFunction()" class="form-control"/>
                                   
                             </div>
                     </div>  

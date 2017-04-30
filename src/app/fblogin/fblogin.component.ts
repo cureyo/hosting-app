@@ -63,8 +63,12 @@ export class FbloginComponent implements OnInit {
                 data => {
 
                   let len = 0;
-                  if (data.$value == null) { }
-                  else len = data.length;
+                  console.log(data.$value);
+                  console.log(data.length);
+                  if ( data.$value && data.$value == null ) { }
+                  else {len = data.length;}
+                  
+                  console.log("length is ", len);
 
                   this._authService._saveCheckIn(this.clinicId, date2, userData.id, len);
                   this._authService._getDoctorPage(this.clinicId).subscribe(
