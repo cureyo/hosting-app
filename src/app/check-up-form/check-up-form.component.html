@@ -8,7 +8,7 @@
 
   <div class="col-md-8">
                 <div class="card">
-                  <!--<form [formGroup]="teForm" class="formGroup" novalidate >-->
+                  <form [formGroup]="checkUpForm" class="formGroup" (ngSubmit)="save_checkUpForm(checkUpForm)" novalidate >
                     <!-- card header portion-->
                     <div class="card-header" data-background-color="blue">
                         <h4 class="title">Check Up Form </h4>
@@ -25,7 +25,7 @@
                             <div class="form-group">
                                  <label for="name">first Name </label>
   
-                                  <input type="text" class="form-control" />
+                                  <input type="text" class="form-control" formControlName="first_Name" />
                             </div>
                     </div>  
                     <!-- end of  first name formcontrol-->
@@ -34,7 +34,7 @@
                             <div class="form-group">
                                  <label for="name">last Name </label>
   
-                                  <input type="text" class="form-control" />
+                                  <input type="text" class="form-control" formControlName="last_Name"/>
                             </div>
                     </div>
                      <!-- end of first name formcontrol--> 
@@ -43,7 +43,7 @@
                             <div class="form-group">
                                  <label for="name">Email </label>
   
-                                  <input type="text" class="form-control" />
+                                  <input type="text" class="form-control" formControlName="Email" />
                             </div>
                     </div>
                       <!-- end of email formcontrol-->
@@ -52,7 +52,7 @@
                             <div class="form-group">
                                  <label for="name">phone number  </label>
   
-                                  <input type="text" class="form-control" />
+                                  <input type="text" class="form-control" formControlName="phone"/>
                             </div>
                     </div>
                       <!-- phone number  formcontrol-->  
@@ -64,12 +64,13 @@
 
                           <!-- date of birth formcontrol-->
                     <div class="col-md-3">
-                            <div class="form-group">
-                                 <label for="name">date of birth </label>
-  
-                                 <input type="text" name="birthdate" id="test" (click)="MyFunction()" class="form-control"/>
-                                  
-                            </div>
+                            
+                        <div class="form-group">
+                                 <label for="name">Date of birth  </label>
+                                 <input type ="date" class="form-control" formControlName="DOB"/>
+
+                            </div>     
+                            
                     </div>  
                     <!-- end of  date of birth formcontrol-->
                      <!-- visit type formcontrol-->
@@ -77,7 +78,7 @@
                             <div class="form-group">
                                  <label for="name">visit type </label>
   
-                                 <select class="form-control">
+                                 <select class="form-control" formControlName="visit_Type">
                                    <option  value="firstconsultation">First Consultation</option>
                                    <option  value="followupconsultation">Follow-Up Consultation</option>
                                  </select>
@@ -90,18 +91,75 @@
                             <div class="form-group">
                                  <label for="name">Discription of Issue  </label>
   
-                                  <input type="text" class="form-control" />
+                                  <input type="text" class="form-control" formControlName="description"/>
                             </div>
                     </div>
                       <!-- phone number  formcontrol--> 
                       
              </div> <!-- end of second row-->
+             <!-- third row-->
+              <div class="row">
+                      <!-- interface implementation to repeat the div's -->
+                    <div class="medicines" formArrayName="conditions">
+                        <div class="clearfix medicine" *ngFor="let condition of checkUpForm.controls.conditions.controls; let i=index">
+                             <div [formGroupName]="i">
+                    <!--  end of interface implementation -->  
+                    <div class="col-md-6">
+                            <div class="form-group">
+                                  <label for="name">Existing Conditions </label>
+  
+                                 <select class="form-control" formControlName="existingCondition">
+                                   <option  value="Diabetes">Diabetes</option>
+                                   <option  value="cholestrol">Cholestrol</option>
+                                   <option  value="hypertension">HyperTension</option>
+                                   <option  value="thyroid-disorder">Thyroid Disorder</option>
+                                 </select>  
+                            </div>
+                    </div>    
+                     <div class="col-md-3">
+                            <div class="form-group">
+                                     <label for="name">Since </label>
+  
+                                 <select class="form-control" formControlName="since">
+                                   <option  value="Diabetes">Diabetes</option>
+                                   <option  value="cholestrol">Cholestrol</option>
+                                   <option  value="hypertension">HyperTension</option>
+                                   <option  value="thyroid-disorder">Thyroid Disorder</option>
+                                 </select>  
 
+                            </div>
+                    </div>   
+                     <div class="col-md-3">
+                            <div class="form-group">
+                                     <label for="name">When </label>
+  
+                                 <select class="form-control" formControlName="when">
+                                   <option  value="Diabetes">Diabetes</option>
+                                   <option  value="cholestrol">Cholestrol</option>
+                                   <option  value="hypertension">HyperTension</option>
+                                   <option  value="thyroid-disorder">Thyroid Disorder</option>
+                                 </select>  
+                            </div>
+                    </div>     
+                    <!-- closing tags of interface implementation-->
+                      </div>
+                    </div> 
+                  </div>
+                    <!-- closing tags of interface implementation-->
+
+              </div>       
+              <!-- end of third row-->  
+              <div class="row">
+                      <div class="pull-left" >
+                          <button  class="btn btn-primary" (click)="AddConditions()">Add more</button>
+                      </div>
+              </div>
+              
 
 <!-- submit button code    -->
                 <div class="actions clearfix">
                       <div class="pull-right" >
-                          <button type="submit"  class="btn btn-warning">Add</button>
+                          <button type="submit" class="btn btn-warning">Add</button>
                       </div>
 
                         <!--<div [ngClass]="{'hide': !itemAdded5}" class="bareP">
@@ -110,7 +168,7 @@
                 </div>
 <!-- end of submit button-->
                     </div>
-                  <!--</form>-->
+                  </form>
                 </div>
             </div><!--  end of medication reminder-->
 
@@ -125,18 +183,3 @@
       </div>
 </div>
 
-<!-- script-->
-  <script>
-          $(function MyFunction() {
-              $('input[name="birthdate"]').daterangepicker({
-                  singleDatePicker: true,
-                  showDropdowns: true
-              }, 
-              function(start, end, label) {
-                  var years = moment().diff(start, 'years');
-                  //alert("You are " + years + " years old.");
-              });
-          });
-          </script>
-
-<!-- end of script-->
