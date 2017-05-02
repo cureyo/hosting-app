@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
     this._authService._getDoctorPage(res).subscribe(
       pageData => {
         this.clinicId = res;
-        console.log(pageData);
+       // console.log(pageData);
         this.pageDetails = pageData;
         this._cacheService.set('pageDetailsData', { 'data': this.pageDetails }, { expires: Date.now() + 1000 * 60 * 60 });
         this.dataReady = true;

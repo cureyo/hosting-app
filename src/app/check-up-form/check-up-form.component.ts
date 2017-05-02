@@ -12,17 +12,30 @@ import {FbService} from "../services/facebook.service";
   styleUrls: ['./check-up-form.component.css']
 })
 export class CheckUpFormComponent implements OnInit {
-   public checkupForm: FormGroup;
+   public checkUpForm: FormGroup;
+   private userId:any;
+   private DoctorId:any;
   constructor(
               private _fb: FormBuilder,
               private _fs: FbService,
               private route: ActivatedRoute,
               private _authService: AuthService,
               private router: Router
-  ) { }
+  ) { 
+      this._authService._getDoctorId()
+       .subscribe(data=>{
+                   this.DoctorId=data.$value;
+                    console.log("the doctor id is ",this.DoctorId);
+       });
+      this._authService._getUser()
+      .subscribe(data=>{
+            this.userId=data.user.uid;
+              console.log("userid is :",this.userId);
+      });
+  }
 
   ngOnInit() { 
-        this.checkupForm = this._fb.group({
+        this.checkUpForm = this._fb.group({
          first_Name:[,Validators.required],
          last_Name:[,Validators.required],
          Email:[,Validators.required],
@@ -34,19 +47,20 @@ export class CheckUpFormComponent implements OnInit {
         this.initConditions()
       ])
          });
+
     
   }
   
     initConditions(){
       return this._fb.group({
-       existingCondition:[],
+        conditionsOption:[],
        since:[,Validators.required],
        when:[,Validators.required],
     });
   }//initLabTest's
   AddConditions(){
       console.log("Add conditions called");
-    const control = <FormArray>this.checkupForm.controls['conditions'];
+    const control = <FormArray>this.checkUpForm.controls['conditions'];
     control.push(this.initConditions());
 
   }//addLabTest
@@ -55,7 +69,7 @@ export class CheckUpFormComponent implements OnInit {
   save_checkUpForm =(model)=>{
          
         let job = model['value'],
-        labtests = job['conditions'],
+        conditions = job['conditions'],
         ctr = 0,
         flag;
         
@@ -66,12 +80,23 @@ export class CheckUpFormComponent implements OnInit {
                     "Phone": job['phone'],
                     "DOB":job['DOB'],
                     "Visit_Type":job['visit_Type'],
-                    "description":job['description:'],
+                    "description":job['description'],
 
-                    "conditions": []
+                    "Job_conditions": []
             };
-              console.log("length of conditions array:",reminders.conditions,length);
-
+             
+              console.log("conditions data test ::",conditions);
+              for(let i=0; i < conditions.length; i++) {
+                  reminders.Job_conditions.push({
+                    " conditions_option" : conditions[i].conditionsOption,
+                    "Since" : conditions[i].since,
+                    "When" : conditions[i].when,
+                    
+                  });
+         }
+              
+              console.log("reminder value test ::",reminders);
+              this._authService._saveCheckUpFormHosting(reminders,this.userId,this.DoctorId);
   }
    
   

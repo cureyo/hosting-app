@@ -1,4 +1,4 @@
->
+
 <div class="main-content">
         <div class="container-fluid">
            <!-- above container classes-->
@@ -108,7 +108,7 @@
                             <div class="form-group">
                                   <label for="name">Existing Conditions </label>
   
-                                 <select class="form-control" formControlName="existingCondition">
+                                 <select class="form-control" formControlName="conditionsOption">
                                    <option  value="Diabetes">Diabetes</option>
                                    <option  value="cholestrol">Cholestrol</option>
                                    <option  value="hypertension">HyperTension</option>
@@ -121,12 +121,14 @@
                                      <label for="name">Since </label>
   
                                  <select class="form-control" formControlName="since">
-                                   <option  value="Diabetes">Diabetes</option>
-                                   <option  value="cholestrol">Cholestrol</option>
-                                   <option  value="hypertension">HyperTension</option>
-                                   <option  value="thyroid-disorder">Thyroid Disorder</option>
-                                 </select>  
-
+                                   <option  value="less6">< 6 Months</option>
+                                   <option  value="6to1">6 Month - 1 Years</option>
+                                   <option  value="1to2">1 - 2 Years</option>
+                                   <option  value="2to4">2 - 4 Years</option>
+                                   <option  value="4to7">4 - 7 Years</option>
+                                   <option  value="7to10">7 - 10 Years</option>
+                                   <option  value="morethan10">10+ Years</option>
+                                 </select>
                             </div>
                     </div>   
                      <div class="col-md-3">
@@ -134,10 +136,13 @@
                                      <label for="name">When </label>
   
                                  <select class="form-control" formControlName="when">
-                                   <option  value="Diabetes">Diabetes</option>
-                                   <option  value="cholestrol">Cholestrol</option>
-                                   <option  value="hypertension">HyperTension</option>
-                                   <option  value="thyroid-disorder">Thyroid Disorder</option>
+                                        <option  value="less6">< 6 Months</option>
+                                        <option  value="6to1">6 Month - 1 Years</option>
+                                        <option  value="1to2">1 - 2 Years</option>
+                                        <option  value="2to4">2 - 4 Years</option>
+                                        <option  value="4to7">4 - 7 Years</option>
+                                        <option  value="7to10">7 - 10 Years</option>
+                                        <option  value="morethan10">10+ Years</option>
                                  </select>  
                             </div>
                     </div>     

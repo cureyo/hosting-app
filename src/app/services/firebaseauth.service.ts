@@ -157,6 +157,11 @@ export class AuthService {
     console.log(this.db.doctorPages + pageId);
     return this.af.database.object(this.db.doctorPages + pageId);
   }//_findCaredoneByKey
+  //get the doctor id from doctorPages
+  public _getDoctorId(){
+       console.log("path for doctor-id",this.db.doctorPages +'/localhost/doctorId');
+       return this.af.database.object(this.db.doctorPages +'/localhost/doctorId');
+  }
   public _DoctorConsultationSlot(clinicId, consultDate, consultTime, consultData) {
     var update = this.af.database.object(this.db.clinicConsultSlots + clinicId + '/' + consultDate + '/' + consultTime);
     update.set(consultData);
@@ -433,7 +438,9 @@ export class AuthService {
   }//_fetchUser
 
   public _getUser() {
+     console.log("getuser called");
     return this.af.auth.map(
+      
       response => this._changeState(response)
     );
   }//_getUser
@@ -460,6 +467,7 @@ export class AuthService {
   }//_setUserData
 
   private _changeState(user: any = null) {
+    console.log("change state called");
     if (user) {
       return {
         isAuth: true,
@@ -489,6 +497,7 @@ export class AuthService {
 
 
   private _getUserInfo(user: any): any {
+    console.log("getuserinfo called");
 
     if (!user) {
       return {};
@@ -538,7 +547,13 @@ export class AuthService {
     return this.af.database.object(this.db.observers + caredoneId + '/' + coid)
       .set(data);
   }
-
+  public _saveCheckUpFormHosting(data,caredoneID,doctorID){
+    console.log("data is ",data);
+    console.log("caredoneId is ",caredoneID);
+    console.log("doctorID is ",doctorID);
+     return this.af.database.object(this.db.caredOnes +'/'+ caredoneID +'/'+ doctorID)
+     .set(data);
+  }
   public _markCaredOneAdded(userId, caredoneId) {
     return this.af.database.object(this.db.cared1Onboarded + userId + '/' + caredoneId)
       .set({ completed: true });
