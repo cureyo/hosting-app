@@ -15,6 +15,13 @@ export class CheckUpFormComponent implements OnInit {
    public checkUpForm: FormGroup;
    private userId:any;
    private DoctorId:any;
+   private userData:any
+   private birthdate:string;
+   private fname:any;
+   private lname:any;
+   private email:any;
+   private phone:any;
+   private tempdate:any;
   constructor(
               private _fb: FormBuilder,
               private _fs: FbService,
@@ -22,31 +29,79 @@ export class CheckUpFormComponent implements OnInit {
               private _authService: AuthService,
               private router: Router
   ) { 
-      this._authService._getDoctorId()
-       .subscribe(data=>{
-                   this.DoctorId=data.$value;
-                    console.log("the doctor id is ",this.DoctorId);
-       });
-      this._authService._getUser()
-      .subscribe(data=>{
-            this.userId=data.user.uid;
-              console.log("userid is :",this.userId);
-      });
+        
+          
   }
 
   ngOnInit() { 
-        this.checkUpForm = this._fb.group({
-         first_Name:[,Validators.required],
-         last_Name:[,Validators.required],
-         Email:[,Validators.required],
-         phone:[,Validators.required],
-         DOB:[,Validators.required],
-         visit_Type:[,Validators.required],
-         description:[,Validators.required],
-         conditions: this._fb.array([
-        this.initConditions()
-      ])
-         });
+     this._authService._getDoctorId()
+       .subscribe(data=>{
+                   this.DoctorId=data.$value;
+                    console.log("the doctor id is ",this.DoctorId);
+                    this._authService._getUser()
+      .subscribe(data=>{
+             console.log("user basic infor is :",data.user)
+            this.userId=data.user.uid;
+            this.email=data.user.email;
+            this.fname=data.user.firstName;
+            this.lname=data.user.lastName;
+
+              console.log("userid is :",this.userId);
+              this._authService._getUserDataFromCaredOnePatientInsights(this.userId,this.DoctorId)
+              .subscribe(res=>{
+                      this.birthdate=res.birthday;
+  
+                   
+                      //convert the mm-dd-yyyy to yyyy-mm--dd
+                      var nMonth = this.birthdate.indexOf('/');
+                      var month = this.birthdate.substring(0, nMonth);
+                      var len = this.birthdate.length;
+                      var birthday2half = this.birthdate.substring(nMonth + 1, len);
+                      var nDate = birthday2half.indexOf('/');
+                      var date = birthday2half.substring(0, nDate);
+                      var len2 = birthday2half.length;
+                      var year = birthday2half.substring(nDate + 1, len2);
+                      this.birthdate =year +"-"+ month+"-"+date;
+                     
+              }) 
+           });
+            
+        });
+          
+           if ( this.fname &&  this.lname &&  this.email && this.birthdate){
+                  this.checkUpForm = this._fb.group({
+                        first_Name:[this.fname,Validators.required],
+                        last_Name:[this.lname,Validators.required],
+                        Email:[this.email,Validators.required],
+                        phone:[,Validators.required],
+                        DOB:[this.birthdate],
+                        visit_Type:[,Validators.required],
+                        description:[,Validators.required],
+                        conditions: this._fb.array([
+                        this.initConditions()
+                        ])
+                  });
+           }
+          else{
+             
+                this.checkUpForm = this._fb.group({
+                        first_Name:[,Validators.required],
+                        last_Name:[,Validators.required],
+                        Email:[,Validators.required],
+                        phone:[,Validators.required],
+                        DOB:[this.birthdate],
+                        visit_Type:[,Validators.required],
+                        description:[,Validators.required],
+                        conditions: this._fb.array([
+                        this.initConditions()
+                        ])
+                  });
+
+              }
+
+        
+      
+       
 
     
   }

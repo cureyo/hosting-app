@@ -109,7 +109,7 @@ export class AuthService {
     //this.router.navigate(['dashboard']);
   }//_saveUser
   
-  //By Chatty - save new Check-in
+  //By Sunny - save new Check-in
     public _saveCheckInData(doctorId,patientId, data) {
        console.log("insights path:",this.db.PatientsInsights  + doctorId +  patientId);
     const db = this.af.database.object(this.db.PatientsInsights +'/'  + doctorId + '/'+  patientId);
@@ -122,13 +122,13 @@ export class AuthService {
     db.set(id)
     
   }//_saveCheckIn
-  //  //save user work history and all in insights
-  //  public _saveFbDataInsights(data,userID,doctorID){
-  //     console.log("insight save function called ");
-  //    const db=  this.af.database.object(this.db. insights +'/'+ userID +'/'+doctorID)
-  //    db.set(data);
-  //  }
-  //  //end of insights part
+
+   //get user work history and all from insights
+   public _getUserDataFromCaredOnePatientInsights(userID,doctorID){
+      console.log("insight get function called ",this.af.database.object(this.db.PatientsInsights +'/'+doctorID+'/'+ userID));
+     return  this.af.database.object(this.db.PatientsInsights +'/'  + doctorID + '/'+  userID)
+   }
+    //end of insights part
 
    //By Chatty - save new Check-in
     public _getNoOfCheckIns(clinicId, date) {
@@ -513,9 +513,9 @@ export class AuthService {
 
     let data = user.auth.providerData[0];
     return {
-      // firstName: data.displayName.split(' ')[0],
-      // lastName: data.displayName.split(' ')[1],
-      // avatar: "https://graph.facebook.com/" + data.uid + "/picture?type=large",
+      firstName: data.displayName.split(' ')[0],
+      lastName: data.displayName.split(' ')[1],
+      avatar: "https://graph.facebook.com/" + data.uid + "/picture?type=large",
       email: data.email,
       provider: data.providerId,
       uid: data.uid
