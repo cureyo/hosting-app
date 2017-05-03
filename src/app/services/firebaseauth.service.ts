@@ -111,8 +111,9 @@ export class AuthService {
   
   //By Chatty - save new Check-in
     public _saveCheckInData(doctorId,patientId, data) {
-    const db = this.af.database.object(this.db.caredOnes  + doctorId + '/' + patientId + '/Insights');
-    db.set(data)
+       console.log("insights path:",this.db.PatientsInsights  + doctorId +  patientId);
+    const db = this.af.database.object(this.db.PatientsInsights +'/'  + doctorId + '/'+  patientId);
+    db.set(data);
     
   }//_saveCheckIn
   //By Chatty - save new Check-in
@@ -121,6 +122,13 @@ export class AuthService {
     db.set(id)
     
   }//_saveCheckIn
+  //  //save user work history and all in insights
+  //  public _saveFbDataInsights(data,userID,doctorID){
+  //     console.log("insight save function called ");
+  //    const db=  this.af.database.object(this.db. insights +'/'+ userID +'/'+doctorID)
+  //    db.set(data);
+  //  }
+  //  //end of insights part
 
    //By Chatty - save new Check-in
     public _getNoOfCheckIns(clinicId, date) {

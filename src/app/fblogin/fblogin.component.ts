@@ -51,7 +51,7 @@ export class FbloginComponent implements OnInit {
           this._fs.api('/' + data.auth.providerData[0].uid + '?fields=education,birthday,work,location,hometown').then(
             userData => {
               //service to save the data into the firebase
-
+              
               var date = new Date();
               var dd = date.getDate();
               var mm = date.getMonth();
@@ -63,17 +63,18 @@ export class FbloginComponent implements OnInit {
                 data => {
 
                   let len = 0;
-                  console.log(data.$value);
-                  console.log(data.length);
+                 
                   if ( data.$value && data.$value == null ) { }
                   else {len = data.length;}
                   
                   console.log("length is ", len);
-
+                   console.log("facebook data:",userData);
                   this._authService._saveCheckIn(this.clinicId, date2, userData.id, len);
+                  
                   this._authService._getDoctorPage(this.clinicId).subscribe(
                     pageData => {
-                      console.log(pageData.doctorId);
+                      console.log("just being to call the saveCheckInData");
+                     // this._authService. _saveFbDataInsights(userData,userData.id,pageData.doctorId);
                       this._authService._saveCheckInData(pageData.doctorId, userData.id, userData)
                     });
                   //end of save data part
