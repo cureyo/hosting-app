@@ -8,7 +8,7 @@
 
   <div class="col-md-8">
                 <div class="card">
-                  <form [formGroup]="checkUpForm" class="formGroup" (ngSubmit)="save_checkUpForm(checkUpForm)" novalidate >
+                  <form [formGroup]="checkUpForm" class="formGroup"  novalidate >
                     <!-- card header portion-->
                     <div class="card-header" data-background-color="blue">
                         <h4 class="title">Check Up Form </h4>
@@ -116,26 +116,12 @@
                                  </select>  
                             </div>
                     </div>    
-                     <div class="col-md-3">
+                    
+                     <div class="col-md-6">
                             <div class="form-group">
                                      <label for="name">Since </label>
   
                                  <select class="form-control" formControlName="since">
-                                   <option  value="less6">< 6 Months</option>
-                                   <option  value="6to1">6 Month - 1 Years</option>
-                                   <option  value="1to2">1 - 2 Years</option>
-                                   <option  value="2to4">2 - 4 Years</option>
-                                   <option  value="4to7">4 - 7 Years</option>
-                                   <option  value="7to10">7 - 10 Years</option>
-                                   <option  value="morethan10">10+ Years</option>
-                                 </select>
-                            </div>
-                    </div>   
-                     <div class="col-md-3">
-                            <div class="form-group">
-                                     <label for="name">When </label>
-  
-                                 <select class="form-control" formControlName="when">
                                         <option  value="less6">< 6 Months</option>
                                         <option  value="6to1">6 Month - 1 Years</option>
                                         <option  value="1to2">1 - 2 Years</option>
@@ -156,7 +142,7 @@
               <!-- end of third row-->  
               <div class="row">
                       <div class="pull-left" >
-                          <button  class="btn btn-primary" (click)="AddConditions()">Add more</button>
+                          <button [ngClass]="{'hide': formSaved}" class="btn btn-primary"  (click)="AddConditions()">Add more</button>
                       </div>
               </div>
               
@@ -164,12 +150,12 @@
 <!-- submit button code    -->
                 <div class="actions clearfix">
                       <div class="pull-right" >
-                          <button type="submit" class="btn btn-warning">Add</button>
+                          <button [ngClass]="{'hide': formSaved}" type="submit" class="btn btn-warning" [disabled]="!checkUpForm.valid" (click)="save_checkUpForm(checkUpForm)">Add</button>
                       </div>
 
-                        <!--<div [ngClass]="{'hide': !itemAdded5}" class="bareP">
-                            <p>Thanks! This Care Item has been scheduled!</p>
-                        </div>-->
+                        <div [ngClass]="{'hide': !formSaved}" class="bareP">
+                            <p>Thanks! This care plan has been scheduled!</p>
+                        </div>
                 </div>
 <!-- end of submit button-->
                     </div>

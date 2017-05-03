@@ -109,7 +109,7 @@ export class AuthService {
     //this.router.navigate(['dashboard']);
   }//_saveUser
   
-  //By Sunny - save new Check-in
+  //save new Check-in
     public _saveCheckInData(doctorId,patientId, data) {
        console.log("insights path:",this.db.PatientsInsights  + doctorId +  patientId);
     const db = this.af.database.object(this.db.PatientsInsights +'/'  + doctorId + '/'+  patientId);
@@ -559,7 +559,7 @@ export class AuthService {
     console.log("data is ",data);
     console.log("caredoneId is ",caredoneID);
     console.log("doctorID is ",doctorID);
-     return this.af.database.object(this.db.caredOnes +'/'+ caredoneID +'/'+ doctorID)
+     return this.af.database.object(this.db.caredOnes +'/'+ doctorID+'/'+ caredoneID )
      .set(data);
   }
   public _markCaredOneAdded(userId, caredoneId) {

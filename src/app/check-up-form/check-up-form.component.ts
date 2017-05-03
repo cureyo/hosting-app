@@ -21,7 +21,8 @@ export class CheckUpFormComponent implements OnInit {
    private lname:any;
    private email:any;
    private phone:any;
-   private tempdate:any;
+   private formSaved:boolean=false;
+  
   constructor(
               private _fb: FormBuilder,
               private _fs: FbService,
@@ -107,13 +108,15 @@ export class CheckUpFormComponent implements OnInit {
   }
   
     initConditions(){
+     
       return this._fb.group({
         conditionsOption:[],
        since:[,Validators.required],
-       when:[,Validators.required],
+      //  when:[,Validators.required],
     });
   }//initLabTest's
   AddConditions(){
+    
       console.log("Add conditions called");
     const control = <FormArray>this.checkUpForm.controls['conditions'];
     control.push(this.initConditions());
@@ -122,19 +125,19 @@ export class CheckUpFormComponent implements OnInit {
   
 
   save_checkUpForm =(model)=>{
-         
+         console.log("save_checkUpForm called");
         let job = model['value'],
         conditions = job['conditions'],
         ctr = 0,
         flag;
         
             let reminders = {
-                    "First_Name":job['first_Name'],
-                    "Last_Name": job['last_Name'],
-                    "Email":job['Email'],
-                    "Phone": job['phone'],
-                    "DOB":job['DOB'],
-                    "Visit_Type":job['visit_Type'],
+                    "firstName":job['first_Name'],
+                    "lastName": job['last_Name'],
+                    "email":job['Email'],
+                    "phone": job['phone'],
+                    "dateOfBirth":job['DOB'],
+                    "visitType":job['visit_Type'],
                     "description":job['description'],
 
                     "Job_conditions": []
@@ -145,12 +148,14 @@ export class CheckUpFormComponent implements OnInit {
                   reminders.Job_conditions.push({
                     " conditions_option" : conditions[i].conditionsOption,
                     "Since" : conditions[i].since,
-                    "When" : conditions[i].when,
+                    // "When" : conditions[i].when,
                     
                   });
          }
               
               console.log("reminder value test ::",reminders);
+              this.formSaved=true;
+             
               this._authService._saveCheckUpFormHosting(reminders,this.userId,this.DoctorId);
   }
    
