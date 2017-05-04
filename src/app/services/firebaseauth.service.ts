@@ -140,7 +140,9 @@ export class AuthService {
     
   }//_saveCheckIn
 
-
+  public _getSymptoms() {
+    return this.af.database.object(this.db.symptoms)
+  }
   public _updateReminders(data, key) {
 
     console.log("testing the data and key", data, key)

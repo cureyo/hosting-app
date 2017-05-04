@@ -10,6 +10,7 @@ import {DoctorLoginComponent} from "./doctor-login/doctor-login.component"
 import {FbloginComponent} from "./fblogin/fblogin.component";
 import {CheckUpFormComponent} from "./check-up-form/check-up-form.component";
 import {QueueCounterComponent} from "./queue-counter/queue-counter.component";
+import {TriageComponent} from "./triage/triage.component";
 export const MODULE_ROUTES: Route[] =[
     { path: '', component: ClinicPageComponent },
     { path: 'consultation/:id', component: VideoCallComponent},
@@ -17,7 +18,8 @@ export const MODULE_ROUTES: Route[] =[
     { path: 'doctor-login/:id', component: DoctorLoginComponent},
     { path : 'fblogin', component: FbloginComponent},
     { path: 'checkupForm/:count',component:CheckUpFormComponent},
-    { path: 'queue/:count',component:QueueCounterComponent}
+    { path: 'queue/:count',component:QueueCounterComponent},
+    { path: 'triage/:id',component:TriageComponent}
 ]
 
 export const MODULE_COMPONENTS = [
@@ -31,6 +33,7 @@ export const MODULE_COMPONENTS = [
     DoctorLoginComponent,
     FbloginComponent,
     CheckUpFormComponent,
-    QueueCounterComponent
+    QueueCounterComponent,
+    TriageComponent
 
 ]

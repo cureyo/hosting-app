@@ -58,7 +58,8 @@ export const AppConfig = {
     OTPRequests:        environment.envName + '/OTPRequests/',
     consultIds:         environment.envName + '/ConsultIds/',
     checkIns:           environment.envName + '/DoctorPages/Check-Ins/',
-    PatientsInsights:    environment.envName + '/PatientsInsights/'
+    PatientsInsights:   environment.envName + '/PatientsInsights/',
+    symptoms:           '/Symptoms/'
   
   
   }
