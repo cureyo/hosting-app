@@ -86,7 +86,7 @@
     <h3 class="title-modern">{{pageDetails.content.heroTile.card.title}}
         <br><small>{{pageDetails.content.heroTile.card.qual}}</small>
         <br><small>{{pageDetails.content.heroTile.card.experience}} years of experience</small></h3>
-        <button [routerLink]="['/fblogin']" class="btn btn-round"> Check-in</button>
+        <button [routerLink]="['/fblogin']" class="btn btn-round"> Patient Check-in</button>
 </div>
 
 </div>
@@ -182,7 +182,7 @@
         <br>
         <br>
         <p>{{pageDetails.content.profileTile.doctor.brief}}</p></h3>
-        <a href="{{pageDetails.content.footer.linkedin}}" target="blank" class="btn btn-round"> View on Linkedin</a>
+        <a *ngIf="pageDetails.content.footer.linkedin" href="{{pageDetails.content.footer.linkedin}}" target="blank" class="btn btn-round"> View on Linkedin</a>
         
 </div>
 

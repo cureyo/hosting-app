@@ -9,13 +9,15 @@ import {LoginComponent} from "./login/login.component"
 import {DoctorLoginComponent} from "./doctor-login/doctor-login.component"
 import {FbloginComponent} from "./fblogin/fblogin.component";
 import {CheckUpFormComponent} from "./check-up-form/check-up-form.component";
+import {QueueCounterComponent} from "./queue-counter/queue-counter.component";
 export const MODULE_ROUTES: Route[] =[
     { path: '', component: ClinicPageComponent },
     { path: 'consultation/:id', component: VideoCallComponent},
     { path: 'login/:id', component: LoginComponent},
     { path: 'doctor-login/:id', component: DoctorLoginComponent},
     { path : 'fblogin', component: FbloginComponent},
-    { path: 'checkupForm',component:CheckUpFormComponent}
+    { path: 'checkupForm/:count',component:CheckUpFormComponent},
+    { path: 'queue/:count',component:QueueCounterComponent}
 ]
 
 export const MODULE_COMPONENTS = [
@@ -28,6 +30,7 @@ export const MODULE_COMPONENTS = [
     LoginComponent,
     DoctorLoginComponent,
     FbloginComponent,
-    CheckUpFormComponent
+    CheckUpFormComponent,
+    QueueCounterComponent
 
 ]

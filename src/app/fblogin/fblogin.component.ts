@@ -7,7 +7,7 @@ import { CheckUpFormComponent } from "../check-up-form/check-up-form.component";
 @Component({
   selector: 'app-fblogin',
   templateUrl: './fblogin.component.html',
-  styleUrls: ['./fblogin.component.css']
+  //styleUrls: ['./fblogin.component.css']
 })
 export class FbloginComponent implements OnInit {
   private userBday: any;
@@ -64,22 +64,30 @@ export class FbloginComponent implements OnInit {
 
                   let len = 0;
                  
-                  if ( data.$value && data.$value == null ) { }
-                  else {len = data.length;}
+                  if ( (data.$value && data.$value == null) || data['undefined']) {
+                    console.log("no item", data);
+                    len = 0;
+                   }
+                  else if (data.length) {
+                    console.log("item", data);
+                  len = data.length;
+                }
                   
                   console.log("length is ", len);
                    console.log("facebook data:",userData);
-                  this._authService._saveCheckIn(this.clinicId, date2, userData.id, len);
+                  
                   
                   this._authService._getDoctorPage(this.clinicId).subscribe(
                     pageData => {
                       console.log("just being to call the saveCheckInData");
                      // this._authService. _saveFbDataInsights(userData,userData.id,pageData.doctorId);
-                      this._authService._saveCheckInData(pageData.doctorId, userData.id, userData)
+                      this._authService._saveCheckInData(pageData.doctorId, userData.id, userData);
+                      //this._authService._saveCheckIn(this.clinicId, date2, userData.id, len);
+                      this.router.navigate(['checkupForm/' + len]);
                     });
                   //end of save data part
                   //from here control goes to checkup form
-                  this.router.navigate(['checkupForm']);
+                  
                 }
                 );
 

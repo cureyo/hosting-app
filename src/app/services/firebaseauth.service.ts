@@ -118,21 +118,25 @@ export class AuthService {
   }//_saveCheckIn
   //By Chatty - save new Check-in
     public _saveCheckIn(clinicId, date, id, count) {
-    const db = this.af.database.object(this.db.checkIns + '/' + clinicId + '/' + date + '/' + count);
-    db.set(id)
+    const db = this.af.database.object(this.db.checkIns + clinicId + '/' + date + '/' + count);
+    db.set(id);
+    console.log("set for ", this.db.checkIns + '/' + clinicId + '/' + date + '/' + count)
     
   }//_saveCheckIn
+     public _getCheckIn(clinicId, date) {
+    return this.af.database.object(this.db.checkIns + '/' + clinicId + '/' + date );
+  }//_getCheckIn
 
    //get user work history and all from insights
    public _getUserDataFromCaredOnePatientInsights(userID,doctorID){
-      console.log("insight get function called ",this.af.database.object(this.db.PatientsInsights +'/'+doctorID+'/'+ userID));
-     return  this.af.database.object(this.db.PatientsInsights +'/'  + doctorID + '/'+  userID)
+      console.log("insight get function called ",this.db.PatientsInsights +'/'+doctorID+'/'+ userID);
+     return  this.af.database.object(this.db.PatientsInsights  + doctorID + '/'+  userID)
    }
     //end of insights part
 
    //By Chatty - save new Check-in
     public _getNoOfCheckIns(clinicId, date) {
-    return this.af.database.object(this.db.checkIns + '/' + clinicId + '/' + date) 
+    return this.af.database.object(this.db.checkIns + clinicId + '/' + date) 
     
   }//_saveCheckIn
 

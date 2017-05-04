@@ -11,9 +11,9 @@
                   <form [formGroup]="checkUpForm" class="formGroup"  novalidate >
                     <!-- card header portion-->
                     <div class="card-header" data-background-color="blue">
-                        <h4 class="title">Check Up Form </h4>
+                        <h4 class="title">Quick Information </h4>
 
-                        <p class="category"> This Is Check Up Form  </p>
+                        <p class="category"> Please provide your basic information</p>
 
                     </div> <!-- card header portion end-->
                     
@@ -23,7 +23,7 @@
                    <!-- first name formcontrol-->
                     <div class="col-md-3">
                             <div class="form-group">
-                                 <label for="name">first Name </label>
+                                 <label for="name">First Name </label>
   
                                   <input type="text" class="form-control" formControlName="first_Name" />
                             </div>
@@ -32,7 +32,7 @@
                      <!-- last name formcontrol-->
                     <div class="col-md-3">
                             <div class="form-group">
-                                 <label for="name">last Name </label>
+                                 <label for="name">Last Name </label>
   
                                   <input type="text" class="form-control" formControlName="last_Name"/>
                             </div>
@@ -50,7 +50,7 @@
                       <!-- phone number  formcontrol-->
                     <div class="col-md-3">
                             <div class="form-group">
-                                 <label for="name">phone number  </label>
+                                 <label for="name">Phone Number  </label>
   
                                   <input type="text" class="form-control" formControlName="phone"/>
                             </div>
@@ -66,7 +66,7 @@
                     <div class="col-md-3">
                             
                         <div class="form-group">
-                                 <label for="name">Date of birth  </label>
+                                 <label for="name">Date of Birth  </label>
                                  <input type ="date" class="form-control" formControlName="DOB"  [(ngModel)]="birthdate"  value=" birthdate  }}"/>
 
                             </div>     
@@ -76,11 +76,13 @@
                      <!-- visit type formcontrol-->
                     <div class="col-md-3">
                             <div class="form-group">
-                                 <label for="name">visit type </label>
+                                 <label for="insurance">Health Insurance </label>
   
-                                 <select class="form-control" formControlName="visit_Type">
-                                   <option  value="firstconsultation">First Consultation</option>
-                                   <option  value="followupconsultation">Follow-Up Consultation</option>
+                                 <select class="form-control" formControlName="insurance">
+                                   <option  value="no-cover">No Health Insurance</option>
+                                   <option  value="company-cover">Covered by Employer</option>
+                                   <option  value="govt-cover">Covered by Govt.</option>
+                                   <option  value="personal-cover">Personal Cover</option>
                                  </select>
                             </div>
                     </div>
@@ -96,7 +98,21 @@
                     </div>
                       <!-- phone number  formcontrol--> 
                       
-             </div> <!-- end of second row-->
+              </div>
+              <div class="row">
+                                  <!-- visit type formcontrol-->
+                    <div class="col-md-3">
+                            <div class="form-group">
+                                 <label for="visit_Type">Consultation Type</label>
+  
+                                 <select class="form-control" formControlName="visit_Type">
+                                   <option  value="firstconsultation">First Consultation</option>
+                                   <option  value="followupconsultation">Follow-Up Consultation</option>
+                                 </select>
+                            </div>
+                    </div>
+                     <!-- end of visit type formcontrol--> 
+                     </div> <!-- end of second row-->
              <!-- third row-->
               <div class="row">
                       <!-- interface implementation to repeat the div's -->
@@ -142,7 +158,7 @@
               <!-- end of third row-->  
               <div class="row">
                       <div class="pull-left" >
-                          <button [ngClass]="{'hide': formSaved}" class="btn btn-primary"  (click)="AddConditions()">Add more</button>
+                          <button [ngClass]="{'hide': formSaved}" class="btn btn-primary btn-round"  (click)="AddConditions()">Add more</button>
                       </div>
               </div>
               
@@ -150,7 +166,7 @@
 <!-- submit button code    -->
                 <div class="actions clearfix">
                       <div class="pull-right" >
-                          <button [ngClass]="{'hide': formSaved}" type="submit" class="btn btn-warning" [disabled]="!checkUpForm.valid" (click)="save_checkUpForm(checkUpForm)">Add</button>
+                          <button [ngClass]="{'hide': formSaved}" type="submit" class="btn btn-warning btn-round" [disabled]="!checkUpForm.valid" (click)="save_checkUpForm(checkUpForm)">Save</button>
                       </div>
 
                         <div [ngClass]="{'hide': !formSaved}" class="bareP">
