@@ -44,7 +44,7 @@
     
 	   <h4> {{questionText}}</h4>
    <div *ngFor="let question of questionArray">
-	   <a class="btn btn-primary btn-round">{{question.name}}</a>
+	   <button  [ngClass]="{'hide':buttonHidden}" class="btn btn-primary btn-round" (click)="updateQuestion(question.id,question.name )">{{question.name}}</button>
    </div>
 </div>
 </div>

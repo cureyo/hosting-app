@@ -42,6 +42,7 @@ export class CheckUpFormComponent implements OnInit {
         console.log("the doctor id is ", this.DoctorId);
         this._authService._getUser()
           .subscribe(data => {
+            console.log("the whole user data :",data);
             console.log("user basic infor is :", data.user.uid)
             this.userId = data.user.uid;
             this.email = data.user.email;
@@ -81,6 +82,7 @@ export class CheckUpFormComponent implements OnInit {
         visit_Type: [, Validators.required],
         description: [, Validators.required],
         insurance: [, Validators.required],
+        sex:[,Validators.required],
         conditions: this._fb.array([
           this.initConditions()
         ])
@@ -97,6 +99,7 @@ export class CheckUpFormComponent implements OnInit {
         visit_Type: [, Validators.required],
         description: [, Validators.required],
         insurance: [, Validators.required],
+        sex:[,Validators.required],
         conditions: this._fb.array([
           this.initConditions()
         ])
@@ -138,6 +141,7 @@ export class CheckUpFormComponent implements OnInit {
     let reminders = {
       "firstName": job['first_Name'],
       "lastName": job['last_Name'],
+      "sex": job['sex'],
       "email": job['Email'],
       "phone": job['phone'],
       "dateOfBirth": job['DOB'],

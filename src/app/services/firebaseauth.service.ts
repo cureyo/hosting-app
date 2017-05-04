@@ -111,28 +111,48 @@ export class AuthService {
   
   //save new Check-in
     public _saveCheckInData(doctorId,patientId, data) {
-       console.log("insights path:",this.db.PatientsInsights  + doctorId +  patientId);
+      // console.log("insights path:",this.db.PatientsInsights  + doctorId +  patientId);
     const db = this.af.database.object(this.db.PatientsInsights +'/'  + doctorId + '/'+  patientId);
     db.set(data);
     
   }//_saveCheckIn
-  //By Chatty - save new Check-in
+  // save new Check-in
     public _saveCheckIn(clinicId, date, id, count) {
     const db = this.af.database.object(this.db.checkIns + clinicId + '/' + date + '/' + count);
     db.set(id);
     console.log("set for ", this.db.checkIns + '/' + clinicId + '/' + date + '/' + count)
     
   }//_saveCheckIn
+    
+    //save Question Data
+       public _saveQuestionData(data,doctorID,userID){
+         const db=this.af.database.object(this.db.Diagnosis +doctorID +'/' +userID +'/'+'Question')
+         db.set(data);
+       }
+    //end of Question Data
+    //save Result Data
+       public _saveResultedData(data,doctorID,userID){
+         const db=this.af.database.object(this.db.Diagnosis +doctorID +'/' +userID +'/'+'Result')
+         db.set(data);
+       }
+    //end of Question Data
      public _getCheckIn(clinicId, date) {
     return this.af.database.object(this.db.checkIns + '/' + clinicId + '/' + date );
   }//_getCheckIn
 
    //get user work history and all from insights
    public _getUserDataFromCaredOnePatientInsights(userID,doctorID){
-      console.log("insight get function called ",this.db.PatientsInsights +'/'+doctorID+'/'+ userID);
+      //console.log("insight get function called ",this.db.PatientsInsights +'/'+doctorID+'/'+ userID);
      return  this.af.database.object(this.db.PatientsInsights  + doctorID + '/'+  userID)
    }
     //end of insights part
+
+    //get caredones gender from caredones-->doctor-->user(caredone)
+     public _getcaredOnesDetails(doctorID,userID){
+      // console.log("get caredone gender function call ",this.db.caredOnes +'/'+doctorID+'/'+ userID)
+         return  this.af.database.object(this.db.caredOnes + doctorID + '/'+  userID)
+     }
+    //end of get caredones gender
 
    //By Chatty - save new Check-in
     public _getNoOfCheckIns(clinicId, date) {

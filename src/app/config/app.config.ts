@@ -59,6 +59,7 @@ export const AppConfig = {
     consultIds:         environment.envName + '/ConsultIds/',
     checkIns:           environment.envName + '/DoctorPages/Check-Ins/',
     PatientsInsights:   environment.envName + '/PatientsInsights/',
+    Diagnosis:          environment.envName + '/Diagnosis/',
     symptoms:           '/Symptoms/'
   
   
