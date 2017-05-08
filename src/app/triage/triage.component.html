@@ -8,11 +8,14 @@
                     <div class="card card-stats" style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
                  
 
-<div class="card-footer">
-    
-	   <h4> <i class="material-icons text-danger" style="top: 0px;">local_hospital</i> Discuss your health issue </h4>
-   
+
+    <div class="card-header" style="width: 60px; height: 60px; padding: 0px;" data-background-color="cureyo">
+<i class="material-icons">local_hospital</i>
+
 </div>
+	   <h4> Discuss your health issue </h4>
+   
+
 </div>
 </div>
 
@@ -46,6 +49,7 @@
    <div *ngFor="let question of questionArray">
 	   <button  [ngClass]="{'hide':buttonHidden}" class="btn btn-primary btn-round" (click)="updateQuestion(question.id,question.name )">{{question.name}}</button>
    </div>
+   <button  [ngClass]="{'hide':buttonHidden}" class="btn btn-primary btn-round" (click)="updateAbsentQuestion(questionArray)">None of the above</button>
 </div>
 </div>
 					</div> <!--col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3-->

@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
         this.pageDetails = pageData;
         this._cacheService.set('pageDetailsData', { 'data': this.pageDetails }, { expires: Date.now() + 1000 * 60 * 60 });
         this.dataReady = true;
-        this.setMetadata();
+        //this.setMetadata();
     });
   }
   setMetadata() {
@@ -71,6 +71,7 @@ export class AppComponent implements OnInit {
 
 
     //facebook metadata
+    this.metadataService.setMetadata('property', 'fb:app_id', '1133564906671009');
     this.metadataService.setMetadata('property', 'og:title', title);
     this.metadataService.setMetadata('property', 'og:type', 'books.quotes');
     this.metadataService.setMetadata('property', 'og:url', urlPage);

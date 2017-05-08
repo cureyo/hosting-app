@@ -23,6 +23,7 @@ export class CheckUpFormComponent implements OnInit {
   private email: any;
   private phone: any;
   private formSaved: boolean = false;
+  private formReady: boolean = false;
 
   constructor(
     private _fb: FormBuilder,
@@ -36,25 +37,34 @@ export class CheckUpFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._authService._getDoctorId()
+    this._authService.loginMailUser({email:'chaitanya@cureyo.com', password:'cureyo2013'})
+    console.log(window.location);
+    var str = window.location.hostname;
+    console.log(str);
+    var n = str.indexOf(".");
+    if (n == -1) {
+      n = str.length;
+    }
+    console.log(n);
+    var res = str.substring(0, n);
+    console.log("location", res)
+    this._authService._getDoctorId(res)
       .subscribe(data => {
         this.DoctorId = data.$value;
         console.log("the doctor id is ", this.DoctorId);
-        this._authService._getUser()
-          .subscribe(data => {
-            console.log("the whole user data :",data);
-            console.log("user basic infor is :", data.user.uid)
-            this.userId = data.user.uid;
-            this.email = data.user.email;
-            this.fname = data.user.firstName;
-            this.lname = data.user.lastName;
-            this.uid = data.user.uid;
-
+        this.route.queryParams.subscribe(
+          param => {
+            this.userId = param['userId']
             console.log("userid is :", this.userId);
             this._authService._getUserDataFromCaredOnePatientInsights(this.userId, this.DoctorId)
               .subscribe(res => {
+                console.log(res);
                 this.birthdate = res.birthday;
-
+                this.userId = res.id;
+                this.email = res.email;
+                this.fname = res.first_name;
+                this.lname = res.last_name;
+                this.uid = res.id;
 
                 //convert the mm-dd-yyyy to yyyy-mm--dd
                 var nMonth = this.birthdate.indexOf('/');
@@ -67,45 +77,51 @@ export class CheckUpFormComponent implements OnInit {
                 var year = birthday2half.substring(nDate + 1, len2);
                 this.birthdate = year + "-" + month + "-" + date;
 
+                this.checkUpForm = this._fb.group({
+                  first_Name: [this.fname, Validators.required],
+                  last_Name: [this.lname, Validators.required],
+                  Email: [this.email, Validators.required],
+                  phone: [, Validators.required],
+                  DOB: [this.birthdate],
+                  visit_Type: [, Validators.required],
+                  description: [, Validators.required],
+                  insurance: [, Validators.required],
+                  sex: [, Validators.required],
+                  conditions: this._fb.array([
+                    this.initConditions()
+                  ])
+                });
+                this.formReady = true;
+
               })
-          });
+          }
+        )
+
+
 
       });
 
-    if (this.fname && this.lname && this.email && this.birthdate) {
-      this.checkUpForm = this._fb.group({
-        first_Name: [this.fname, Validators.required],
-        last_Name: [this.lname, Validators.required],
-        Email: [this.email, Validators.required],
-        phone: [, Validators.required],
-        DOB: [this.birthdate],
-        visit_Type: [, Validators.required],
-        description: [, Validators.required],
-        insurance: [, Validators.required],
-        sex:[,Validators.required],
-        conditions: this._fb.array([
-          this.initConditions()
-        ])
-      });
-    }
-    else {
+    // if (this.fname && this.lname && this.email && this.birthdate) {
 
-      this.checkUpForm = this._fb.group({
-        first_Name: [, Validators.required],
-        last_Name: [, Validators.required],
-        Email: [, Validators.required],
-        phone: [, Validators.required],
-        DOB: [this.birthdate],
-        visit_Type: [, Validators.required],
-        description: [, Validators.required],
-        insurance: [, Validators.required],
-        sex:[,Validators.required],
-        conditions: this._fb.array([
-          this.initConditions()
-        ])
-      });
+    // }
+    // else {
 
-    }
+    //   this.checkUpForm = this._fb.group({
+    //     first_Name: [, Validators.required],
+    //     last_Name: [, Validators.required],
+    //     Email: [, Validators.required],
+    //     phone: [, Validators.required],
+    //     DOB: [this.birthdate],
+    //     visit_Type: [, Validators.required],
+    //     description: [, Validators.required],
+    //     insurance: [, Validators.required],
+    //     sex: [, Validators.required],
+    //     conditions: this._fb.array([
+    //       this.initConditions()
+    //     ])
+    //   });
+
+    // }
 
 
 
@@ -141,7 +157,7 @@ export class CheckUpFormComponent implements OnInit {
     let reminders = {
       "firstName": job['first_Name'],
       "lastName": job['last_Name'],
-      "sex": job['sex'],
+      "gender": job['sex'],
       "email": job['Email'],
       "phone": job['phone'],
       "dateOfBirth": job['DOB'],
@@ -155,7 +171,7 @@ export class CheckUpFormComponent implements OnInit {
     console.log("conditions data test ::", conditions);
     for (let i = 0; i < conditions.length; i++) {
       reminders.Job_conditions.push({
-        " conditions_option": conditions[i].conditionsOption,
+        "conditions_option": conditions[i].conditionsOption,
         "Since": conditions[i].since,
         // "When" : conditions[i].when,
 
@@ -169,7 +185,9 @@ export class CheckUpFormComponent implements OnInit {
         let param = params['count']
         this._authService._saveCheckUpFormHosting(reminders, this.userId, this.DoctorId).then(
           data => {
-            this.router.navigate(['queue/' + param])
+        this._authService._saveCaredOne(reminders, this.DoctorId )
+            console.log(data)
+            this.router.navigate(['queue/' + param + '/' + this.userId ])
           }
         )
       });

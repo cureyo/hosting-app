@@ -86,7 +86,7 @@
     <h3 class="title-modern">{{pageDetails.content.heroTile.card.title}}
         <br><small>{{pageDetails.content.heroTile.card.qual}}</small>
         <br><small>{{pageDetails.content.heroTile.card.experience}} years of experience</small></h3>
-        <button [routerLink]="['/fblogin']" class="btn btn-round"> Patient Check-in</button>
+        <button (click)="patientLogin()" class="btn btn-round"> Patient Check-in</button>
 </div>
 
 </div>

@@ -8,7 +8,7 @@
 
   <div class="col-md-8">
                 <div class="card">
-                  <form [formGroup]="checkUpForm" class="formGroup"  novalidate >
+                  <form *ngIf="formReady" [formGroup]="checkUpForm" class="formGroup"  novalidate >
                     <!-- card header portion-->
                     <div class="card-header" data-background-color="blue">
                         <h4 class="title">Quick Information </h4>
@@ -183,7 +183,7 @@
                       </div>
 
                         <div [ngClass]="{'hide': !formSaved}" class="bareP">
-                            <p>Thanks! This care plan has been scheduled!</p>
+                            <p>Thanks! This information will be shared with the doctor!</p>
                         </div>
                 </div>
 <!-- end of submit button-->

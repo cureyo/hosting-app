@@ -112,8 +112,10 @@ export class AuthService {
   //save new Check-in
     public _saveCheckInData(doctorId,patientId, data) {
       // console.log("insights path:",this.db.PatientsInsights  + doctorId +  patientId);
-    const db = this.af.database.object(this.db.PatientsInsights +'/'  + doctorId + '/'+  patientId);
-    db.set(data);
+      console.log("data of patient saved",this.db.PatientsInsights + doctorId + '/'+  patientId, data);
+      console.log(data);
+    const db = this.af.database.object(this.db.PatientsInsights  + doctorId + '/'+  patientId);
+    return db.set(data)
     
   }//_saveCheckIn
   // save new Check-in
@@ -192,9 +194,9 @@ export class AuthService {
     return this.af.database.object(this.db.doctorPages + pageId);
   }//_findCaredoneByKey
   //get the doctor id from doctorPages
-  public _getDoctorId(){
-       console.log("path for doctor-id",this.db.doctorPages +'/localhost/doctorId');
-       return this.af.database.object(this.db.doctorPages +'/localhost/doctorId');
+  public _getDoctorId(clinicId){
+       console.log("path for doctor-id",this.db.doctorPages + clinicId + '/content/doctorId');
+       return this.af.database.object(this.db.doctorPages + clinicId + '/content/doctorId');
   }
   public _DoctorConsultationSlot(clinicId, consultDate, consultTime, consultData) {
     var update = this.af.database.object(this.db.clinicConsultSlots + clinicId + '/' + consultDate + '/' + consultTime);

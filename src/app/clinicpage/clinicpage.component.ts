@@ -33,6 +33,7 @@ export class ClinicPageComponent implements OnInit, AfterViewInit {
   private dataReady: boolean = false;
   private clinicId: any;
   private pageDetails: any;
+  private loginRoute: any;
 
 
 
@@ -130,5 +131,20 @@ scroll2Appt(content) {
 }
 
 
-
+patientLogin() {
+  var str = window.location.hostname;
+  console.log(str);
+  
+      var n = str.indexOf(".");
+      var m = str.length;
+      var clinicId = str.substring(0,n);
+      var host = str.substring(n,m);
+      console.log(host);
+      if (host == '.localhost') {
+        console.log('http://login'+ host + ':4200' + '/fblogin?clinicId=' + clinicId);
+        window.location.href = 'http://login'+ host + ':4200' + '/fblogin?clinicId=' + clinicId;
+      } else {
+         window.location.href = 'http://login'+ host + '/fblogin?clinicId=' + clinicId;
+      }
+}
 }

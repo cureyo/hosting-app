@@ -28,10 +28,7 @@ export class QueueCounterComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this._authService._getUser()
-            .subscribe(data => {
-                this.userId = data.user.uid;
-            });
+
         var str = window.location.hostname;
         console.log(str);
         var n = str.indexOf(".");
@@ -45,6 +42,7 @@ export class QueueCounterComponent implements OnInit {
         this.activatedRoute.params.subscribe(
             params => {
                 let param = params['count'];
+                 this.userId = params['id'];
                 this.userToken = param;
                 var date = new Date();
                 var dd = date.getDate();

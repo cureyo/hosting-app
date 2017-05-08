@@ -18,7 +18,7 @@ export const MODULE_ROUTES: Route[] =[
     { path: 'doctor-login/:id', component: DoctorLoginComponent},
     { path : 'fblogin', component: FbloginComponent},
     { path: 'checkupForm/:count',component:CheckUpFormComponent},
-    { path: 'queue/:count',component:QueueCounterComponent},
+    { path: 'queue/:count/:id',component:QueueCounterComponent},
     { path: 'triage/:id',component:TriageComponent}
 ]
 
