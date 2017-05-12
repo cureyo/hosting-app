@@ -109,20 +109,13 @@ export class FbloginComponent implements OnInit {
                         .then(
                         data => {
                           console.log("_saveCheckInData", data)
-
-                          var str = window.location.hostname;
-                          var n = str.indexOf(".");
-                          var m = str.length;
-                          var clinicId = str.substring(0, n);
-                          var host = str.substring(n, m);
-                          console.log(host);
                           this._authService._saveCheckIn(this.clinicId, date2, userData.id, len);
-                          if (host == '.localhost') {
+                          let path = window.location.origin;
 
-                            window.location.href = 'http://' + this.clinicId + host + ':4200' + '/checkupForm/' + len + '?userId=' + userData.id;
-                          } else {
-                            window.location.href = 'http://' + this.clinicId + host + '/checkupForm/' + len + '?userId=' + userData.id;
-                          }
+                          console.log(path);
+                          window.location.href = path + '/checkupForm/' + len + '?userId=' + userData.id + '&clinicId=' + this.clinicId
+                          //this.router.navigate(['checkupForm/' + len], { queryParams: { userId: userData.id, clinicId: this.clinicId } } )
+                         
                         });
 
                       //

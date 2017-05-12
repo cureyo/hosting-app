@@ -139,7 +139,7 @@ export class AuthService {
        }
     //end of Question Data
      public _getCheckIn(clinicId, date) {
-    return this.af.database.object(this.db.checkIns + '/' + clinicId + '/' + date );
+    return this.af.database.object(this.db.currentQ + '/' + clinicId + '/' + date );
   }//_getCheckIn
 
    //get user work history and all from insights
@@ -152,7 +152,7 @@ export class AuthService {
     //get caredones gender from caredones-->doctor-->user(caredone)
      public _getcaredOnesDetails(doctorID,userID){
       // console.log("get caredone gender function call ",this.db.caredOnes +'/'+doctorID+'/'+ userID)
-         return  this.af.database.object(this.db.caredOnes + doctorID + '/'+  userID)
+         return  this.af.database.object(this.db.caredOnes + doctorID + '/'+  userID).first();
      }
     //end of get caredones gender
 
@@ -195,12 +195,21 @@ export class AuthService {
   }//_findCaredoneByKey
   //get the doctor id from doctorPages
   public _getDoctorId(clinicId){
-       console.log("path for doctor-id",this.db.doctorPages + clinicId + '/content/doctorId');
-       return this.af.database.object(this.db.doctorPages + clinicId + '/content/doctorId');
+       console.log("path for doctor-id",this.db.doctorPages + clinicId + '/doctorId');
+       return this.af.database.object(this.db.doctorPages + clinicId + '/doctorId');
+  }
+    public _getfbPageId(clinicId){
+       console.log("path for doctor-id",this.db.doctorPages + clinicId + '/fbPageId');
+       return this.af.database.object(this.db.doctorPages + clinicId + '/fbPageId');
   }
   public _DoctorConsultationSlot(clinicId, consultDate, consultTime, consultData) {
     var update = this.af.database.object(this.db.clinicConsultSlots + clinicId + '/' + consultDate + '/' + consultTime);
     update.set(consultData);
+  }
+    public _saveHumanAPIData(data, userId) {
+      console.log(this.db.humanAPI + userId);
+    var update = this.af.database.object(this.db.humanAPI + userId);
+    return update.set(data);
   }
   public _DoctorConsultationDetails(transId, data) {
     var update = this.af.database.object(this.db.clinicConsultDets + transId);
@@ -286,7 +295,14 @@ export class AuthService {
     return this.af.database.list(this.db.scheduledJobs)
       .push(data);
   }//_saveReminders
-
+ public _savePatientHx(data, patientId, doctorId) {
+    return this.af.database.object(this.db.PatientHx + doctorId + '/' + patientId)
+      .set(data);
+  }//_saveReminders
+   public _savePatientFeedback(data, patientId, doctorId) {
+    return this.af.database.object(this.db.feedback + doctorId + '/' + patientId)
+      .set(data);
+  }//_saveReminders
   public _saveOnboardingReview(data, caredoneId, route) {
     const onboardingdata = this.af.database.object(this.db.onboardingReview + '/' + caredoneId + '/' + route)
     return onboardingdata.set(data);
@@ -306,7 +322,18 @@ export class AuthService {
     return this.af.database.object(this.db.users + uid)
       .update({ cover: cover });
   }//_saveUserCoverPhoto
-
+  public _getHxFormNames() {
+    return this.af.database.object(this.db.HxFormNames);
+      
+  }//_saveReminders
+    public _getHxForms() {
+    return this.af.database.object(this.db.HxForms);
+      
+  }//_saveReminders
+      public _getHxForm(form) {
+    return this.af.database.object(this.db.HxForms + form);
+      
+  }//_saveReminders
   public _getCoverPhoto(uid) {
 
     return this.af.database.object(this.db.users + uid);
@@ -647,6 +674,13 @@ export class AuthService {
       .set(data);
   }
 
+  public _savePatientHealthReports(data, caredoneId, index) {
+    console.log(data,  caredoneId, index)
+    if (index == null || index == undefined)
+      index = 0;
+    return this.af.database.object(this.db.healthReports + caredoneId + '/' + index)
+      .set(data);
+  }
 
 }//AuthService
 

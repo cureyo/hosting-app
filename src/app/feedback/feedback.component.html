@@ -1,0 +1,75 @@
+		<div class="header header-filter" >
+			<div class="container" >
+				<div class="row" >
+					<div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">
+						
+              
+                <div>
+                    <div class="card card-stats" style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
+                 
+
+
+    <div class="card-header" style="width: 60px; height: 60px; padding: 0px;" data-background-color="cureyo">
+<i class="material-icons">feedback</i>
+
+</div>
+	   <h4> Please provide feedback for your consultation</h4>
+                    </div>
+     <form *ngIf="formReady" [formGroup]="feedbackForm" class="form" >
+          
+                        <div class="card card-stats" style="margin-top: 10px; margin-bottom: 10px;">
+                             <div class="card-content"  style="text-align: left;" >
+                    <!--  end of interface implementation -->  
+                   
+                                    <label style="font-size: 14px;" class="label label-info">Rate your Consultation Experience</label>
+                                      <select formControlName="rating" class="form-control" style="width: 70%">
+      <option value="5">5 - Excellent</option>
+      <option value="4">4 - Very Good</option>
+      <option value="3">3 - Satisfactory</option>
+      <option value="2">2 - Unsatisfactory</option>
+      <option value="1">1 - Disappointed</option>
+    </select>
+   
+                                    </div>
+                                </div>
+                                                        <div class="card card-stats" style="margin-top: 10px; margin-bottom: 10px;">
+                             <div class="card-content"  style="text-align: left;" >
+                    <!--  end of interface implementation -->  
+                   
+                                    <label style="font-size: 14px;" class="label label-info">Describe your Consultation Experience</label>
+                                      <textarea type="input" class="form-control" formControlName="feedbackDetail"></textarea>
+   
+                                    </div>
+                                </div>
+                                 <div class="card card-stats" style="margin-top: 10px; margin-bottom: 10px;">
+                             <div class="card-content"  style="text-align: left;" >
+                    <!--  end of interface implementation -->  
+                   
+                                    <label style="font-size: 14px;" class="label label-info">Upload a picture of Doctor's Consultation</label>
+                                      <div>
+     <div class="form-group" style="width: 100%; float: left; z-index: 100; margin-top: 0px; margin-bottom: 0px;" >
+
+    <label class="control-label" for="co_description">The prescription will be saved for your reference and next consultations</label>
+      
+<app-file-upload-feedback 
+[userId]="userId"
+></app-file-upload-feedback>
+</div>
+</div>
+   
+                                    </div>
+                                </div>
+                            
+                            <button [disabled]="!feedbackForm.valid" (click)="saveFeedback(feedbackForm)" class="pull-right btn btn-round btn-warning"> Submit</button>
+                         
+     </form>
+
+</div>
+</div>
+
+
+
+					</div> <!--col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3-->
+				</div> <!--row-->
+			</div> <!--container-->
+		

@@ -13,7 +13,7 @@
 <div class="card-content">
     <p class="category">Your token number</p>
     <h3 class="title">{{userToken}}
-        <br><small>health score</small></h3>
+        </h3>
     
 </div>
 <div class="card-footer">
@@ -21,7 +21,7 @@
         <i class="material-icons text-danger" style="top: 0px;">av_timer</i> Current token # {{currentToken}}
    
 
-<a class="btn btn-warning btn-round pull-right" [routerLink]="['/triage/' + userId ]">Discuss Health Issue</a>
+<a *ngIf="showDiscuss" class="btn btn-warning btn-round pull-right" [routerLink]="['/triage/' + userId ]">Discuss Health Issue</a>
 </div>
 </div>
 </div>

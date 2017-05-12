@@ -58,10 +58,14 @@ export const AppConfig = {
     OTPRequests:        environment.envName + '/OTPRequests/',
     consultIds:         environment.envName + '/ConsultIds/',
     checkIns:           environment.envName + '/DoctorPages/Check-Ins/',
+    currentQ:           environment.envName + '/DoctorPages/Queue/',
     PatientsInsights:   environment.envName + '/PatientsInsights/',
     Diagnosis:          environment.envName + '/Diagnosis/',
-    symptoms:           '/Symptoms/'
-  
-  
+    symptoms:           '/Symptoms/',
+    HxFormNames:        environment.envName + '/PatientHxFormNames/',
+    HxForms:            environment.envName + '/PatientHxForms/',
+    PatientHx:          environment.envName + '/PatientHistory/',
+    feedback:           environment.envName + '/Feedback/',
+    humanAPI:           environment.envName + '/HumanAPIReturn/'
   }
 }

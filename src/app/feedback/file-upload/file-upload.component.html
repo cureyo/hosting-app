@@ -1,0 +1,77 @@
+
+            <div id="reportSection" class="card" style="margin: 0; text-align: left;">
+               
+        
+
+        <!-- drag and Drop part-->
+           <div style="padding: 10px;">
+       <p style="font-weight: 400; text-align: left;">Click a Picture of Doctor's Notes</p>
+      
+        <!-- end of drag and Drop part-->  
+        <!-- second part-->
+                <div style="padding: 0;">
+                     <div class="clearfix" style="text-align: center;">
+            <input type="file" ng2FileSelect value="Browse" [uploader]="uploader" single/>
+                </div>
+      
+            <!--<p *ngIf="uploader?.queue?.length > 0">Item length: {{ uploader?.queue?.length }}</p>-->
+ 
+            <table class="table">
+                <thead>
+                <tr *ngIf="uploader?.queue?.length > 0">
+                    <th>Report Details</th>
+                    <!--<th width="50%">Report Description</th>-->
+                    <!--<th width="20%">Operations</th>-->
+                </tr>
+                </thead>
+                <tbody style="text-align: left;">
+                <tr *ngFor="let item of uploader.queue;">
+                    <td >
+                    <!--</td>
+                    <td width="50%">   -->
+                        <select style="display: inline-block; z-index: 10000; outline: none;" id="textval" [(ngModel)]="textval[item?.file?.name]">
+      <option value="Prescription">Prescription</option>
+      <option value="Referral">Referral Note</option>
+      <option value="Diet">Diet Note</option>
+      <option value="Investigation">Investigation Report</option>
+    </select>
+    <br>
+    <strong>{{ item?.file?.name }}</strong>
+    <br>
+    <!--</td>
+                    <td *ngIf="uploader.isHTML5">{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                    <td *ngIf="uploader.isHTML5">
+                        <div class="progress" style="margin-bottom: 0;">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                        </div>
+                    </td>
+                  
+                    <td width="20%">-->
+                       
+                        <button type="button" class="btn btn-success btn-xs" 
+                                (click)="onUpload(item); item.upload(); item.remove();" [disabled]="descExists(item?.file?.name)">
+                            <span><i class="material-icons">file_upload</i></span> Add
+                        </button>
+                
+                        <button type="button" class="btn btn-danger btn-xs" 
+                                (click)="item.remove()">
+                            <span><i class="material-icons">delete</i></span>
+                        </button>
+                    
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+ 
+          
+ 
+        </div>
+        <!-- end of second part-->
+        
+       
+       
+           
+            </div> 
+            </div>
+                 
+           

@@ -60,6 +60,107 @@
               </div> <!-- end of row-->
 
               <!--second row-->
+                 <div class="row" >
+
+                          <!-- date of birth formcontrol-->
+                   
+                            
+                        <div class="form-group">
+                                 
+
+<!--<div *ngIf="fbReady" id="fb-messenger_checkbox" class="fb-messenger-checkbox"  
+  [attr.origin]="pageURL"
+  [attr.page_id]="pageId"
+  [attr.messenger_app_id]="appId"
+  [attr.user_ref]="userFBId" 
+  prechecked="true" 
+  allow_login="true" 
+  size="large"></div>    
+                        </div>
+                       -->
+                                    <!--<script>
+
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId: "appId",
+        xfbml: true,
+        version: "v2.6"
+      });
+
+    };
+    
+    (function(d, s, id){
+       var js, fjs = d.getElementsById('fb-messenger_checkbox')[0];
+       if (d.getElementById(id)) { return; }
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+  </script>-->
+  <!--<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : appId,
+            xfbml      : true,
+            version    : 'v2.6'
+        });
+
+        FB.Event.subscribe('messenger_checkbox', function(e) {
+            console.log("messenger_checkbox event");
+            console.log(e);
+
+            if (e.event == 'rendered') {
+                console.log("Plugin was rendered");
+            } else if (e.event == 'checkbox') {
+                var checkboxState = e.state;
+                console.log("Checkbox state: " + checkboxState);
+            } else if (e.event == 'not_you') {
+                console.log("User clicked 'not you'");
+            } else if (e.event == 'hidden') {
+                console.log("Plugin was hidden");
+            }
+        });
+    };
+
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk')
+    );
+
+    function confirmOptIn() {
+        FB.AppEvents.logEvent('MessengerCheckboxUserConfirmation', null, {
+            'app_id': appId,
+            'page_id': pageId,
+            'ref':'shopping-cart-company',
+            'user_ref':'1234'
+        });
+    }
+</script>     
+                 <div *ngIf="fbReady" id="fb-messenger_checkbox" class="fb-send-to-messenger fb_iframe_widget" [attr.data-messenger_app_id]="appId" [attr.data-page_id]="pageId" [attr.data-ref]="passThrough" color="blue" size="xlarge"> </div>
+                    
+                    <div class="col-md-7">
+    <div class="fb-messenger-checkbox"  
+        origin="http://login.localhost:4200/"
+        [attr.data-page_id]="pageId"
+        [attr.data-messenger_app_id]="appId"
+        user_ref="1234" 
+        prechecked="true" 
+        allow_login="true" 
+        size="large">
+    </div>   
+</div>-->
+<div class="col-md-6">
+<span style="vertical-align: bottom; width: 256px; height: 68px;"><iframe name="f39f6d0a0712c08" width="1000px" height="1000px" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" title="fb:send_to_messenger Facebook Social Plugin" [src]="getSrcURL()" style="border: none; visibility: visible; width: 256px; height: 68px;" class=""></iframe></span></div>  
+<div class="col-md-6"> <a class="btn btn-round btn-warning" (click)="hAPIConnect()">Connect Wearables</a>    </div>         
+                    </div>
+
+              
+                 </div>
               <div class="row" >
 
                           <!-- date of birth formcontrol-->
@@ -67,7 +168,7 @@
                             
                         <div class="form-group">
                                  <label for="name">Date of Birth  </label>
-                                 <input type ="date" class="form-control" formControlName="DOB"  [(ngModel)]="birthdate"  value=" birthdate  }}"/>
+                                 <input type ="date" class="form-control" formControlName="DOB"  [(ngModel)]="birthdate"  value="birthdate"/>
 
                             </div>     
                             
@@ -123,6 +224,23 @@
                                  </select>
                             </div>
                     </div>
+                                            <div *ngIf="hasSym" class="col-md-3">
+                            <div class="form-group">
+                                 <label for="primeSymptom">Prime Symptom</label>
+  
+                                 <select class="form-control" formControlName="primeSymptom">
+                                   <option  *ngFor="let symptom of symptoms" value="{{symptom.id}}">{{symptom.name}}</option>
+                                 </select>
+                            </div>
+                    </div>
+                     <div class="col-md-4">
+                            <div class="form-group">
+                                 <app-file-upload-checkUp
+                                 [userId]="userId"></app-file-upload-checkUp>
+  
+                                 
+                            </div>
+                    </div>
                     <!-- end of gender--> 
                      <!-- end of visit type formcontrol--> 
                      </div> <!-- end of second row-->
@@ -170,6 +288,7 @@
               </div>       
               <!-- end of third row-->  
               <div class="row">
+  
                       <div class="pull-left" >
                           <button [ngClass]="{'hide': formSaved}" class="btn btn-primary btn-round"  (click)="AddConditions()">Add more</button>
                       </div>

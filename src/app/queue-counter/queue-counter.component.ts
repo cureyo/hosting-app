@@ -3,7 +3,7 @@ import { AuthService } from "../services/firebaseauth.service";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { FacebookService, FacebookLoginResponse, FacebookInitParams } from 'ng2-facebook-sdk';
 import { AppConfig } from '../config/app.config';
-
+declare var $: any;
 @Component({
     selector: 'app-queue-counter',
     templateUrl: './queue-counter.component.html',
@@ -19,6 +19,7 @@ export class QueueCounterComponent implements OnInit {
     private currentToken: any;
     private userToken: any;
     private userId: any;
+    private showDiscuss: boolean = false;
 
     constructor(
         private _authService: AuthService,
@@ -42,22 +43,56 @@ export class QueueCounterComponent implements OnInit {
         this.activatedRoute.params.subscribe(
             params => {
                 let param = params['count'];
-                 this.userId = params['id'];
+                this.userId = params['id'];
                 this.userToken = param;
                 var date = new Date();
                 var dd = date.getDate();
                 var mm = date.getMonth();
                 var yyyy = date.getFullYear();
                 var date2 = dd + '-' + mm + '-' + yyyy;
+                this.activatedRoute.queryParams.subscribe(
+                    queryParam => {
+                        console.log(queryParam['triaged']);
+                        console.log(queryParam)
+                        if (queryParam['triaged'] == "true") {
+                            this.showDiscuss = false;
+                        } else {
+                            this.showDiscuss = true;
+                        }
+                    }
+                )
                 this._authService._getCheckIn(this.clinicId, date2)
                     .subscribe(
                     data => {
                         console.log(data);
+                        console.log(data['q'])
 
-                        if (data.$value == null) {
-                            this.currentToken = 0;
+                        if (data['q']) {
+                            this.currentToken = data['q'];
+
                         } else {
-                            this.currentToken = data.$value;
+                            this.currentToken = 0;
+                        }
+                        if (data['q'] == this.userToken) {
+                            $.notify({
+                                icon: "notifications",
+                                message: "Your consultation will begin now. Please proceed to the Doctor's chambers"
+
+                            }, {
+                                    type: 'cureyo',
+                                    timer: 4000,
+                                    delay: 4000,
+                                    placement: {
+                                        from: 'top',
+                                        align: 'right'
+                                    }
+                                });
+                                let self = this;
+                                setTimeout(
+                                    function() {
+                                        self.router.navigate(['feedback/' + self.userToken + '/' + self.userId])
+                                    }, 2000
+                                )
                         }
                     }
                     );
