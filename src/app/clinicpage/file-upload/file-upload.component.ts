@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { FileUploader, FileUploadModule, FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
-import { FirebaseApp, FirebaseRef } from 'angularfire2';
+import { FirebaseApp} from 'angularfire2';
+import {AngularFireDatabase} from 'angularfire2/database'
 import { FormGroup, FormBuilder, Validators, FormArray } from "@angular/forms";
 import { AuthService } from "../../services/firebaseauth.service";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -30,7 +31,7 @@ export class FileUploadComponent implements OnInit {
   ref: any;
   public hasBaseDropZoneOver: boolean = false;
   public hasAnotherDropZoneOver: boolean = false;
-  constructor( @Inject(FirebaseApp) firebaseApp: any, @Inject(FirebaseRef) fb,
+  constructor( @Inject(FirebaseApp) firebaseApp: any, @Inject(AngularFireDatabase) fb,
     private _authService: AuthService,
     private _fb: FormBuilder,
     private router: Router) {

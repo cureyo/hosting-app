@@ -69,7 +69,7 @@ export class FbloginComponent implements OnInit {
         console.log(data);
         this._fs.getLoginStatus().then((response: FacebookLoginResponse) => {
           console.log(response);
-          this._fs.api('/' + data.auth.providerData[0].uid + '?fields=first_name,last_name,email,education,birthday,work,location,hometown').then(
+          this._fs.api('/' + data.user.providerData[0].uid + '?fields=first_name,last_name,email,education,birthday,work,location,hometown').then(
             userData => {
               //service to save the data into the firebase
               console.log(userData);

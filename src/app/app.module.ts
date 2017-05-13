@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AuthService } from "./services/firebaseauth.service";
-import { AngularFire, FirebaseAuth, FirebaseListObservable } from 'angularfire2';
+import { AngularFireAuth, AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireDatabase, AngularFireDatabaseModule } from 'angularfire2/database';
 import { FacebookInitParams, FacebookLoginResponse, FacebookService } from "ng2-facebook-sdk";
 import { RouterModule } from '@angular/router';
 import { MODULE_COMPONENTS, MODULE_ROUTES } from './app.routes';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CONFIG } from '../app/config/firebase.config';
-import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
+import { AngularFireModule,} from 'angularfire2';
 import { AppComponent } from './app.component';
-import {MetadataService} from "./services/metadata.service";
+import {MetadataService, MetadataLoader, MetadataModule} from "ng2-metadata";
 import { FbService } from "./services/facebook.service";
 import { CommonModule } from '@angular/common';
 import { FileSelectDirective, FileDropDirective, FileUploader, FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
@@ -30,8 +31,8 @@ export const firebaseConfig = {
 };
 
 export const firebaseAuthConfig = {
-  provider: AuthProviders.Facebook,
-  method: AuthMethods.Popup,
+  provider: 'facebook',
+  method: 'popup',
   scope: ["user_friends", "user_relationships", "user_relationship_details"]
 }
 
@@ -45,16 +46,17 @@ export const firebaseAuthConfig = {
     RouterModule.forChild(MODULE_ROUTES),
     BrowserModule,
     RouterModule.forRoot([]),
-    AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig),
+    AngularFireModule.initializeApp(firebaseConfig),
     HttpModule,
     Ng2AutoCompleteModule,
-    GooglePlaceModule
+    GooglePlaceModule,
+    MetadataModule.forRoot()
   ],
 
 
   declarations: [ MODULE_COMPONENTS, FbloginComponent, CheckUpFormComponent],
 
-  providers: [{ provide: LocationStrategy, useClass: PathLocationStrategy }, AuthService, AngularFire, FacebookService, FbService, MetadataService],
+  providers: [{ provide: LocationStrategy, useClass: PathLocationStrategy }, AuthService, AngularFireAuth, AngularFireAuthModule, AngularFireDatabase, AngularFireDatabaseModule, FbService, FacebookService, MetadataService],
 
   bootstrap: [AppComponent]
 })

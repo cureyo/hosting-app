@@ -4,7 +4,7 @@ import { AuthService } from "../services/firebaseauth.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { AppConfig } from '../config/app.config';
 import { FbService } from "../services/facebook.service";
-import { MetadataService } from "../services/metadata.service";
+import { MetadataService } from 'ng2-metadata';
 import { FacebookService } from "ng2-facebook-sdk/dist/index";
 import { environment } from '../environment';
 import { DomSanitizer } from '@angular/platform-browser';
