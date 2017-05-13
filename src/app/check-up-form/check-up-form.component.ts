@@ -371,6 +371,7 @@ export class CheckUpFormComponent implements OnInit {
       finish: function (err, sessionTokenObject) {
         /* Called after user finishes connecting their health data */
         console.log(sessionTokenObject)
+        sessionTokenObject['clientSecret'] = "21ee8e8ce1410c3f6ff6ea6171aa4f88b1fca3fe";
         self._authService._saveHumanAPIData(sessionTokenObject, self.userId)
         .then(
           res => {

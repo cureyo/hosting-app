@@ -16,11 +16,11 @@ export class FbloginComponent implements OnInit {
   private userLocation: any;
   private clinicId: any;
   private pageId: any;
-  private renderPlugin: boolean = false;
+  // private renderPlugin: boolean = false;
   private userWorkHistory: any;
-  private userFBId: any = "FBID_";
-  private appId: any = "1133564906671009";
-  private pageURL: any= "http://login.localhost:4200/";
+  // private userFBId: any = "FBID_";
+  // private appId: any = "1133564906671009";
+  // private pageURL: any= "http://login.localhost:4200/";
 
   constructor(
     private _authService: AuthService,
@@ -44,8 +44,8 @@ export class FbloginComponent implements OnInit {
           console.log(pageData)
           console.log(pageData.fbPageId);
           this.pageId = pageData.fbPageId;
-          this.userFBId = Math.floor((Math.random() * 10000000000000) + 1);
-          this.renderPlugin = true;
+          // this.userFBId = Math.floor((Math.random() * 10000000000000) + 1);
+          // this.renderPlugin = true;
         });
 
       }
