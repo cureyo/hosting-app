@@ -135,9 +135,73 @@ export class FbloginComponent implements OnInit {
         })
 
 
+      },
+      error => {
+                console.log(error);
+      this._authService.loginMailUser({email: "testuser@cureyo.com", password: "password"})
+      .catch(
+      error => {
+         var date = new Date();
+              var dd = date.getDate();
+              var mm = date.getMonth();
+              var yyyy = date.getFullYear();
+              var date2 = dd + '-' + mm + '-' + yyyy;
+
+              this._authService._getNoOfCheckIns(this.clinicId, date2)
+                .subscribe(
+                data => {
+
+                  let len = 0;
+
+                  if ((data.$value && data.$value == null) || data['undefined']) {
+                    console.log("no item", data);
+                    len = 0;
+                  }
+                  else if (data.length) {
+                    console.log("item", data);
+                    len = data.length;
+                  }
+
+                  console.log("length is ", len);
+                  //console.log("facebook data:", userData);
+                  var tempUserId = Math.floor((Math.random() * 1000000000) + 1);
+                  console.log(this.clinicId)
+                  this._authService._getDoctorPage(this.clinicId).subscribe(
+                    pageData => {
+                      console.log(pageData.content.doctorId);
+
+                     
+                          console.log("_saveCheckInData", data)
+                          this._authService._saveCheckIn(this.clinicId, date2, tempUserId, len);
+                          let path = window.location.origin;
+
+                          console.log(path);
+                          window.location.href = path + '/checkupForm/' + len + '?userId=' + tempUserId + '&clinicId=' + this.clinicId
+                          //this.router.navigate(['checkupForm/' + len], { queryParams: { userId: userData.id, clinicId: this.clinicId } } )
+                         
+                       
+
+                      //
+                      //this.router.navigate(['checkupForm/' + len]);
+
+
+                      // )
+
+                    });
+                  //end of save data part
+                  //from here control goes to checkup form
+
+                }
+                );
+
+      });
+
+             
+           
+        })
       }
 
-      );
-  }
+      
+ 
 
 }

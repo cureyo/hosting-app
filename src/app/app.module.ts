@@ -33,7 +33,11 @@ export const firebaseConfig = {
 export const firebaseAuthConfig = {
   provider: 'facebook',
   method: 'popup',
-  scope: ["user_friends", "user_relationships", "user_relationship_details"]
+  scope: ["user_friends", "user_birthday", "user_work_history", 
+            "user_hometown",
+            "user_education_history",
+            "user_location",
+  "user_relationships", "user_relationship_details"]
 }
 
 

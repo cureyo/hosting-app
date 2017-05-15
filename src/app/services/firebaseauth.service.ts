@@ -54,11 +54,12 @@ export class AuthService {
 
   createMailUser(details) {
     console.log(details)
-    this.afa.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider()).catch( error => { console.log("user exists")})
+    return this.afa.auth.createUserWithEmailAndPassword(details.email, details.password)
+
   }
   loginMailUser(details) {
     console.log(details)
-    return this.afa.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
+    return this.afa.auth.signInWithEmailAndPassword(details.email, details.password);
     //return this.afa.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
     // return this.afa.login(details,
     //       {
@@ -85,7 +86,8 @@ export class AuthService {
   // }//fb App login
   clinicFblogin() {
   console.log("clinic login firebasee called:");
-  return this.afa.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
+  //this.afa.
+  return this.afa.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider().addScope("user_education_history").addScope("user_birthday").addScope("user_work_history").addScope("user_hometown").addScope("user_location"));
   //  return (
   //   this.afd.login({
   //     provider: AuthProviders.Facebook,

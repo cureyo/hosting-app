@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormArray } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "../services/firebaseauth.service";
 //import {MedReminder} from "../../../models/medReminder.interface";
+import { Http, Response, Headers } from '@angular/http';
 import { FbService } from "../services/facebook.service";
 import { AppConfig } from '../config/app.config';
 import { FacebookService, FacebookLoginResponse, FacebookInitParams } from 'ng2-facebook-sdk';
@@ -38,6 +39,7 @@ export class CheckUpFormComponent implements OnInit {
   private pageId: any;
   private fbReady: boolean = false;
   private fbURL: any;
+  private publicToken: any;
 
   constructor(
     private _fb: FormBuilder,
@@ -47,6 +49,7 @@ export class CheckUpFormComponent implements OnInit {
     private _authService: AuthService,
     private router: Router,
     private sanitizer: DomSanitizer,
+    private http: Http
   ) {
 
 
@@ -119,6 +122,7 @@ export class CheckUpFormComponent implements OnInit {
                       }
                     }
                     this.birthdate = user.dateOfBirth.replace('/', '-');
+                    this.publicToken = user.humanApiPT
                     console.log("this.birthdate", this.birthdate);
                     this._authService._getfbPageId(res)
                       .subscribe(
@@ -153,6 +157,7 @@ export class CheckUpFormComponent implements OnInit {
                       ])
                     });
                     this.birthdate = user.dateOfBirth.replace('/', '-');
+                    this.publicToken = user.humanApiPT
                     console.log("this.birthdate", this.birthdate);
                     this._authService._getfbPageId(res)
                       .subscribe(
@@ -173,7 +178,8 @@ export class CheckUpFormComponent implements OnInit {
                   this._authService._getUserDataFromCaredOnePatientInsights(this.userId, this.DoctorId)
                     .subscribe(res => {
                       console.log(res);
-                      this.birthdate = res.birthday;
+                      if (res.birthday) {
+                            this.birthdate = res.birthday;
                       this.userId = res.id;
                       this.email = res.email;
                       this.fname = res.first_name;
@@ -191,7 +197,7 @@ export class CheckUpFormComponent implements OnInit {
                       var year = birthday2half.substring(nDate + 1, len2);
                       this.birthdate = year + "-" + month + "-" + date;
                       console.log(this.birthdate)
-
+                      this.publicToken = '';
                       this.checkUpForm = this._fb.group({
                         first_Name: [this.fname, Validators.required],
                         last_Name: [this.lname, Validators.required],
@@ -221,7 +227,42 @@ export class CheckUpFormComponent implements OnInit {
                         }
                         )
 
-                    })
+                    
+                      } else {
+                   
+                      this.publicToken = '';
+                      this.checkUpForm = this._fb.group({
+                        first_Name: ['', Validators.required],
+                        last_Name: ['', Validators.required],
+                        Email: ['', Validators.required],
+                        phone: [, Validators.required],
+                        DOB: [''],
+                        visit_Type: [, Validators.required],
+                        description: [, Validators.required],
+                        insurance: [, Validators.required],
+                        primeSymptom: [, Validators.required],
+                        sex: [, Validators.required],
+                        conditions: this._fb.array([
+                          this.initConditions()
+                        ])
+                      });
+                      this._authService._getfbPageId(res)
+                        .subscribe(
+                        data => {
+                          this.pageId = data.$value;
+                          //this.pageId = "164483500652387";
+                          this.userFBId = "FacbkId_" + this.userId;
+                          let fburl = "https://www.facebook.com/v2.3/plugins/send_to_messenger.php?messenger_app_id=" + this.appId + "&page_id=" + this.pageId + "&ref=" + this.userFBId;
+                          console.log(this.pageId);
+                          this.fbURL = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
+                          console.log(this.fbURL);
+                          this.formReady = true;
+                        }
+                        )
+
+                    
+                      }
+                  })
                 }
               });
 
@@ -282,7 +323,8 @@ export class CheckUpFormComponent implements OnInit {
       "uid": this.uid,
       "primeSymptom": job['primeSymptom'],
       "Job_conditions": [],
-      "insurance": job['insurance']
+      "insurance": job['insurance'],
+      "humanApiPT": this.publicToken
     };
 
     console.log("conditions data test ::", conditions);
@@ -363,21 +405,36 @@ export class CheckUpFormComponent implements OnInit {
   }// initFB()
 
   hAPIConnect() {
+    //var request = require('request');
+    
     let self = this;
+    console.log(encodeURIComponent(self.userId));
     var options = {
-      clientUserId: encodeURIComponent(this.userId),
+      clientUserId: encodeURIComponent(self.userId),
       clientId: 'd2dbdf5f1894105f6ab1857898b50d672649eb36',
-      publicToken: '',
+      publicToken: this.publicToken,
       finish: function (err, sessionTokenObject) {
         /* Called after user finishes connecting their health data */
         console.log(sessionTokenObject)
         sessionTokenObject['clientSecret'] = "21ee8e8ce1410c3f6ff6ea6171aa4f88b1fca3fe";
         self._authService._saveHumanAPIData(sessionTokenObject, self.userId)
-        .then(
+          .then(
           res => {
             console.log(res);
+          //   let headers = new Headers();
+          //   headers.append('Content-Type','application/json')
+          // //headers.append('clientSecret', '21ee8e8ce1410c3f6ff6ea6171aa4f88b1fca3fe');
+          // console.log(sessionTokenObject, headers);
+          //   self.http.post('https://user.humanapi.co/v1/connect/tokens', sessionTokenObject, {
+          //     headers: headers
+          //   })
+          //     .subscribe(
+          //     humanToken => {
+          //       console.log(humanToken)
+          //     }
+          //     );
           }
-        )
+          )
       },
       close: function () {
         /* (optional) Called when a user closes the popup
@@ -388,6 +445,7 @@ export class CheckUpFormComponent implements OnInit {
            the popup. */
       }
     }
+    console.log(options);
     HumanConnect.open(options);
   }
 }
