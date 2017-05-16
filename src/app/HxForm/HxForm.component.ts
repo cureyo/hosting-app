@@ -106,12 +106,14 @@ export class HxFormComponent implements OnInit {
 
     this.formType[item] = data.checkType;
     console.log(data);
-    let standard;
+    let standard, response;
     if (data.checkType == "yes-no") {
       if (data.standard == "Yes") {
         standard = true;
+        response = false;
       } else {
         standard = false;
+        response = false;
       }
     } else {
       standard = data.standard;
@@ -123,7 +125,7 @@ export class HxFormComponent implements OnInit {
       console.log("this.formAnswers[this.formDep[item]]", this.formAnswers[item]);
           return this._fb.group({
       question: [data.messageText, Validators.required],
-      response: ['', Validators.required],
+      response: [response, Validators.required],
       standard: [standard, Validators.required],
     });
     } else {
@@ -132,7 +134,7 @@ export class HxFormComponent implements OnInit {
       console.log("this.formAnswers[this.formDep[item]]", this.formAnswers[item]);
           return this._fb.group({
       question: [data.messageText, Validators.required],
-      response: [''],
+      response: [response],
       standard: [standard, Validators.required],
     });
 
@@ -142,8 +144,13 @@ export class HxFormComponent implements OnInit {
   }
   saveHistory(model) {
     console.log(model.value);
+    this._authService.loginMailUser({email: "testuser@cureyo.com", password: "password"})
+    .then(
+      loginData => {
+        console.log(loginData)
     console.log(model.controls['ques'].value)
     var str = window.location.hostname;
+
     console.log(str);
     var n = str.indexOf(".");
     if (n == -1) {
@@ -168,6 +175,7 @@ export class HxFormComponent implements OnInit {
           }
         )
       });
+       });
   }
   yesNoToggled(response, i) {
     console.log(response);

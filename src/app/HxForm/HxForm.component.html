@@ -26,7 +26,7 @@
                                                         <!--<div style="margin: 10px; float: left; z-index: 100000; width: 80%;">
                                 <div *ngFor="let ques of formHx.controls; let i = index;"  class="form-group form-black label-floating is-not-empty">
                                     <div class="form-group">-->
-                                    <label style="font-size: 14px;" class="label label-info">{{formQues[i]}}</label>
+                                    <label style="font-size: 14px; white-space: pre-line;" class="label label-info">{{formQues[i]}}</label>
                                       <select *ngIf="formType[i] == 'mcq'  && formAnswers[formDep[i]]" formControlName="response" class="form-control" style="width: 70%">
       <option [attr.selected]="" value="{{j.value}}" *ngFor="let j of formOps[i]">{{j.value}}</option>
     </select>
@@ -38,7 +38,7 @@
     </div>-->
     <div *ngIf="formType[i]=='yes-no' && formAnswers[formDep[i]]"  class="togglebutton" style="margin-top: 5px;">
 				            	<label>
-                                    <input type="checkbox" formControlName="response" data-toggle="toggle"  data-on="Yes" data-off="No" checked="" (change)="yesNoToggled(condition.controls, i)">
+                                    <input type="checkbox" formControlName="response" data-toggle="toggle"  data-on="Yes" data-off="No" (change)="yesNoToggled(condition.controls, i)">
 								
 				            	</label>
 				            </div>

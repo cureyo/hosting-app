@@ -39,7 +39,8 @@ export class CheckUpFormComponent implements OnInit {
   private pageId: any;
   private fbReady: boolean = false;
   private fbURL: any;
-  private publicToken: any;
+  private publicToken: any = '';
+  private fbURLSanit: any;
 
   constructor(
     private _fb: FormBuilder,
@@ -122,9 +123,13 @@ export class CheckUpFormComponent implements OnInit {
                       }
                     }
                     this.birthdate = user.dateOfBirth.replace('/', '-');
-                    this.publicToken = user.humanApiPT
+                    if (user.humanApiPT) {
+                      this.publicToken = user.humanApiPT;
+                    }
+                    
                     console.log("this.birthdate", this.birthdate);
-                    this._authService._getfbPageId(res)
+                    console.log("for clinic Id: ", this.clinicId);
+                    this._authService._getfbPageId(this.clinicId)
                       .subscribe(
                       data => {
                         this.pageId = data.$value;
@@ -133,8 +138,8 @@ export class CheckUpFormComponent implements OnInit {
                         let fburl = "https://www.facebook.com/v2.3/plugins/send_to_messenger.php?messenger_app_id=" + this.appId + "&page_id=" + this.pageId + "&ref=" + this.userFBId;
                         console.log(this.pageId);
                         this.fbReady = true;
-                        this.fbURL = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
-                        console.log(this.fbURL);
+                        this.fbURLSanit = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
+                        console.log(this.fbURLSanit);
                         this.formReady = true;
                       }
                       )
@@ -157,9 +162,12 @@ export class CheckUpFormComponent implements OnInit {
                       ])
                     });
                     this.birthdate = user.dateOfBirth.replace('/', '-');
-                    this.publicToken = user.humanApiPT
+                    if (user.humanApiPT) {
+                      this.publicToken = user.humanApiPT;
+                    }
                     console.log("this.birthdate", this.birthdate);
-                    this._authService._getfbPageId(res)
+                     console.log("for clinic Id: ", this.clinicId);
+                    this._authService._getfbPageId(this.clinicId)
                       .subscribe(
                       data => {
                         this.pageId = data.$value;
@@ -168,8 +176,8 @@ export class CheckUpFormComponent implements OnInit {
                         let fburl = "https://www.facebook.com/v2.3/plugins/send_to_messenger.php?messenger_app_id=" + this.appId + "&page_id=" + this.pageId + "&ref=" + this.userFBId;
                         console.log(this.pageId);
                         this.fbReady = true;
-                        this.fbURL = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
-                        console.log(this.fbURL);
+                        this.fbURLSanit = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
+                        console.log(this.fbURLSanit);
                         this.formReady = true;
                       }
                       )
@@ -213,7 +221,8 @@ export class CheckUpFormComponent implements OnInit {
                           this.initConditions()
                         ])
                       });
-                      this._authService._getfbPageId(res)
+                       console.log("for clinic Id: ", this.clinicId);
+                      this._authService._getfbPageId(this.clinicId)
                         .subscribe(
                         data => {
                           this.pageId = data.$value;
@@ -221,8 +230,8 @@ export class CheckUpFormComponent implements OnInit {
                           this.userFBId = "FacbkId_" + this.userId;
                           let fburl = "https://www.facebook.com/v2.3/plugins/send_to_messenger.php?messenger_app_id=" + this.appId + "&page_id=" + this.pageId + "&ref=" + this.userFBId;
                           console.log(this.pageId);
-                          this.fbURL = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
-                          console.log(this.fbURL);
+                          this.fbURLSanit = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
+                          console.log(this.fbURLSanit);
                           this.formReady = true;
                         }
                         )
@@ -246,7 +255,7 @@ export class CheckUpFormComponent implements OnInit {
                           this.initConditions()
                         ])
                       });
-                      this._authService._getfbPageId(res)
+                      this._authService._getfbPageId(this.clinicId)
                         .subscribe(
                         data => {
                           this.pageId = data.$value;
@@ -254,8 +263,8 @@ export class CheckUpFormComponent implements OnInit {
                           this.userFBId = "FacbkId_" + this.userId;
                           let fburl = "https://www.facebook.com/v2.3/plugins/send_to_messenger.php?messenger_app_id=" + this.appId + "&page_id=" + this.pageId + "&ref=" + this.userFBId;
                           console.log(this.pageId);
-                          this.fbURL = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
-                          console.log(this.fbURL);
+                          this.fbURLSanit = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
+                          console.log(this.fbURLSanit);
                           this.formReady = true;
                         }
                         )
