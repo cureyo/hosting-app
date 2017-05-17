@@ -78,7 +78,18 @@ export class FbloginComponent implements OnInit {
               var dd = date.getDate();
               var mm = date.getMonth();
               var yyyy = date.getFullYear();
-              var date2 = dd + '-' + mm + '-' + yyyy;
+              let ddStr, mmStr;
+              if (dd < 10) 
+              ddStr = "0" + dd;
+              else
+              ddStr = dd;
+
+              if (mm < 10)
+              mmStr = "0" + mm;
+              else 
+              mmStr = mm;
+
+              var date2 = mmStr + '-' + ddStr + '-' + yyyy;
 
               this._authService._getNoOfCheckIns(this.clinicId, date2)
                 .subscribe(
@@ -145,7 +156,18 @@ export class FbloginComponent implements OnInit {
               var dd = date.getDate();
               var mm = date.getMonth();
               var yyyy = date.getFullYear();
-              var date2 = dd + '-' + mm + '-' + yyyy;
+               let ddStr, mmStr;
+              if (dd < 10) 
+              ddStr = "0" + dd;
+              else
+              ddStr = dd;
+
+              if (mm < 10)
+              mmStr = "0" + mm;
+              else 
+              mmStr = mm;
+
+              var date2 = mmStr + '-' + ddStr + '-' + yyyy;
 
               this._authService._getNoOfCheckIns(this.clinicId, date2)
                 .subscribe(
