@@ -44,12 +44,29 @@ export class CaredoneFormComponent implements OnInit{
   private consultDate: any;
   private consultTime: any;
   private reportsRequired: boolean = false;
+  private minDate: any;
 
   constructor(private _fb: FormBuilder, private _authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     //console.log("Cared one form called");
     //$('#myModal').hide();
+    let mS2, ddS2;
+    var sDate = new Date();
+    var mS = sDate.getMonth() + 1;
+
+    var ddS = sDate.getDate();
+    var yearS = sDate.getFullYear();
+    if (mS < 10)
+      mS2 = "0" + mS;
+    else
+      mS2 = mS.toString();
+    if (ddS < 10)
+      ddS2 = "0" + ddS;
+    else
+      ddS2 = ddS.toString();
+
+    this.minDate = yearS + "-" + mS2 + "-" + ddS2;
     $.getScript('https://checkout.razorpay.com/v1/checkout.js');
     var tempTransNo = Math.floor((Math.random() * 100000) + 1);
     this.temp = tempTransNo;

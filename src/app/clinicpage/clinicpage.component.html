@@ -62,8 +62,29 @@
         </div>
     </nav>
 
-
-    <div class="section section-header">
+ <div *ngIf="resourcePage" class="section section-header">
+        <div *ngIf="resourceDetailsReady" class="parallax filter filter-color-blue"   style="min-height: 800px;">
+            <div class="image" 
+               [style.background-image]=getSafeURL(pageDetails.content.heroTile.bgImage)
+               style="min-height: 800px;">
+            </div>
+            <div *ngIf="resourceDetailsReady" class="container" style="padding-top: 40px;">
+                <div class="content">
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-8" >
+                    <div class="card card-content"  style="margin-bottom: 40px;">
+                        <h1 class="title-modern" style="margin-bottom: 20px;">{{resourceDetails.title}}</h1>
+                        
+                        <div id="resourcePreview">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ </div>
+    <div *ngIf="!resourcePage" class="section section-header">
         <div *ngIf="pageDetails" class="parallax filter filter-color-blue"   style="min-height: 800px;">
             <div class="image" 
                [style.background-image]=getSafeURL(pageDetails.content.heroTile.bgImage)
@@ -157,7 +178,40 @@
             </div>
         </div>
     </div>
+   <div  *ngIf="pageDetails.content.specializations" class="section" style="background-color: #bbb">
+        <div >
+           
+            <div class="container">
+                <div class="content">
+                    <div class="title-area">
+                        
+                        <p>Below are our core specialization areas</p>
+                        <h1 class="title-modern" style="margin-bottom: 20px;">Our Specialization</h1>
+                        <!--<h2>{{pageDetails.Content.heroText2}}</h2>-->
+                       
+                        <div class="col-md-4" *ngFor="let partner of pageDetails.content.specializations" >
+                          <div class="card card-profile" style="transform: translate3d(0px, 0px, 0px); opacity: 1; background-color: #fff;">
+                        
+<div class="card-content">
+    <!--<p class="category">{{pageDetails.content.heroTile.card.title}}</p>-->
+    <h3  style="text-overflow: ellipsis; overflow: hidden; width: 100%; height: 45px;"class="title-modern">{{partner.title}}</h3>
+        <br><p style="text-overflow: ellipsis; overflow: hidden; width: 100%; height: 135px;">{{partner.brief}}</p>
+       
+         <a [routerLink]="['resource/'+partner.title]" class="btn btn-danger btn-round">Learn More</a>
+</div>
 
+</div>
+                       
+                        </div>
+                        
+                    </div>
+
+                   
+                </div>
+
+            </div>
+        </div>
+    </div>
     <div class="section" style="background-color: #137a9c;">
        
            
@@ -198,7 +252,44 @@
             </div>
       
     </div>
- 
+   <div  *ngIf="partnerDetailsReady" class="section section-header">
+        <div class="parallax filter filter-color-blue"  >
+           
+            <div class="container">
+                <div class="content">
+                    <div class="title-area">
+                        <p>Below are other Consultants we partner with</p>
+                        <h1 class="title-modern" style="margin-bottom: 20px;">Our Partners</h1>
+                        <!--<h2>{{pageDetails.Content.heroText2}}</h2>-->
+                       
+                        <div class="col-md-4" *ngFor="let partner of partnerDetails; let i = index;" >
+                          <div class="card card-profile" style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
+                        <div class="card-avatar" style="width: 90px; height: 90px; border-radius: 50%; padding: 1px; background-color:#fff; ">
+<!--<i class="material-icons">content_copy</i>-->
+  <img *ngIf="partner.uid" class="img" src="https://graph.facebook.com/{{partner.uid}}/picture?type=large" />
+                        <i *ngIf="!partner.uid" class="material-icons" style="color: #ffffff; line-height: 100px; font-size: 60px;">{{partner.icon}} </i>
+        
+</div>
+<div class="card-content">
+    <!--<p class="category">{{pageDetails.content.heroTile.card.title}}</p>-->
+    <h3 class="title-modern">{{partner.name}}
+        <br><small>{{partner.category}}</small>
+        <br><small>{{partner.type}}</small></h3>
+        <a href="{{partnerLink[i]}}" class="btn btn-danger btn-round">Visit</a>
+</div>
+
+</div>
+                       
+                        </div>
+                        
+                    </div>
+
+                   
+                </div>
+
+            </div>
+        </div>
+    </div>
 
  
 

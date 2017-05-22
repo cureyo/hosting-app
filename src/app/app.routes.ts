@@ -18,6 +18,7 @@ import {FeedbackComponent} from "./feedback/feedback.component";
 
 export const MODULE_ROUTES: Route[] =[
     { path: '', component: ClinicPageComponent },
+    { path: 'resource/:item', component: ClinicPageComponent },
     { path: 'consultation/:id', component: VideoCallComponent},
     { path: 'login/:id', component: LoginComponent},
     { path: 'doctor-login/:id', component: DoctorLoginComponent},

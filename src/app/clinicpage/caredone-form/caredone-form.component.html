@@ -54,9 +54,10 @@
   </div>
   <div class="form-group" style="float: left; width: 48%; z-index: 100; margin-top: 0px; margin-bottom: 0px;" [ngClass]="{'has-error':!caredone.controls['consultDate'].valid && (caredone.controls['consultDate'].touched || showErrorFlag2)}" (change)="updateDate(caredone.controls['consultDate'].value)">
     <label class="control-label" for="consultDate">Select date</label>
-      <select formControlName="consultDate"  class="form-control">
+    <input type ="date" class="form-control" formControlName="consultDate"  [(ngModel)]="consultDate"  min="{{minDate}}" value="consultDate"/>
+      <!--<select formControlName="consultDate"  class="form-control">
       <option [attr.selected]="" value="{{ i | date }}" *ngFor="let i of cbDay">{{ i | date }}</option>
-    </select>
+    </select>-->
   </div>
   <div class="form-group" style="float: left; width: 48%; z-index: 100; margin-top: 0px; margin-bottom: 0px; margin-left:4%;" [ngClass]="{'has-error':!caredone.controls['consultTime'].valid && (caredone.controls['consultTime'].touched || showErrorFlag2)}">
   <label class="control-label" for="consultTime">Select time</label>

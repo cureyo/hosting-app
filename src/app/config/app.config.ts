@@ -66,6 +66,7 @@ export const AppConfig = {
     HxForms:            environment.envName + '/PatientHxForms/',
     PatientHx:          environment.envName + '/PatientHistory/',
     feedback:           environment.envName + '/Feedback/',
-    humanAPI:           environment.envName + '/HumanAPIReturn/'
+    humanAPI:           environment.envName + '/HumanAPIReturn/',
+    Partners:           environment.envName + '/Partners/'
   }
 }

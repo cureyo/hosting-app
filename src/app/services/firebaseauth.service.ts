@@ -198,6 +198,13 @@ export class AuthService {
     return
 
   }//_updateReminders
+   public _getPartner(userId) {
+
+    //console.log(this.db.caretakers + caredoneId + '/' + caretakerFbId);
+
+    return this.afd.object(this.db.Partners + userId)
+
+  }
   public _getDoctorPage(pageId) {
     console.log(this.db.doctorPages + pageId);
     return this.afd.object(this.db.doctorPages + pageId);
