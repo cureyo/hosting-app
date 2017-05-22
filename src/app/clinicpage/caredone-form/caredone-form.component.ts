@@ -23,6 +23,7 @@ export class CaredoneFormComponent implements OnInit{
   @Input() drName: string;
   @Input() drImage: string;
 
+  private formReady: boolean = false;
   private caredone: FormGroup;
   private payOptions: any;
   private coMsgForm: FormGroup;
@@ -82,6 +83,7 @@ export class CaredoneFormComponent implements OnInit{
       ctr++;
 
     }
+    console.log(this.minDate);
     this.caredone = this._fb.group({
             name: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(100)])],
             email: ['', Validators.required],
@@ -91,14 +93,15 @@ export class CaredoneFormComponent implements OnInit{
             consultMode: ['video', Validators.required],
             consultType: ['follow-up', Validators.required],
             payment: '',
-            consultDate: ['', Validators.required],
+            consultDate: [this.minDate, Validators.required],
             consultTime: ['', Validators.required],
             file: '',
             clinicId: this.clinicId,
             clinicURL: window.location.hostname,
             description: ''
           });
-
+           $("#consultDTE").val(this.minDate);
+this.formReady = true;
 
   }
  
@@ -106,16 +109,20 @@ reportsReqd() {
   this.reportsRequired = !this.reportsRequired;
   console.log(this.reportsRequired);
 }
-  updateDate(date) {
+  updateDate(date, type) {
+    console.log(this.availableSlots);
     console.log("seleced date is", date);
     this.cbTime = [];
+    let consType = "Physical";
+    if (type != "physical")
+    consType = "Online";
     this._authService._getAvailableSlots(this.clinicId, date).subscribe(
       availability => {
         console.log(availability);
-        let len = this.availableSlots.length, ctr = 0;
+        let len = this.availableSlots[consType].SLots.length, ctr = 0;
         for (ctr = 0; ctr < len; ctr++) {
-          if (!availability[this.availableSlots[ctr]]) {
-            this.cbTime[ctr] = this.availableSlots[ctr]
+          if (!availability[this.availableSlots[consType].SLots[ctr]]) {
+            this.cbTime[ctr] = this.availableSlots[consType].SLots[ctr]
           }
 
         }

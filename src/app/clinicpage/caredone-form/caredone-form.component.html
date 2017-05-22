@@ -6,7 +6,7 @@
 									
 									</div>-->
 
-<form [formGroup]="caredone" (ngSubmit)="onSubmit(caredone.value, $event)" (keydown.enter)="$event.preventDefault()" class="form" novalidate>
+<form *ngIf="formReady" [formGroup]="caredone" (ngSubmit)="onSubmit(caredone.value, $event)" (keydown.enter)="$event.preventDefault()" class="form" novalidate>
 
   <div class="form-group" style="width: 100%; float: left; z-index: 100; margin-top: 0px; margin-bottom: 0px;" [ngClass]="{'has-error':!caredone.controls['name'].valid && (caredone.controls['name'].touched || showErrorFlag)}">
 
@@ -45,16 +45,17 @@
       <option value="first">First Consultation</option>
     </select>
   </div>
-      <div class="form-group" style="width: 48%; float: left; z-index: 100; margin-top: 0px; margin-bottom: 0px; margin-left:4%;"  [ngClass]="{'has-error':!caredone.controls['consultMode'].valid && (caredone.controls['consultMode'].touched || showErrorFlag)}">
+      <div class="form-group" style="width: 48%; float: left; z-index: 100; margin-top: 0px; margin-bottom: 0px; margin-left:4%;"  [ngClass]="{'has-error':!caredone.controls['consultMode'].valid && (caredone.controls['consultMode'].touched || showErrorFlag)}" (change)="updateDate(caredone.controls['consultDate'].value, caredone.controls['consultMode'].value)">
     <label class="control-label" for="co_consultMode">Consultation Mode</label>
     <select formControlName="consultMode" id="co_consultMode" class="form-control">
       <option value="video">Video Consultation</option>
       <option value="phone">Phone Consultation</option>
+      <option value="physical">Physical Consultation</option>
     </select>
   </div>
-  <div class="form-group" style="float: left; width: 48%; z-index: 100; margin-top: 0px; margin-bottom: 0px;" [ngClass]="{'has-error':!caredone.controls['consultDate'].valid && (caredone.controls['consultDate'].touched || showErrorFlag2)}" (change)="updateDate(caredone.controls['consultDate'].value)">
+  <div class="form-group" style="float: left; width: 48%; z-index: 100; margin-top: 0px; margin-bottom: 0px;" [ngClass]="{'has-error':!caredone.controls['consultDate'].valid && (caredone.controls['consultDate'].touched || showErrorFlag2)}" (change)="updateDate(caredone.controls['consultDate'].value, caredone.controls['consultMode'].value)">
     <label class="control-label" for="consultDate">Select date</label>
-    <input type ="date" class="form-control" formControlName="consultDate"  [(ngModel)]="consultDate"  min="{{minDate}}" value="consultDate"/>
+    <input id="consultDTE"type ="date" class="form-control" formControlName="consultDate"  [(ngModel)]="consultDate"   min="{{minDate}}" value="consultDate"/>
       <!--<select formControlName="consultDate"  class="form-control">
       <option [attr.selected]="" value="{{ i | date }}" *ngFor="let i of cbDay">{{ i | date }}</option>
     </select>-->

@@ -62,7 +62,7 @@
         </div>
     </nav>
 
- <div *ngIf="resourcePage" class="section section-header">
+ <!--<div *ngIf="resourcePage" class="section section-header">
         <div *ngIf="resourceDetailsReady" class="parallax filter filter-color-blue"   style="min-height: 800px;">
             <div class="image" 
                [style.background-image]=getSafeURL(pageDetails.content.heroTile.bgImage)
@@ -83,7 +83,37 @@
                 </div>
             </div>
         </div>
+ </div>-->
+     <div *ngIf="resourcePage" class="section" style="background-color: #137a9c;">
+       
+           
+            <div *ngIf="pageDetails" class="container">
+                <div class="content">
+                    <div class="row">
+                    <div class="title-area">
+                        <p></p>
+                        <h2 style="color: #fff;">{{resourceDetails.title}}</h2>
+                        <br>
+                        <div class="col-sm-10 col-sm-offset-1">
+                          <div class="card card-profile" style="transform: translate3d(0px, 0px, 0px); opacity: 1; text-align: left;">
+                      
+<div class="card-content">
+    <div id="resourcePreview">
+                        </div>
  </div>
+
+</div>
+                        </div>
+                        
+                    </div>
+                    </div>
+
+                   
+                </div>
+
+            </div>
+      
+    </div>
     <div *ngIf="!resourcePage" class="section section-header">
         <div *ngIf="pageDetails" class="parallax filter filter-color-blue"   style="min-height: 800px;">
             <div class="image" 
@@ -162,7 +192,7 @@
 <div class="card-footer">
     <app-caredone-form
         [clinicId]="clinicId"
-        [availableSlots]="pageDetails.availability.SLots"
+        [availableSlots]="pageDetails.availability"
         [fee]="fee"
         [drName]="pageDetails.content.profileTile.doctor.name"
         [drImage]="pageDetails.content.profileTile.doctor.image" 
@@ -189,7 +219,7 @@
                         <h1 class="title-modern" style="margin-bottom: 20px;">Our Specialization</h1>
                         <!--<h2>{{pageDetails.Content.heroText2}}</h2>-->
                        
-                        <div class="col-md-4" *ngFor="let partner of pageDetails.content.specializations" >
+                        <div class="col-md-4" *ngFor="let partner of pageDetails.content.specializations; let k = index;" >
                           <div class="card card-profile" style="transform: translate3d(0px, 0px, 0px); opacity: 1; background-color: #fff;">
                         
 <div class="card-content">
@@ -197,7 +227,7 @@
     <h3  style="text-overflow: ellipsis; overflow: hidden; width: 100%; height: 45px;"class="title-modern">{{partner.title}}</h3>
         <br><p style="text-overflow: ellipsis; overflow: hidden; width: 100%; height: 135px;">{{partner.brief}}</p>
        
-         <a [routerLink]="['resource/'+partner.title]" class="btn btn-danger btn-round">Learn More</a>
+         <a [routerLink]="['/resource/'+partner.title]" class="btn btn-danger btn-round">Learn More</a>
 </div>
 
 </div>
@@ -252,8 +282,8 @@
             </div>
       
     </div>
-   <div  *ngIf="partnerDetailsReady" class="section section-header">
-        <div class="parallax filter filter-color-blue"  >
+   <div  *ngIf="partnerDetailsReady" class="section" style="background-color: #ccc;">
+       
            
             <div class="container">
                 <div class="content">
@@ -263,19 +293,18 @@
                         <!--<h2>{{pageDetails.Content.heroText2}}</h2>-->
                        
                         <div class="col-md-4" *ngFor="let partner of partnerDetails; let i = index;" >
-                          <div class="card card-profile" style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
-                        <div class="card-avatar" style="width: 90px; height: 90px; border-radius: 50%; padding: 1px; background-color:#fff; ">
-<!--<i class="material-icons">content_copy</i>-->
-  <img *ngIf="partner.uid" class="img" src="https://graph.facebook.com/{{partner.uid}}/picture?type=large" />
+                          <div class="card card-profile" style="transform: translate3d(0px, 0px, 0px); opacity: 1; height: 250px;">
+                          <div class="card-avatar" style="width: 100px; height: 100px;" data-background-color="cureyo">
+                    
+                        <img *ngIf="partner.uid" class="img" src="https://graph.facebook.com/{{partner.uid}}/picture?type=large" />
                         <i *ngIf="!partner.uid" class="material-icons" style="color: #ffffff; line-height: 100px; font-size: 60px;">{{partner.icon}} </i>
-        
-</div>
+                </div>
 <div class="card-content">
     <!--<p class="category">{{pageDetails.content.heroTile.card.title}}</p>-->
     <h3 class="title-modern">{{partner.name}}
         <br><small>{{partner.category}}</small>
         <br><small>{{partner.type}}</small></h3>
-        <a href="{{partnerLink[i]}}" class="btn btn-danger btn-round">Visit</a>
+        <a *ngIf="partner.uid" href="{{partnerLink[i]}}" class="btn btn-danger btn-round">Visit</a>
 </div>
 
 </div>
@@ -288,7 +317,7 @@
                 </div>
 
             </div>
-        </div>
+        
     </div>
 
  
