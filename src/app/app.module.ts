@@ -20,7 +20,10 @@ import {Ng2AutoCompleteModule} from "ng2-auto-complete/dist/index";
 import {GooglePlaceModule} from 'ng2-google-place-autocomplete';
 import {VideoCallComponent} from "./video-call/video-call.component";
 import { FbloginComponent } from './fblogin/fblogin.component';
-import { CheckUpFormComponent } from './check-up-form/check-up-form.component'
+import { CheckUpFormComponent } from './check-up-form/check-up-form.component';
+import { NoPlansComponent } from './no-plans/no-plans.component';
+
+
 
 // Must export the config
 export const firebaseConfig = {
@@ -58,7 +61,7 @@ export const firebaseAuthConfig = {
   ],
 
 
-  declarations: [ MODULE_COMPONENTS, FbloginComponent, CheckUpFormComponent],
+  declarations: [ MODULE_COMPONENTS, FbloginComponent, CheckUpFormComponent, NoPlansComponent],
 
   providers: [{ provide: LocationStrategy, useClass: PathLocationStrategy }, AuthService, AngularFireAuth, AngularFireAuthModule, AngularFireDatabase, AngularFireDatabaseModule, FbService, FacebookService, MetadataService],
 

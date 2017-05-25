@@ -65,7 +65,9 @@ export class FeedbackComponent implements OnInit {
         this.feedbackForm = this._fb.group({
           rating: ['', Validators.required],
           feedbackDetail: [''],
-          prescriptionUpload: ['', Validators.required]
+          //commented temporarily
+
+          //prescriptionUpload: ['', Validators.required]
         });
         this.formReady = true;
       }
