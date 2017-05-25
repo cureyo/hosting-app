@@ -46,10 +46,19 @@ export class QueueCounterComponent implements OnInit {
                 this.userId = params['id'];
                 this.userToken = param;
                 var date = new Date();
-                var dd = date.getDate();
-                var mm = date.getMonth();
+                var ddS = date.getDate();
+                var mmS = date.getMonth();
                 var yyyy = date.getFullYear();
-                var date2 = dd + '-' + mm + '-' + yyyy;
+                var dd, mm;
+                if (ddS < 10)
+                    dd = "0" + ddS;
+                else
+                    dd = ddS;
+                if (mmS < 10)
+                    mm = "0" + mmS;
+                else
+                    mm = mmS;
+                var date2 = mm + '-' + dd + '-' + yyyy;
                 this.activatedRoute.queryParams.subscribe(
                     queryParam => {
                         console.log(queryParam['triaged']);
@@ -61,6 +70,7 @@ export class QueueCounterComponent implements OnInit {
                         }
                     }
                 )
+
                 this._authService._getCheckIn(this.clinicId, date2)
                     .subscribe(
                     data => {
@@ -87,12 +97,12 @@ export class QueueCounterComponent implements OnInit {
                                         align: 'right'
                                     }
                                 });
-                                let self = this;
-                                setTimeout(
-                                    function() {
-                                        self.router.navigate(['feedback/' + self.userToken + '/' + self.userId])
-                                    }, 2000
-                                )
+                            let self = this;
+                            setTimeout(
+                                function () {
+                                    self.router.navigate(['feedback/' + self.userToken + '/' + self.userId])
+                                }, 2000
+                            )
                         }
                     }
                     );

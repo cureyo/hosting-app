@@ -148,7 +148,8 @@ export class AuthService {
        }
     //end of Question Data
      public _getCheckIn(clinicId, date) {
-    return this.afd.object(this.db.currentQ + '/' + clinicId + '/' + date );
+       console.log(this.db.currentQ + clinicId + '/' + date);
+    return this.afd.object(this.db.currentQ  + clinicId + '/' + date );
   }//_getCheckIn
 
    //get user work history and all from insights
