@@ -47,7 +47,7 @@ export class QueueCounterComponent implements OnInit {
                 this.userToken = param;
                 var date = new Date();
                 var ddS = date.getDate();
-                var mmS = date.getMonth();
+                var mmS = date.getMonth() + 1;
                 var yyyy = date.getFullYear();
                 var dd, mm;
                 if (ddS < 10)

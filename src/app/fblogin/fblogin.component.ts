@@ -76,7 +76,7 @@ export class FbloginComponent implements OnInit {
 
               var date = new Date();
               var dd = date.getDate();
-              var mm = date.getMonth();
+              var mm = date.getMonth() + 1;
               var yyyy = date.getFullYear();
               let ddStr, mmStr;
               if (dd < 10) 

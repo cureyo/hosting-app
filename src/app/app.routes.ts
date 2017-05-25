@@ -15,6 +15,7 @@ import {QueueCounterComponent} from "./queue-counter/queue-counter.component";
 import {TriageComponent} from "./triage/triage.component";
 import {HxFormComponent} from "./HxForm/HxForm.component";
 import {FeedbackComponent} from "./feedback/feedback.component";
+import {ScreenShotComponent} from "./screenshots/screenshots.component";
 
 export const MODULE_ROUTES: Route[] =[
     { path: '', component: ClinicPageComponent },
@@ -27,7 +28,8 @@ export const MODULE_ROUTES: Route[] =[
     { path: 'queue/:count/:id',component:QueueCounterComponent},
     { path: 'triage/:id',component:TriageComponent},
     { path: 'medical-history/:count/:case/:id',component:HxFormComponent},
-    { path: 'feedback/:count/:id',component: FeedbackComponent}
+    { path: 'feedback/:count/:id',component: FeedbackComponent},
+     { path: 'screenshot',component: ScreenShotComponent}
 ]
 
 export const MODULE_COMPONENTS = [
@@ -46,5 +48,6 @@ export const MODULE_COMPONENTS = [
     HxFormComponent,
     FeedbackComponent,
     FeedbackFileUploadComponent,
-    CheckUpFileUploadComponent
+    CheckUpFileUploadComponent,
+    ScreenShotComponent
 ]
