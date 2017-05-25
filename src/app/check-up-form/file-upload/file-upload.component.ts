@@ -29,7 +29,7 @@ export class CheckUpFileUploadComponent implements OnInit {
   storage: any;
   uploader: FileUploader = new FileUploader({ url: '' });
   uid: string;
-  ref: any;
+  //ref: any;
   public hasBaseDropZoneOver: boolean = false;
   public hasAnotherDropZoneOver: boolean = false;
   constructor( @Inject(FirebaseApp) firebaseApp: any, @Inject(AngularFireDatabase) fb,
@@ -38,7 +38,7 @@ export class CheckUpFileUploadComponent implements OnInit {
     private router: Router,
     ) {
     this.storage = firebaseApp.storage();
-    this.ref = firebaseApp.database().ref();
+    //this.ref = firebaseApp.database().ref();
     this.uid = localStorage.getItem('uid');
   }
 
