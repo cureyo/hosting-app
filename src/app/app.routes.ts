@@ -29,7 +29,7 @@ export const MODULE_ROUTES: Route[] =[
     { path: 'triage/:id',component:TriageComponent},
     { path: 'medical-history/:count/:case/:id',component:HxFormComponent},
     { path: 'feedback/:count/:id',component: FeedbackComponent},
-    { path :'NoPlans', component:NoPlansComponent}
+    { path :'NoPlans/:id', component:NoPlansComponent}
 ]
 
 export const MODULE_COMPONENTS = [

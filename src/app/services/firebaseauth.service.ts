@@ -152,6 +152,26 @@ export class AuthService {
     return this.afd.object(this.db.currentQ  + clinicId + '/' + date );
   }//_getCheckIn
 
+  public _getPageId(pageName){
+     return this.afd.object(this.db.doctorPages +'/'+pageName)
+  }
+ public _getPathWayId(pageId,userID){
+    return this.afd.object(this.db.CareSchedule +pageId+'/'+userID);
+ }
+ public _getcarePathWays(pathwaysId){
+    return this.afd.object(this.db.CarePathways+'/'+pathwaysId);
+ }
+  public _getPartner(userId) {
+
+    //console.log(this.db.caretakers + caredoneId + '/' + caretakerFbId);
+
+    return this.afd.object(this.db.Partners + userId)
+
+  }
+  public _getTransactionTable(objectId){
+     return this.afd.object(this.db.TransactionTable + objectId);
+  }
+ 
    //get user work history and all from insights
    public _getUserDataFromCaredOnePatientInsights(userID,doctorID){
       //console.log("insight get function called ",this.db.PatientsInsights +'/'+doctorID+'/'+ userID);
@@ -199,13 +219,7 @@ export class AuthService {
     return
 
   }//_updateReminders
-   public _getPartner(userId) {
-
-    //console.log(this.db.caretakers + caredoneId + '/' + caretakerFbId);
-
-    return this.afd.object(this.db.Partners + userId)
-
-  }
+  
   public _getDoctorPage(pageId) {
     console.log(this.db.doctorPages + pageId);
     return this.afd.object(this.db.doctorPages + pageId);

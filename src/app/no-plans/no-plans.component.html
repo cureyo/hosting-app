@@ -8,32 +8,33 @@
                  <!-- first card-->
  <!-- **********************************************************************************-->                         
                  <div class="col-md-4">
+                 
                     <div class=card>
                        <div class="card-content table-responsive">
 
                           <div class="row" >
                                 <label><h3 class="headerID"><b>No plans</b></h3></label>
                                
-                                <h4> <label> <b> Include's</b></label><p class="checkpointId"> <b>10</b> CheckPoint's</p></h4>
+                                <h4 *ngIf="checkPointsCounts"> <label> <b> Include's</b></label><p class="checkpointId"> <b>{{checkPointsCounts}}</b> CheckPoint's</p></h4>
                           </div> <!-- end of first row-->
 
                             <hr/>
 
-                          <div class="row">
+                          <div class="row" >
                                 <label><h4><b>Consult Reminder</b></h4></label> 
                                 <br/>
                                 <img src="assets/img/man.png" class="img-responsive" class="UserImg">
-                                <label class="consultTextId"> <b> Monthly with</b> Dr Sunny Rai</label> <br/>                                                 
+                                <label class="consultTextId" *ngIf="objTransactionTableObj"> <b> {{objTransactionTableObj[objTransactionTableObjID].Job_Frequency}} with</b> Dr {{objTransactionTableObj[objTransactionTableObjID].ConsultDrName}}</label> <br/>                                                 
                           </div> <!--end of Second row-->
                                <hr/>
                               <!-- third Row--> 
-                            <div class="row">
+                            <div class="row" *ngIf="LabTest">
                               <label><h4><b>Test Reminder</b></h4></label> 
                                 <tbody>
                       
-                                   <tr > 
-                                     <th class="testName"> <label>Test Name</label></th>
-                                     <th> <label>Test frequency</label> </th>
+                                   <tr *ngFor="let key of LabTestArr;let i=index;"> 
+                                     <th class="testName">{{key.TestName}} <label></label></th>
+                                     <th> <label>{{key.TestFreq}}</label> </th>
                                    </tr>
                                 </tbody>
                                 <br/>
@@ -45,9 +46,9 @@
                               <label><h4><b>Medication Reminder</b></h4></label> 
                                 <tbody>
                       
-                                   <tr > 
-                                     <th class="testName"> <label>Med Name</label></th>
-                                     <th> <label>Med frequency</label> </th>
+                                   <tr  *ngFor="let key of MedTestArr;let i=index;"> 
+                                     <th class="testName"> <label>{{key.MedName}}</label></th>
+                                     <th> <label>{{key.MedFreq}}</label> </th>
                                    </tr>
                                 </tbody>
                                 <br/>
@@ -64,6 +65,7 @@
 
                        </div>
                     </div>
+                 
                  </div>
                  <!-- End of first card-->
   <!-- **********************************************************************************-->
@@ -75,14 +77,14 @@
                              <div class="row">
                                   <label><h3 class="headerID"><b>Guidance Plans</b></h3></label>
                                   <br/>
-                                  <h4> <label> <b> Include's</b></label><p class="checkpointId"> <b>10</b> CheckPoint's</p></h4>
+                                  <h4 *ngIf="checkPointsCounts"> <label> <b> Include's</b></label><p class="checkpointId"> <b>{{checkPointsCounts}}</b> CheckPoint's</p></h4>
                              </div>
                                    <hr/>
                              <div class="row">
                                <label><h4><b>Consult Reminder</b></h4></label>
                                     <br/> 
                                <img src="assets/img/man.png" class="img-responsive" class="UserImg">
-                            <label class="consultTextId"> <b> Monthly with</b> Dr Sunny Rai</label>               
+                            <label class="consultTextId" *ngIf="objTransactionTableObj"> <b> {{objTransactionTableObj[objTransactionTableObjID].Job_Frequency}} with</b> Dr {{objTransactionTableObj[objTransactionTableObjID].ConsultDrName}}</label>               
                              </div> <!--end of Second row-->
                                <hr/>
                                 <!-- third Row--> 
@@ -90,9 +92,9 @@
                               <label><h4><b>Test Reminder</b></h4></label> 
                                 <tbody>
                       
-                                   <tr > 
-                                     <th class="testName"> <label>Test Name</label></th>
-                                     <th> <label>Test frequency</label> </th>
+                                   <tr  *ngFor="let key of LabTestArr;let i=index;"> 
+                                     <th class="testName"> <label>{{key.TestName}}</label></th>
+                                     <th> <label>{{key.TestFreq}}</label> </th>
                                    </tr>
                                 </tbody>
                                 <br/>
@@ -104,17 +106,17 @@
                               <label><h4><b>Medication Reminder</b></h4></label> 
                                 <tbody>
                       
-                                   <tr > 
-                                     <th class="testName"> <label>Med Name</label></th>
-                                     <th> <label>Med frequency</label> </th>
+                                   <tr *ngFor="let key of MedTestArr;let i=index;"> 
+                                     <th class="testName"> <label>{{key.MedName}}</label></th>
+                                     <th> <label>{{key.MedFreq}}</label> </th>
                                    </tr>
                                 </tbody>
                                 <br/>
                             </div>
                             <hr/>
                              <!-- end of fourth row-->
-                               <div class="row">
-                             <label class="consultTextId"> <b> Monthly Health Review By</b> Dr Sunny Rai</label><br/>
+                               <div class="row" *ngIf="objTransactionTableObj">
+                             <label class="consultTextId"> <b> {{objTransactionTableObj[objTransactionTableObjID].Job_Frequency}} Health Review By</b> Dr {{objTransactionTableObj[objTransactionTableObjID].ConsultDrName}}</label><br/>
                               <label class="consultTextId"> <b> Total cost = </b> 2500 Rs</label>
                            </div>
                               <div class="row">
@@ -136,15 +138,14 @@
                        <div class="card-content table-responsive">
                           <div class="row">
                             <label><h3 class="headerID"><b>Comparihensive Plans</b></h3></label>
-                             <br/>
-                                  <h4> <label> <b> Include's</b></label><p class="checkpointId"> <b>10</b> CheckPoint's</p></h4>
+                            <h4 *ngIf="checkPointsCounts"> <label> <b> Include's</b></label><p class="checkpointId"> <b>{{checkPointsCounts}}</b> CheckPoint's</p></h4>
                              </div>
                                    <hr/>
                              <div class="row">
                                <label><h4><b>Consult Reminder</b></h4></label>
                                     <br/> 
                                <img src="assets/img/man.png" class="img-responsive" class="UserImg">
-                            <label class="consultTextId"> <b> Monthly with</b> Dr Sunny Rai</label>               
+                            <label class="consultTextId" *ngIf="objTransactionTableObj"> <b> {{objTransactionTableObj[objTransactionTableObjID].Job_Frequency}} with</b> Dr {{objTransactionTableObj[objTransactionTableObjID].ConsultDrName}}</label>               
                              </div> <!--end of Second row-->
                                <hr/>
                                 <!-- third Row--> 
@@ -152,9 +153,9 @@
                               <label><h4><b>Test Reminder</b></h4></label> 
                                 <tbody>
                       
-                                   <tr > 
-                                     <th class="testName"> <label>Test Name</label></th>
-                                     <th> <label>Test frequency</label> </th>
+                                   <tr  *ngFor="let key of LabTestArr;let i=index;"> 
+                                     <th class="testName"> <label>{{key.TestName}}</label></th>
+                                     <th> <label>{{key.TestFreq}}</label> </th>
                                    </tr>
                                 </tbody>
                                 <br/>
@@ -166,17 +167,17 @@
                               <label><h4><b>Medication Reminder</b></h4></label> 
                                 <tbody>
                       
-                                   <tr > 
-                                     <th class="testName"> <label>Med Name</label></th>
-                                     <th> <label>Med frequency</label> </th>
+                                   <tr *ngFor="let key of MedTestArr;let i=index;"> 
+                                     <th class="testName"> <label>{{key.MedName}}</label></th>
+                                     <th> <label>{{key.MedFreq}}</label> </th>
                                    </tr>
                                 </tbody>
                                 <br/>
                             </div>
                             <hr/>
                              <!-- end of fourth row-->
-                               <div class="row">
-                             <label class="consultTextId"> <b> Monthly Health Review By</b> Dr Sunny Rai</label><br/>
+                               <div class="row" *ngIf="objTransactionTableObj">
+                             <label class="consultTextId"> <b> {{objTransactionTableObj[objTransactionTableObjID].Job_Frequency}} Health Review By</b> Dr {{objTransactionTableObj[objTransactionTableObjID].ConsultDrName}}</label><br/>
                               <label class="consultTextId"> <b> Total cost = </b> 2500 Rs</label>
                            </div>
                               <div class="row">
