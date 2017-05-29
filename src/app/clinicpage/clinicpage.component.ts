@@ -73,7 +73,7 @@ export class ClinicPageComponent implements OnInit, AfterViewInit {
 
     this.pageDetailsData = this._cacheService.get('pageDetailsData')
 
-     
+
     if (this.pageDetailsData) {
       this.pageDetails = this.pageDetailsData.data;
       //this.partnerDetails = this.pageDetailsData.partnerDetails
@@ -87,28 +87,32 @@ export class ClinicPageComponent implements OnInit, AfterViewInit {
       this._authService._getPartner(this.pageDetails.doctorId)
         .subscribe(
         partnerList => {
+
           console.log(partnerList);
           let ctr = 0;
           console.log(partnerList.consultant);
           if (partnerList.consultant) {
             for (let item in partnerList.consultant) {
               console.log(item);
-              this.partnerDetails[ctr] = partnerList.consultant[item];
+              if (partnerList.consultant[item].name != 'self') {
+                this.partnerDetails[ctr] = partnerList.consultant[item];
 
-              if (partnerList.consultant[item].uid) {
-                this._authService._fetchUser(partnerList.consultant[item].uid)
-                  .subscribe(
-                  partnerUserData => {
-                    let clinicIdPartner;
-                    if (partnerUserData.clinicWebsite) {
-                      var n = partnerUserData.clinicWebsite.indexOf('.');
-                      clinicIdPartner = partnerUserData.clinicWebsite.substring(0, n)
+                if (partnerList.consultant[item].uid) {
+                  this._authService._fetchUser(partnerList.consultant[item].uid)
+                    .subscribe(
+                    partnerUserData => {
+                      let clinicIdPartner;
+                      if (partnerUserData.clinicWebsite) {
+                        var n = partnerUserData.clinicWebsite.indexOf('.');
+                        clinicIdPartner = partnerUserData.clinicWebsite.substring(0, n)
+                      }
+                      this.partnerLink[ctr] = 'http://' + clinicIdPartner + '.cureyo.com';
                     }
-                    this.partnerLink[ctr] = 'http://' + clinicIdPartner + '.cureyo.com';
-                  }
-                  )
+                    )
+                }
+                ctr++;
               }
-              ctr++;
+
             }
           }
 
@@ -150,7 +154,7 @@ export class ClinicPageComponent implements OnInit, AfterViewInit {
             if (this.pageDetails.content.specializations) {
               console.log("params3")
               for (let each in this.pageDetails.content.specializations) {
-               
+
                 if (params['item'] == this.pageDetails.content.specializations[each]['title']) {
                   console.log("params4")
                   this.resourceDetails = this.pageDetails.content.specializations[each];
@@ -194,22 +198,24 @@ export class ClinicPageComponent implements OnInit, AfterViewInit {
               if (partnerList.consultant) {
                 for (let item in partnerList.consultant) {
                   console.log(item);
-                  this.partnerDetails[ctr] = partnerList.consultant[item];
+                  if (partnerList.consultant[item].name != 'self') {
+                    this.partnerDetails[ctr] = partnerList.consultant[item];
 
-                  if (partnerList.consultant[item].uid) {
-                    this._authService._fetchUser(partnerList.consultant[item].uid)
-                      .subscribe(
-                      partnerUserData => {
-                        let clinicIdPartner;
-                        if (partnerUserData.clinicWebsite) {
-                          var n = partnerUserData.clinicWebsite.indexOf('.');
-                          clinicIdPartner = partnerUserData.clinicWebsite.substring(0, n)
+                    if (partnerList.consultant[item].uid) {
+                      this._authService._fetchUser(partnerList.consultant[item].uid)
+                        .subscribe(
+                        partnerUserData => {
+                          let clinicIdPartner;
+                          if (partnerUserData.clinicWebsite) {
+                            var n = partnerUserData.clinicWebsite.indexOf('.');
+                            clinicIdPartner = partnerUserData.clinicWebsite.substring(0, n)
+                          }
+                          this.partnerLink[ctr] = 'http://' + clinicIdPartner + '.cureyo.com';
                         }
-                        this.partnerDetails[ctr]['websiteLink'] = 'http://' + clinicIdPartner + '.cureyo.com';
-                      }
-                      )
+                        )
+                    }
+                    ctr++;
                   }
-                  ctr++;
                 }
               }
 
@@ -255,7 +261,7 @@ export class ClinicPageComponent implements OnInit, AfterViewInit {
 
     //   }
     // )
-   
+
     $(window).on('scroll', function () {
       var y = $(this).scrollTop();
       console.log("scrolling");
@@ -267,10 +273,33 @@ export class ClinicPageComponent implements OnInit, AfterViewInit {
       }
 
     })
+
+
   }
 
   ngAfterViewInit() {
-   
+    var dInit = document.getElementById("heroSection");
+    if (dInit)
+      dInit.scrollIntoView();
+    else {
+      dInit = document.getElementById("resourceSection");
+      dInit.scrollIntoView();
+    }
+
+    this.route.queryParams.subscribe(params => {
+      if (params['scrollToSec']) {
+        console.log(this.clinicId);
+        this._authService._getScrollToSection(this.clinicId)
+          .subscribe(
+          scrollData => {
+            console.log(scrollData);
+            var d = document.getElementById(scrollData.scrollTo);
+            d.scrollIntoView();
+          }
+          )
+      }
+    })
+    //document.domain = "cureyo.com";
   }//ngAfterViewInit
 
   getSafeURL(cleanURL) {

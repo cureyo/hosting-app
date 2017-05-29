@@ -151,7 +151,12 @@ export class AuthService {
        console.log(this.db.currentQ + clinicId + '/' + date);
     return this.afd.object(this.db.currentQ  + clinicId + '/' + date );
   }//_getCheckIn
-
+//get user work history and all from insights
+   public _getScrollToSection(clinicId){
+     console.log(this.db.scrollTo  + clinicId);
+      //console.log("insight get function called ",this.db.PatientsInsights +'/'+doctorID+'/'+ userID);
+     return  this.afd.object(this.db.scrollTo  + clinicId)
+   }
    //get user work history and all from insights
    public _getUserDataFromCaredOnePatientInsights(userID,doctorID){
       //console.log("insight get function called ",this.db.PatientsInsights +'/'+doctorID+'/'+ userID);

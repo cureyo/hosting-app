@@ -67,6 +67,7 @@ export const AppConfig = {
     PatientHx:          environment.envName + '/PatientHistory/',
     feedback:           environment.envName + '/Feedback/',
     humanAPI:           environment.envName + '/HumanAPIReturn/',
-    Partners:           environment.envName + '/Partners/'
+    Partners:           environment.envName + '/Partners/',
+    scrollTo:           environment.envName + '/DoctorPages/ScrollToSection/'
   }
 }
