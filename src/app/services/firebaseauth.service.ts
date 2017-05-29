@@ -158,6 +158,9 @@ export class AuthService {
  public _getPathWayId(pageId,userID){
     return this.afd.object(this.db.CareSchedule +pageId+'/'+userID);
  }
+ public _getLabTestDataForSearch(testName){
+      return this.afd.list(this.db.testPricing +'/'+testName);
+ }
  public _getcarePathWays(pathwaysId){
     return this.afd.object(this.db.CarePathways+'/'+pathwaysId);
  }

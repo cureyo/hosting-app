@@ -32,6 +32,8 @@ export class NoPlansComponent implements OnInit {
  private MedTest:any;
  private LabTestArr:any[];
  private MedTestArr:any[];
+ private totalTestCost=0;
+ private months:any;
  constructor(private _fb: FormBuilder, 
               private _authService: AuthService,  
               private route: ActivatedRoute,
@@ -92,6 +94,30 @@ export class NoPlansComponent implements OnInit {
                                                         else if (temp=="LabTest"){
                                                           this.LabTest=this.objTransactionTableObj[temp];
                                                             this.LabTestArr= Object.values(this.LabTest);
+                                                              //get the lab test price from firebase:
+                                                              //console.log("labtest array data:",this.LabTestArr);
+                                                              for(var i=0;i<this.LabTestArr.length;i++){
+                                                                    var index=0;
+                                                                     this.months=this.LabTestArr[i].TestFreq;
+                                                                      this.months =this.months.slice(0,-6);
+                                                                     
+
+                                                                      this._authService._getLabTestDataForSearch(this.LabTestArr[i].TestName)
+                                                                      .subscribe(testPricing=>{
+                                                                        //console.log("test pricing value from the firebase :",testPricing);
+                                                                            this.totalTestCost+=testPricing[index].price;
+                                                                            this.totalTestCost=this.totalTestCost * this.months;
+                                                                      
+                                                                      })
+                                                                        
+                                                                     
+                                                                      
+                                                                     
+                                                              }
+                                                                
+                                                              
+                                                                 
+
                                                             //console.log("lab test value ;",this.LabTestArr, typeof this.LabTestArr);
                                                         }
                                                         else if(temp=="MedicationReminder"){
@@ -119,7 +145,7 @@ export class NoPlansComponent implements OnInit {
                                                else if(carepathWaysObj.checkPoints[i].checkType=="consult-reminder"){
                                                       this.consultReminder=carepathWaysObj.checkPoints[i];
                                                       this.consultantID=carepathWaysObj.checkPoints[i].consultant;
-                                                         console.log("IDS",this.DoctorId,this.consultantID)
+                                                         //console.log("IDS",this.DoctorId,this.consultantID)
 
                                                         
                                                       
@@ -127,7 +153,7 @@ export class NoPlansComponent implements OnInit {
                                                             this._authService._getPartner(this.DoctorId)
                                                             .subscribe(partner=>{
                                                                 this.partnerData=partner;
-                                                                console.log("partners Data",this.partnerData,this.partnerData.consultant);
+                                                               // console.log("partners Data",this.partnerData,this.partnerData.consultant);
                                                                  for (var j in this.partnerData.consultant)
                                                                   {     
                                                                         if (j==this.consultantID){

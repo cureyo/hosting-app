@@ -117,7 +117,7 @@
                              <!-- end of fourth row-->
                                <div class="row" *ngIf="objTransactionTableObj">
                              <label class="consultTextId"> <b> {{objTransactionTableObj[objTransactionTableObjID].Job_Frequency}} Health Review By</b> Dr {{objTransactionTableObj[objTransactionTableObjID].ConsultDrName}}</label><br/>
-                              <label class="consultTextId"> <b> Total cost = </b> 2500 Rs</label>
+                              <label class="consultTextId"> <b *ngIf="totalTestCost"> Total cost = </b>{{totalTestCost}} Rs</label>
                            </div>
                               <div class="row">
                                   <div class="pull-right">
@@ -178,7 +178,7 @@
                              <!-- end of fourth row-->
                                <div class="row" *ngIf="objTransactionTableObj">
                              <label class="consultTextId"> <b> {{objTransactionTableObj[objTransactionTableObjID].Job_Frequency}} Health Review By</b> Dr {{objTransactionTableObj[objTransactionTableObjID].ConsultDrName}}</label><br/>
-                              <label class="consultTextId"> <b> Total cost = </b> 2500 Rs</label>
+                              <label class="consultTextId"> <b *ngIf="totalTestCost"> Total cost = </b> {{totalTestCost}} Rs</label>
                            </div>
                               <div class="row">
                                   <div class="pull-right">
