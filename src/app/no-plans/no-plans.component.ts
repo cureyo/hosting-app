@@ -95,29 +95,26 @@ export class NoPlansComponent implements OnInit {
                                                           this.LabTest=this.objTransactionTableObj[temp];
                                                             this.LabTestArr= Object.values(this.LabTest);
                                                               //get the lab test price from firebase:
-                                                              //console.log("labtest array data:",this.LabTestArr);
+                                                              console.log("labtest array data:",this.LabTestArr);
                                                               for(var i=0;i<this.LabTestArr.length;i++){
-                                                                    var index=0;
+                                                                    
                                                                      this.months=this.LabTestArr[i].TestFreq;
                                                                       this.months =this.months.slice(0,-6);
                                                                      
 
                                                                       this._authService._getLabTestDataForSearch(this.LabTestArr[i].TestName)
                                                                       .subscribe(testPricing=>{
-                                                                        //console.log("test pricing value from the firebase :",testPricing);
+                                                                        var index=testPricing.length-1;
+                                                                         this.totalTestCost=0;
+                                                                        console.log("test pricing value from the firebase :",testPricing,index);
                                                                             this.totalTestCost+=testPricing[index].price;
                                                                             this.totalTestCost=this.totalTestCost * this.months;
                                                                       
                                                                       })
-                                                                        
-                                                                     
-                                                                      
-                                                                     
+                                                         
                                                               }
                                                                 
-                                                              
-                                                                 
-
+        
                                                             //console.log("lab test value ;",this.LabTestArr, typeof this.LabTestArr);
                                                         }
                                                         else if(temp=="MedicationReminder"){
@@ -147,8 +144,6 @@ export class NoPlansComponent implements OnInit {
                                                       this.consultantID=carepathWaysObj.checkPoints[i].consultant;
                                                          //console.log("IDS",this.DoctorId,this.consultantID)
 
-                                                        
-                                                      
                                                        if(this.DoctorId  && this.consultantID){
                                                             this._authService._getPartner(this.DoctorId)
                                                             .subscribe(partner=>{
