@@ -27,7 +27,7 @@
             <div class="navbar-header">
                     
                 <a *ngIf="pageDetails" href="#" class="navbar-brand">
-                    {{pageDetails.content.profileTile.doctor.name}}
+                    {{pageDetails.content.profileTile.clinic}}
                 </a>
             </div>
            
@@ -114,7 +114,7 @@
             </div>
       
     </div>
-    <div *ngIf="!resourcePage" class="section section-header" id="heroSection">
+    <div *ngIf="!resourcePage && !blogPage" class="section section-header" id="heroSection">
         <div *ngIf="pageDetails" class="parallax filter filter-color-blue"   style="min-height: 800px;">
             <div class="image" 
                [style.background-image]=getSafeURL(pageDetails.content.heroTile.bgImage)
@@ -151,7 +151,54 @@
             </div>
         </div>
     </div>
+<div *ngIf="blogPage" class="section section-header" id="heroSection">
+        <div  class="parallax filter filter-color-blue"   style="min-height: 800px;">
+            <div class="image" 
+               [style.background-image]=getSafeURL(blogData.BGImage)
+               style="min-height: 800px;">
+            </div>
+            <div  class="container">
+                <div class="content">
+                    <div class="title-area" style="height: 50%;">
+                        
+                        <h1 class="title-modern" style="text-overflow:ellipsis; white-space: nowrap; overflow: hidden; margin-bottom: 20px; font-size: 100px;">{{blogData.Title}}</h1>
+                        <p style="text-overflow:ellipsis; white-space: nowrap; overflow: hidden; margin-bottom: 20px; font-size: 20px;">Comments by {{pageDetails.content.profileTile.doctor.name}}</p>
+                        <!--<h2>{{pageDetails.Content.heroText2}}</h2>-->
+                       
+                        
+                    </div>
 
+                   
+                </div>
+
+            </div>
+        </div>
+    </div>
+   <div *ngIf="blogPage" class="section" id="blogDetailSection" style="background-color: #ddd">
+        <div *ngIf="blogData" class="container" >
+           
+            <div class="row row-centered">
+                
+                    <div class="info-icon">
+                       
+                         <p style="margin-left: 15%; margin-right: 15%; margin-top: 20px; text-align: left; font-weight: 700;" class="description">Comments</p>
+                         <p style="margin-left: 15%; margin-right: 15%; margin-top: 20px;  text-align: left;" class="description">{{blogData.Comment}}</p>
+                        <div class="col-sm-10 col-sm-offset-1">
+                         <div class="card">
+                             <div class="card-content">
+
+                                 <p style="margin-left: 15%; margin-right: 15%; margin-top: 20px; text-align: left; font-weight: 700;" class="description">Complete article</p>
+                         <p style="margin-left: 15%; margin-right: 15%; margin-top: 20px;  text-align: left;" class="description">{{blogData.Text}}</p>
+                             </div>
+                         </div>
+                        </div>
+                    </div>
+                
+                
+                
+            </div>
+        </div>
+    </div>
 
     <div class="section" id="bookingSection">
         <div *ngIf="pageDetails" class="container">
@@ -227,7 +274,7 @@
     <h3  style="text-overflow: ellipsis; overflow: hidden; width: 100%; height: 45px;"class="title-modern">{{partner.title}}</h3>
         <br><p style="text-overflow: ellipsis; overflow: hidden; width: 100%; height: 135px;">{{partner.brief}}</p>
        
-         <a [href]="'/resource/'+partner.title" class="btn btn-danger btn-round">Learn More</a>
+         <a [href]="'/resource/'+partner.webTitle" class="btn btn-danger btn-round">Learn More</a>
 </div>
 
 </div>
@@ -322,7 +369,43 @@
         
     </div>
 
- 
+    <div  *ngIf="pageDetails && pageDetails.content.Blogs" id="blogSection" class="section" style="background-color: #bbb">
+        <div >
+           
+            <div class="container">
+                <div class="content">
+                    <div class="title-area">
+                        
+                        <p>Some useful reads for you</p>
+                        <h1 class="title-modern" style="margin-bottom: 20px;">Our Blog</h1>
+                        <!--<h2>{{pageDetails.Content.heroText2}}</h2>-->
+                       <div class="row row-centered">
+                        <div class="col-md-4 col-centered" *ngFor="let partner of blogBox; let k = index;" >
+                          <div class="card card-stats" style="transform: translate3d(0px, 0px, 0px); opacity: 1; background-color: #fff;">
+                        <div class="card-header">
+                            <img src="{{partner.Image}}">
+                        </div>
+<div class="card-content">
+    <!--<p class="category">{{pageDetails.content.heroTile.card.title}}</p>-->
+    <h3  style="text-overflow: ellipsis; overflow: hidden; width: 100%; height: 45px;"class="title-modern">{{partner.Title}}</h3>
+        <br><p style="text-overflow: ellipsis; overflow: hidden; width: 100%; height: 135px;">{{partner.Comment}}</p>
+       
+         <a [href]="'/blog/'+partner.link" class="btn btn-danger btn-round">Learn More</a>
+</div>
+
+</div>
+                       
+                        </div>
+                       </div>
+                        
+                    </div>
+
+                   
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 
 

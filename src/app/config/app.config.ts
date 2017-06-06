@@ -28,7 +28,10 @@ export const AppConfig = {
     users:              environment.envName + '/UserTable/',
     scheduledJobs:      environment.envName + '/Scheduled_Jobs/',
     caredOnes:          environment.envName + '/CaredOnes/',
+    httpRequests:       environment.envName + '/HttpRequests/',
+    PaymentPlans:       environment.envName + '/PaymentPlans/',
     medicineReminders:  environment.envName + '/Medicine_Reminders/',
+    pricing:            environment.envName + '/Pricing/',
     exerciseTracker:    environment.envName + '/Exercise_Tracker/',
     observers:          environment.envName + '/Observers/',
     caretakers:         environment.envName + '/CareTakers/',
@@ -68,6 +71,9 @@ export const AppConfig = {
     feedback:           environment.envName + '/Feedback/',
     humanAPI:           environment.envName + '/HumanAPIReturn/',
     Partners:           environment.envName + '/Partners/',
-    scrollTo:           environment.envName + '/DoctorPages/ScrollToSection/'
+    scrollTo:           environment.envName + '/DoctorPages/ScrollToSection/',
+    CareSchedule:       environment.envName+ '/CareSchedule/',
+    CarePathways:       environment.envName+ '/CarePathways/',
+    TransactionTable:   environment.envName+ '/TransactionTable/'
   }
 }

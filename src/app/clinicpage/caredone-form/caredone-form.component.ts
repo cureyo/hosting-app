@@ -91,7 +91,7 @@ export class CaredoneFormComponent implements OnInit{
             phone: ['', Validators.required],
             uid: [this.temp, Validators.required],
             consultMode: ['video', Validators.required],
-            consultType: ['follow-up', Validators.required],
+            // consultType: ['follow-up', Validators.required],
             payment: '',
             consultDate: [this.minDate, Validators.required],
             consultTime: ['', Validators.required],

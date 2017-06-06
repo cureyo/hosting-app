@@ -1,0 +1,315 @@
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon-76X76.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon-96x96.png">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="assets/css/gaia.css" rel="stylesheet"/>
+    
+
+    <!--     Fonts and icons     -->
+    <link href='https://fonts.googleapis.com/css?family=Cambo|Poppins:400,600' rel='stylesheet' type='text/css'>
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/fonts/pe-icon-7-stroke.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+<div class="main-content" >
+    
+           
+
+               <div *ngIf="plansReady" class="col-md-12">
+              <div class="card">
+                <div class="card-header" data-background-color="cureyo">
+                  <label  style="color: white;"><h3 class="headerID" style="font-family: Poppins, Helvetica, Arial, sans-serif;"><b>Treatment Summary: </b>{{carePathWayDetails.name}}</h3></label>
+                  
+                  <br>
+                  
+                    <b> Duration: </b>    {{carePathWayDetails.duration}} months         
+                  
+                  
+                    <b># of Care Items:</b> {{carePathWayDetails.checkPoints.length}}
+                  
+                </div>
+                <div class="card-content">
+                
+                  {{carePathWayDetails.description}}
+                  
+                </div>
+              </div>
+  <!-- **********************************************************************************-->               
+                 <!-- first card-->
+ <!-- **********************************************************************************-->                         
+                 <div class="col-md-4" *ngFor="let plans of paymentPlans; let k=index;">
+                 
+                    <div class=card>
+                       
+
+                          <div class="card-header" data-background-color="cureyo">
+                                <label  style="color: white;"><h3 class="headerID" style="font-family: Poppins, Helvetica, Arial, sans-serif;"><b>{{plans.title}}</b></h3></label>
+                              
+                          </div> <!-- end of first row-->
+                          
+                            <hr/>
+                            <div class="card-content">
+                              <p style="height: 100px;">{{plans.description}}</p>
+                     
+                               <hr/>
+                              <!-- third Row--> 
+                          <div >
+                             <div data-background-color="blue" style="font-size: 16px; padding: 5px;"><b>Doctor Reviews</b></div>
+                             <br>
+                            
+                                  
+                            <div *ngFor="let doctor of plans.consultations;let t=index;">
+                             <div style="float:left; margin:5px;">
+                                 <img *ngIf="transactionTable[doctor.id] && partnerData.consultant[doctor.id] && partnerData.consultant[doctor.id].img" src="{{partnerData.consultant[doctor.id].img}}" style="width: 30px; height: 30px; border-radius: 50%;"/>
+                                 <img *ngIf="transactionTable[doctor.id] && partnerData.consultant[doctor.id] && !partnerData.consultant[doctor.id].img" src="https://care.cureyo.com/img/messengerImages/{{partnerData.consultant[doctor.id].icon}}.png" style="width: 30px; height: 30px; border-radius:50%;"/>
+                              </div>
+                               <div *ngIf="transactionTable[doctor.id] && partnerData.consultant[doctor.id]" style="float:left; ">
+                                 <p><b>{{doctor.name}}</b>
+                              <br><small>{{partnerData.consultant[doctor.id].speciality}}</small></p>
+                               </div>
+                              
+                              
+                              
+                       <table *ngIf="transactionTable[doctor.id]" class="table">
+                <thead>
+                <tr >
+                    <th></th>
+                    <th> Reminder</th>
+                    <th>Payment</th>
+                    <!--<th width="50%">Report Description</th>-->
+                    <!--<th width="20%">Operations</th>-->
+                </tr>
+                </thead>
+                <tbody style="text-align: left;">
+                  <tr><td><small><b>{{transactionTable[doctor.id].Online.Job_Frequency}} </b>online consultation</small></td>
+                  <td style="text-align: right;"><small >Yes</small>
+                  </td>
+                  <td style="text-align: right;"><small *ngIf="doctor.online == 'payment'">Rs. {{partnerData.consultant[doctor.id].fee}} <br>per visit</small>
+                  </td></tr>
+                  <tr><td><small><b>{{transactionTable[doctor.id].Physical.Job_Frequency}} </b>physical consultation</small></td>
+                  <td style="text-align: right;"><small >Yes</small>
+                  </td>
+                  <td style="text-align: right;"><small *ngIf="doctor.physical == 'payment'">Rs. {{partnerData.consultant[doctor.id].fee}} <br>per visit</small>
+                  </td></tr>
+                   <tr><td><small><b>Sub-Total </b></small></td>
+                  <td  style="text-align: right;"><small >0</small>
+                  </td>
+                  <td  style="text-align: right;"><small ><b>Rs. {{feeTable[k][doctor.id]['consultTotal']}}</b><br></small>
+                  </td></tr>
+                </tbody>
+                       </table>
+                
+                             
+                             </div>
+                             <hr/>
+                          </div>
+                             <!-- end of fourth row-->
+ <div *ngIf="transactionTable['PathologicalLabTest']" >
+                              <div data-background-color="blue" style="font-size: 16px; padding: 5px;"><b>Pathological Tests</b></div>
+                            
+                                  
+                            <div >
+                             
+                              
+                              
+                       <table  class="table">
+                <thead>
+                <tr >
+                    <th></th>
+                    <th> Reminder</th>
+                    <th>Payment</th>
+                    <!--<th width="50%">Report Description</th>-->
+                    <!--<th width="20%">Operations</th>-->
+                </tr>
+                </thead>
+                <tbody style="text-align: left;">
+                  <tr *ngFor="let test of transactionTable['PathologicalLabTest'];let t=index;"><td><small><b>{{test.TestFreq}}</b> {{test.TestName}}</small></td>
+                  <td  style="text-align: right;"><small >Yes</small>
+                  </td>
+                  <td  style="text-align: right;"><small *ngIf="plans.services['Pathological'].transaction == 'payment'">Rs. {{feeTable[k]['Pathological'][test.TestName]}}</small>
+                  </td></tr>
+                   <tr><td><small><b>Sub-Total </b></small></td>
+                  <td  style="text-align: right;"><small >0</small>
+                  </td>
+                  <td  style="text-align: right;"><small ><b>Rs. {{feeTable[k]['Pathological']['total']}}</b><br></small>
+                  </td></tr>
+                </tbody>
+                       </table>
+                
+                             
+                             </div>
+                          </div>
+<div *ngIf="transactionTable['RadiologicalLabTest']" >
+                             <div data-background-color="blue" style="font-size: 16px; padding: 5px;"><b>Radiological Tests</b></div>
+                            
+                                  
+                            <div >
+                             
+                              
+                              
+                       <table  class="table">
+                <thead>
+                <tr >
+                    <th></th>
+                    <th> Reminder</th>
+                    <th>Payment</th>
+                    <!--<th width="50%">Report Description</th>-->
+                    <!--<th width="20%">Operations</th>-->
+                </tr>
+                </thead>
+                <tbody style="text-align: left;">
+                  <tr *ngFor="let test of transactionTable['RadiologicalLabTest'];let t=index;"><td><small><b>{{test.TestFreq}}</b> {{test.TestName}}</small></td>
+                  <td  style="text-align: right;"><small >Yes</small>
+                  </td>
+                  <td  style="text-align: right;"><small *ngIf="plans.services['Radiological'].transaction == 'payment'">Yes</small>
+                  </td></tr>
+                   <tr><td><small><b>Sub-Total </b></small></td>
+                  <td  style="text-align: right;"><small >0</small>
+                  </td>
+                  <td  style="text-align: right;"><small ><b>Rs. {{feeTable[k]['Radiological']['total']}}</b><br></small>
+                  </td></tr>
+                  
+                </tbody>
+                       </table>
+                
+                             
+                             </div>
+                          </div>
+                          <div *ngIf="transactionTable['MedicationReminder']" >
+                            <div data-background-color="blue" style="font-size: 16px; padding: 5px;"><b>Medication</b></div>
+                                  
+                            <div >
+                             
+                              
+                              
+                       <table  class="table">
+                <thead>
+                <tr >
+                    <th></th>
+                    <th> Reminder</th>
+                    <th>Payment</th>
+                    <!--<th width="50%">Report Description</th>-->
+                    <!--<th width="20%">Operations</th>-->
+                </tr>
+                </thead>
+                <tbody style="text-align: left;">
+                  <tr *ngFor="let test of transactionTable['MedicationReminder'];let t=index;"><td><small><b>{{test.MedFreq}}</b> {{test.MedName}}</small></td>
+                  <td style="text-align: right;"><small >Yes</small>
+                  </td>
+                  <td  style="text-align: right;"><small *ngIf="plans.services['Pharmacy'].transaction == 'payment'">Yes</small>
+                  </td></tr>
+                  
+                </tbody>
+                       </table>
+                
+                             
+                             </div>
+                          </div>
+<div  >
+                             <p style="font-size: 18px;"><b>Total Cost</b></p>
+                            
+                                  
+                            <div >
+                             
+                              
+                              
+                       <table  class="table">
+                <thead>
+                <tr >
+                    <th></th>
+                    <th> Reminder</th>
+                    <th>Payment</th>
+                    <!--<th width="50%">Report Description</th>-->
+                    <!--<th width="20%">Operations</th>-->
+                </tr>
+                </thead>
+                <tbody style="text-align: left;">
+                  <tr ><td><small><b>Consultation Costs </b></small></td>
+                  <td style="text-align: right;"><small >0</small>
+                  </td>
+                  <td style="text-align: right;"><small >Rs. {{feeTable[k]['consultation']['total']}}</small>
+                  </td></tr>
+                  <tr ><td><small><b>Other Services Cost</b></small></td>
+                  <td  style="text-align: right;"><small >0</small>
+                  </td>
+                  <td  style="text-align: right;"><small >Rs. {{feeTable[k]['services']['total']}}</small>
+                  </td></tr>
+                  <tr *ngIf="plans.addOns.markup" ><td><small><b>Discount</b></small></td>
+                  <td  style="text-align: right;"><small >0</small>
+                  </td>
+                  <td  style="text-align: right;"><small >Yes</small>
+                  </td></tr>
+                  <tr ><td><small><b>System Fee </b><br>(per month)</small></td>
+                  <td style="text-align: right;"><small >Rs. 75</small>
+                  </td>
+                  <td  style="text-align: right;"><small >0</small>
+                  </td></tr>
+                  <tr data-background-color="cureyo" style="font-size: 16px; padding: 5px;"><td><b>Total</b></td>
+                  <td  style="text-align: right;"><small ></small>
+                  </td>
+                  <td  style="text-align: right; font-size: 16px; padding: 5px;">Rs. {{feeTable[k]['grand']['total']}}
+                  </td></tr>
+                  <thead>
+       
+                </thead>
+                  
+                </tbody>
+                       </table>
+                
+                             
+                             </div>
+                          </div>
+                          
+                              <div >
+                                   <label class="control-label">Payment frequency</label>
+                                      <select class="form-control" #t (change)="changePayFreq(t.value, k, carePathWayDetails.duration);">
+      
+      <option  value="1">Monthly</option>
+      <option  value="3">Quarterly</option>
+      <option  value="0">One time</option>
+    </select>
+                                  <button class="btn btn-warning" (click)="postCall(feeTable[k]['bill']['fee'], k, t.value)" style="width: 100%;">Pay Rs. {{feeTable[k]['bill']['fee']}}<br>{{t.option}}</button>
+                              </div>
+                           
+
+                       </div>
+                    </div>
+                 
+                 </div>
+                 <!-- End of first card-->
+  <!-- **********************************************************************************-->
+                   <!-- Second card-->
+  <!-- **********************************************************************************-->
+                
+                
+           </div>
+
+      </div>
+</div>
+</body>
+
+  <div class="modal fade" id="payModal" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false" style="z-index:10000; background: rgba(0,0,0,0.5);">
+  <div class="modal-dialog" role="document"  style="position: relative; width:100%; height:800px; ">
+    <div class="modal-content" id="payModal2">
+      <div class="modal-header">
+       
+        <h4 class="modal-title" id="myModalLabel" style="float: left;"><b>Complete Payment</b></h4>
+         <button type="button" class="btn btn-default pull-right" (click)="closePayModal()">Close</button>
+        <div *ngIf="payReady">
+<iframe [src]="payURL" width="100%" height="700px" scroll="yes"></iframe>
+</div>
+      </div>
+      
+     
+    </div>
+  </div>
+    </div>
+    <!--<div *ngIf="payReady" class="main-content" style="z-index: 10000;">
+<iframe [src]="payURL" width="100%" height="700px;" scroll="yes"></iframe>
+</div>-->

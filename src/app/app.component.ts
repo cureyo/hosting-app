@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/firebaseauth.service';
 import { MetadataService } from 'ng2-metadata';
 import { CacheService, CacheStoragesEnum } from 'ng2-cache/ng2-cache';
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'my-app',
@@ -17,7 +18,7 @@ export class AppComponent implements OnInit {
   private clinicId: any;
   private dataReady: boolean = false;
 
-  constructor(private _authService: AuthService, private metadataService: MetadataService, private _cacheService: CacheService) { }
+  constructor(private _authService: AuthService, private metadataService: MetadataService, private router: ActivatedRoute, private _cacheService: CacheService) { }
   title = 'app works!';
   ngOnInit() {
     console.log(window.location);
@@ -37,7 +38,7 @@ export class AppComponent implements OnInit {
         this.pageDetails = pageData;
         this._cacheService.set('pageDetailsData', { 'data': this.pageDetails }, { expires: Date.now() + 1000 * 60 * 60 });
         this.dataReady = true;
-        this.setMetadata();
+        //this.setMetadata();
     });
   }
   setMetadata() {
@@ -52,15 +53,53 @@ export class AppComponent implements OnInit {
 
     console.log("setting medata");
 
-    //basic metadata
+    console.log(this.router.url)
+
+    this.router.params.subscribe(
+    params => {
+      console.log(params);
+      if (params['blog']) {
+        //basic metadata
+    this.metadataService.setTitle(this.pageDetails.content.Blogs[params['blog']].Title);
+    this.metadataService.setTag('description','Blog discussion by '+ this.pageDetails.content.doctor.name);
+    //google metadata
+    this.metadataService.setTag('name', this.pageDetails.content.Blogs[params['blog']].Title);
+    this.metadataService.setTag('description', 'Blog discussion by '+ this.pageDetails.content.doctor.name);
+    this.metadataService.setTag('image', this.pageDetails.content.Blogs[params['blog']].Image);
+    this.metadataService.setTag('og:url', window.location.pathname);
+    this.metadataService.setTag('og:image', this.pageDetails.content.Blogs[params['blog']].Image);
+    this.metadataService.setTag('og:description', description);
+    this.metadataService.setTag('og:site_name', siteName);
+      }
+    //   } else if (params['item']) {
+
+    //     //basic metadata
+    // this.metadataService.setTitle(this.pageDetails.content.Blogs[params['blog']].Title);
+    // this.metadataService.setTag('description','Blog discussion by '+ this.pageDetails.content.doctor.name);
+    // //google metadata
+    // this.metadataService.setTag('name', this.pageDetails.content.Blogs[params['blog']].Title);
+    // this.metadataService.setTag('description', 'Blog discussion by '+ this.pageDetails.content.doctor.name);
+    // this.metadataService.setTag('image', this.pageDetails.content.Blogs[params['blog']].Image);
+    // this.metadataService.setTag('og:url', window.location.pathname);
+    // this.metadataService.setTag('og:image', this.pageDetails.content.Blogs[params['blog']].Image);
+    // this.metadataService.setTag('og:description', description);
+    // this.metadataService.setTag('og:site_name', siteName);
+
+    //   } 
+      else {
+          //basic metadata
     this.metadataService.setTitle(title);
     this.metadataService.setTag('description',description);
     //google metadata
     this.metadataService.setTag('name', title);
     this.metadataService.setTag('description', description);
     this.metadataService.setTag('image', urlImage);
-
-
+        this.metadataService.setTag('og:url', urlPage);
+    this.metadataService.setTag('og:image', urlImage);
+    this.metadataService.setTag('og:description', description);
+    this.metadataService.setTag('og:site_name', siteName);
+      }
+    })
     //twitter metadata
     // this.metadataService.setTag('twitter:card', twitterCardImage);
     // this.metadataService.setTag('twitter:site', twitterSiteName);
@@ -74,10 +113,7 @@ export class AppComponent implements OnInit {
     this.metadataService.setTag('fb:app_id', '1133564906671009');
     this.metadataService.setTag('og:title', title);
     this.metadataService.setTag('og:type', 'books.quotes');
-    this.metadataService.setTag('og:url', urlPage);
-    this.metadataService.setTag('og:image', urlImage);
-    this.metadataService.setTag('og:description', description);
-    this.metadataService.setTag('og:site_name', siteName);
+    
     // //google metadata
     // this.metadataService.setMetadata('itemprop', 'name', title);
     // this.metadataService.setMetadata('itemprop', 'description', description);

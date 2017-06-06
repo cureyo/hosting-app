@@ -16,10 +16,12 @@ import {TriageComponent} from "./triage/triage.component";
 import {HxFormComponent} from "./HxForm/HxForm.component";
 import {FeedbackComponent} from "./feedback/feedback.component";
 import {ScreenShotComponent} from "./screenshots/screenshots.component";
+import {NoPlansComponent} from "./no-plans/no-plans.component";
 
 export const MODULE_ROUTES: Route[] =[
     { path: '', component: ClinicPageComponent },
     { path: 'resource/:item', component: ClinicPageComponent },
+    { path: 'blog/:blog', component: ClinicPageComponent },
     { path: 'consultation/:id', component: VideoCallComponent},
     { path: 'login/:id', component: LoginComponent},
     { path: 'doctor-login/:id', component: DoctorLoginComponent},
@@ -29,7 +31,8 @@ export const MODULE_ROUTES: Route[] =[
     { path: 'triage/:id',component:TriageComponent},
     { path: 'medical-history/:count/:case/:id',component:HxFormComponent},
     { path: 'feedback/:count/:id',component: FeedbackComponent},
-     { path: 'screenshot',component: ScreenShotComponent}
+    { path: 'screenshot',component: ScreenShotComponent},
+    { path :'care-plan/:id', component: NoPlansComponent}
 ]
 
 export const MODULE_COMPONENTS = [
@@ -49,5 +52,6 @@ export const MODULE_COMPONENTS = [
     FeedbackComponent,
     FeedbackFileUploadComponent,
     CheckUpFileUploadComponent,
-    ScreenShotComponent
+    ScreenShotComponent,
+    NoPlansComponent
 ]

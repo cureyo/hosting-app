@@ -18,6 +18,8 @@ export class QueueCounterComponent implements OnInit {
     private userWorkHistory: any;
     private currentToken: any;
     private userToken: any;
+    private number: any;
+    private online: boolean = false;
     private userId: any;
     private showDiscuss: boolean = false;
 
@@ -63,6 +65,10 @@ export class QueueCounterComponent implements OnInit {
                     queryParam => {
                         console.log(queryParam['triaged']);
                         console.log(queryParam)
+                        if (queryParam['number']) {
+                            this.online = true;
+                            this.number = queryParam['number']
+                        }
                         if (queryParam['triaged'] == "true") {
                             this.showDiscuss = false;
                         } else {
@@ -98,9 +104,15 @@ export class QueueCounterComponent implements OnInit {
                                     }
                                 });
                             let self = this;
+
+
                             setTimeout(
                                 function () {
-                                    self.router.navigate(['feedback/' + self.userToken + '/' + self.userId])
+                                    if (self.online) {
+                                        let param = self.number;
+                                        self.router.navigate(['consultation/' + param], { queryParams: { number: self.number, token: self.userToken, userId: self.userId } });
+                                    } else
+                                        self.router.navigate(['feedback/' + self.userToken + '/' + self.userId])
                                 }, 2000
                             )
                         }

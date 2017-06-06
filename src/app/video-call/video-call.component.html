@@ -31,7 +31,7 @@
 </div>
 <h3>Waiting for participant to join</h3>
         </div>
-<video #peervideo style="width: 100%; height: 100%;"></video>
+<video #peerVideo style="width: 100%; height: 100%;"></video>
 <button *ngIf="peerReady" class="btn btn-primary btn-round" (click)="connect()" [disabled]="onCall">Start Call</button>
 <button *ngIf="peerReady" class="btn btn-danger btn-round" (click)="closevideo()" [disabled]="!onCall">End Call</button>
    </div>
@@ -46,7 +46,7 @@
     </div>
     
   
-<div class="section">
+<!--<div class="section">
         <div class="container">
             <div class="row">
             
@@ -69,28 +69,28 @@
     <!--<textarea style=" height: 90px;" class="form-control" name="co_description" id="co_description"
            [formControl]="sendNote.controls['description']"
     ></textarea>-->
-    <textarea class="span6 form-control" rows="3" placeholder="Enter your advice here" name="co_description" id="co_description"
+    <!--<textarea class="span6 form-control" rows="3" placeholder="Enter your advice here" name="co_description" id="co_description"
            [formControl]="sendNote.controls['description']"></textarea>
       </div>
       
-       <button type="submit" class="btn btn-primary btn-round" style="float: left; z-index: 100; ; margin-top: 0px;">Send</button>
+       <button type="submit" class="btn btn-primary btn-round" style="float: left; z-index: 100; ; margin-top: 0px;">Send</button>-->
       
-         </form>
-         <div style="width: 100%;">
-<app-file-upload 
+         <!--</form>-->
+         <!--<div style="width: 100%;">
+<!--<app-file-upload 
 [clinicId]="clinicId"
-[transId]="transId"></app-file-upload>
-         </div>
-</div>
+[transId]="transId"></app-file-upload>-->
+         <!--</div>-->
+<!--</div>
 </div>
                               </div>
                         </div>
                   </div>
             </div>
         </div>
-    </div>
+    </div>-->
 
-    <div class="section">
+    <!--<div class="section">
         <div class="container">
             <div class="row">
             
@@ -119,5 +119,5 @@
             </div>
         </div>
     </div>
-    
+    -->
 

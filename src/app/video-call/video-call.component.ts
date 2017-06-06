@@ -11,7 +11,7 @@ declare var Peer: any;
 export class VideoCallComponent implements OnInit {
 
   //@ViewChild('myvideo') myVideo: any;
-  @ViewChild('peervideo') peerVideo: any;
+  @ViewChild('peerVideo') peerVideo: any;
 
   peer;
   anotherid;
@@ -20,6 +20,8 @@ export class VideoCallComponent implements OnInit {
   private messages: any;
   private messageIndex: any = 0;
   private transId: any;
+  private token: any;
+  private userId: any;
   private messagesReady: boolean = false;
   private peerReady: boolean = false;
   private reports: any = [];
@@ -29,13 +31,15 @@ export class VideoCallComponent implements OnInit {
   private onCall: boolean = false;
   private selfStream: any;
   private peerStream: any;
+  
 
 
-  constructor(private _fb: FormBuilder, private route: ActivatedRoute, private _authService: AuthService) {
+  constructor(private _fb: FormBuilder, private route: ActivatedRoute, private _authService: AuthService, private router: Router) {
 
   }
 
   ngOnInit() {
+    
     $('textarea').keypress(function (event) {
       if (event.which == 13) {
         event.preventDefault();
@@ -43,23 +47,29 @@ export class VideoCallComponent implements OnInit {
         $(this).val(s + "\n");
       }
     });
-    this.sendNote = this._fb.group({
-      description: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(100)])],
-    });
+ 
+    this.route.queryParams.subscribe(
+      qParams => {
+        this.token = qParams['token'];
+        this.userId = qParams['userId'];
+      }
+    )
     let video = this.peerVideo.nativeElement;
     //let myVideo = this.myVideo.nativeElement;
-    this.peer = new Peer({ key: 'cly7gswo0deoecdi' });
+     this.peer = new Peer({host: 'cureyo.in', path: '/peerjs'});
+    console.log(this.peer);
     setTimeout(() => {
       this.mypeerid = this.peer.id;
+      console.log(this.mypeerid);
       this.route.params.subscribe(
         params => {
           let param = params['id'];
           this.transId = param;
 
-          this._authService._getUser()
-            .subscribe(
-            data => {
-              console.log(data)
+          // this._authService._getUser()
+          //   .subscribe(
+          //   data => {
+          //     console.log(data)
 
               console.log(window.location);
               var str = window.location.hostname;
@@ -77,23 +87,7 @@ export class VideoCallComponent implements OnInit {
                 drData => {
                   let docData = drData.drEmail;
                   console.log(docData);
-                  if (docData == data.user.email) {
-                    this._authService._UpdatePeerVideo(param, 'joined', this.mypeerid, 'doctor');
-                    this._authService._GetPeerVideo(param, 'patient')
-                      .subscribe(
-                      peerData => {
-                        console.log(peerData);
-                        if (peerData.peerId) {
-                          this.anotherid = peerData.peerId;
-                          //this.connect();
-                          //this.videoconnect();
-                          this.peerReady = true;
-                          console.log(this.peerReady);
-                          //this.myVideoConnect();
-                          this.isDoctor = true;
-                        }
-                      });
-                  } else {
+              
                     this._authService._UpdatePeerVideo(param, 'joined', this.mypeerid, 'patient');
                     this._authService._GetPeerVideo(param, 'doctor')
                       .subscribe(
@@ -109,7 +103,7 @@ export class VideoCallComponent implements OnInit {
                           //this.myVideoConnect();
                         }
                       });
-                  }
+                  
 
                   this._authService._GetSharedReports(res, this.transId)
                     .subscribe(
@@ -126,7 +120,7 @@ export class VideoCallComponent implements OnInit {
 
 
 
-            });
+            
         });
     }, 3000);
     // for answering incoming call
@@ -230,7 +224,7 @@ export class VideoCallComponent implements OnInit {
 
     console.log(currentStream);
     this.onCall = false;
-
+    this.router.navigate(['feedback/' + this.token + '/' + this.userId]);
     // var MediaStream = window.navigator.getUserMedi
   }
 

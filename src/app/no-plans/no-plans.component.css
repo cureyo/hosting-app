@@ -1,0 +1,32 @@
+.checkpointId{
+    font-size: 16px;
+    font-stretch: ultra-expanded;
+    color: yellowgreen;
+    font-style: italic;
+    font-family: monospace;
+}
+#headerID{
+    text-align: center;
+}
+
+
+
+.UserImg{
+    width: 50px;
+    height: 50px;
+    padding: 6px;
+    background-color: white;
+    border-radius: 50%;
+    border: 1px solid black;
+
+}
+.UserspanId{
+      margin-left:5px;
+      float:left;
+}
+.consultTextId{
+    margin-left: 15px;
+}
+.testName{
+    padding:20px;
+}

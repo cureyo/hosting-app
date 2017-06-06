@@ -24,11 +24,11 @@
          "../node_modules/moment/min/moment.min.js"
       ],
        
-        "environments": {
-          "source": "environments/environment.ts",
-          "dev": "environments/environment.ts",
-          "prod": "environments/environment.prod.ts"
-        }
+"environments": {
+  "source": "environments/environment.ts",
+  "dev": "environments/environment.ts",
+  "prod": "environments/environment.prod.ts"
+}
 
     }
   ],

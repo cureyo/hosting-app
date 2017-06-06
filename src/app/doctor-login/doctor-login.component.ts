@@ -113,7 +113,8 @@ export class DoctorLoginComponent implements OnInit {
   }
   onSubmit(model) {
     this._authService._UpdateOTP(model['phone']);
-    this._authService.loginMailUser({ email: model['email'], password: model['password'] });
+    console.log(model);
+    this._authService.loginMailUser({ email: model['email'], password: model['password'] }).catch(err => console.log(err));
     this.activatedRoute.params.subscribe(
       params => {
         let param = params['id'];
@@ -134,6 +135,7 @@ export class DoctorLoginComponent implements OnInit {
     // }
   }
   otpCheck(model) {
+    console.log("otpCheck", model)
     if (model['otp'] != this.OTPcode) {
       return true;
     } else {

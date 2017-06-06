@@ -151,12 +151,40 @@ export class AuthService {
        console.log(this.db.currentQ + clinicId + '/' + date);
     return this.afd.object(this.db.currentQ  + clinicId + '/' + date );
   }//_getCheckIn
+
 //get user work history and all from insights
    public _getScrollToSection(clinicId){
      console.log(this.db.scrollTo  + clinicId);
       //console.log("insight get function called ",this.db.PatientsInsights +'/'+doctorID+'/'+ userID);
      return  this.afd.object(this.db.scrollTo  + clinicId)
    }
+
+
+  public _getPageId(pageName){
+     return this.afd.object(this.db.doctorPages +'/'+pageName)
+  }
+ public _getPathWayId(pageId,userID){
+   console.log(this.db.CareSchedule +pageId+'/'+userID);
+    return this.afd.object(this.db.CareSchedule +pageId+'/'+userID);
+ }
+ public _getLabTestDataForSearch(testName){
+      return this.afd.list(this.db.testPricing +'/'+testName);
+ }
+ public _getcarePathWays(pathwaysId){
+   console.log(this.db.CarePathways + pathwaysId);
+    return this.afd.object(this.db.CarePathways + pathwaysId );
+ }
+  public _getPartner(userId) {
+
+    //console.log(this.db.caretakers + caredoneId + '/' + caretakerFbId);
+
+    return this.afd.object(this.db.Partners + userId)
+
+  }
+  public _getTransactionTable(objectId){
+     return this.afd.object(this.db.TransactionTable + objectId);
+  }
+ 
    //get user work history and all from insights
    public _getUserDataFromCaredOnePatientInsights(userID,doctorID){
       //console.log("insight get function called ",this.db.PatientsInsights +'/'+doctorID+'/'+ userID);
@@ -204,13 +232,7 @@ export class AuthService {
     return
 
   }//_updateReminders
-   public _getPartner(userId) {
-
-    //console.log(this.db.caretakers + caredoneId + '/' + caretakerFbId);
-
-    return this.afd.object(this.db.Partners + userId)
-
-  }
+  
   public _getDoctorPage(pageId) {
     console.log(this.db.doctorPages + pageId);
     return this.afd.object(this.db.doctorPages + pageId);
@@ -523,9 +545,7 @@ export class AuthService {
   }//_fetchUser
 
   public _getUser() {
-     console.log("getuser called");
     return this.afa.authState.map(
-      
       response => this._changeState(response)
     );
   }//_getUser
@@ -583,12 +603,12 @@ export class AuthService {
 
   private _getUserInfo(user: any): any {
     console.log("getuserinfo called");
-
+    console.log(user);
     if (!user) {
       return {};
     }
 
-    let data = user.auth.providerData[0];
+    let data = user.providerData[0];
     return {
       firstName: data.displayName.split(' ')[0],
       lastName: data.displayName.split(' ')[1],
@@ -598,7 +618,23 @@ export class AuthService {
       uid: data.uid
     };
   }//_getUserInfo
-
+ _getPaymentPlans(userId) {
+    console.log(this.db.PaymentPlans + userId);
+     return this.afd.object(this.db.PaymentPlans + userId);
+     
+  }
+  _saveSubscriptionRequest(userId, headers, domData, hitURL, request) {
+    console.log(this.db.httpRequests +'/'+ userId + '/Request', {headers: headers, body: domData, url: hitURL, request: request})
+    return this.afd.object(this.db.httpRequests +'/'+ userId + '/Request' )
+     .set({headers: headers, body: domData, url: hitURL, request: request});
+  }
+   _getSubscriptionResponse(userId) {
+    return this.afd.object(this.db.httpRequests +'/'+ userId + '/Response' )
+     
+  }
+  _getTestPrice(item, partner, TestName) {
+return this.afd.object(this.db.pricing + item + '/' + TestName + '/' + partner);
+  }
   public _getMedicationReminders(uid) {
     return this.afd.list(this.db.medicineReminders + uid);
   }//_getMedicationReminders

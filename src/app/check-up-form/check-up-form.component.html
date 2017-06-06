@@ -10,7 +10,7 @@
                 <div class="card">
                   <form *ngIf="formReady" [formGroup]="checkUpForm" class="formGroup"  novalidate >
                     <!-- card header portion-->
-                    <div class="card-header" data-background-color="blue">
+                    <div class="card-header" data-background-color="cureyo">
                         <h4 class="title">Quick Information </h4>
 
                         <p class="category"> Please provide your basic information</p>
@@ -43,7 +43,7 @@
                             <div class="form-group">
                                  <label for="name">Email </label>
   
-                                  <input type="text" class="form-control" formControlName="Email" />
+                                  <input type="text" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,8})+$" class="form-control" formControlName="Email" />
                             </div>
                     </div>
                       <!-- end of email formcontrol-->
@@ -52,7 +52,7 @@
                             <div class="form-group">
                                  <label for="name">Phone Number  </label>
   
-                                  <input type="text" class="form-control" formControlName="phone"/>
+                                  <input type="text" class="form-control" pattern="(7|8|9)\d{9}" formControlName="phone"/>
                             </div>
                     </div>
                       <!-- phone number  formcontrol-->  
@@ -190,13 +190,13 @@
                      <!-- end of visit type formcontrol--> 
                       
                       <!-- Description formcontrol-->
-                    <div class="col-md-6">
+                    <!--<div class="col-md-6">
                             <div class="form-group">
                                  <label for="name">Discription of Issue  </label>
   
                                   <input type="text" class="form-control" formControlName="description"/>
                             </div>
-                    </div>
+                    </div>-->
                       <!-- phone number  formcontrol--> 
                       
               </div>
@@ -208,7 +208,7 @@
   
                                  <select class="form-control" formControlName="visit_Type">
                                    <option  value="firstconsultation">First Consultation</option>
-                                   <option  value="followupconsultation">Follow-Up Consultation</option>
+                                   <option  value="-KlYSLhlon8oFdcdPyeX">Follow-Up Consultation</option>
                                  </select>
                             </div>
                     </div>
@@ -233,7 +233,7 @@
                                  </select>
                             </div>
                     </div>
-                     <div class="col-md-4">
+                     <div class="col-md-6">
                             <div class="form-group">
                                  <app-file-upload-checkUp
                                  [userId]="userId"></app-file-upload-checkUp>

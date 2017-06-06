@@ -65,6 +65,8 @@ export class FeedbackComponent implements OnInit {
         this.feedbackForm = this._fb.group({
           rating: ['', Validators.required],
           feedbackDetail: [''],
+          //commented temporarily
+
           prescriptionUpload: ['', Validators.required]
         });
         this.formReady = true;
@@ -98,7 +100,7 @@ export class FeedbackComponent implements OnInit {
             this._authService._savePatientFeedback(model.value, patientId, doctorId)
               .then(
               data => {
-                this.router.navigate(['']);
+                this.router.navigate(['care-plan/'+ patientId]);
               }
               )
 

@@ -21,6 +21,8 @@ export class CheckUpFormComponent implements OnInit {
   public checkUpForm: FormGroup;
   private userId: any;
   private DoctorId: any;
+  private online: boolean = false;
+  private number: any;
   private userData: any
   private birthdate: string;
   private fname: any;
@@ -77,10 +79,17 @@ export class CheckUpFormComponent implements OnInit {
         console.log(this.symptoms)
         this.hasSym = true;
       })
-
-    this.route.queryParams.subscribe(
+this._authService._getUser()
+.subscribe(
+  usDat=> {
+    console.log(usDat)
+     this.route.queryParams.subscribe(
       param => {
         console.log(param);
+        if (param['number']) {
+          this.online = true;
+          this.number = param['number'];
+        }
         this.userId = param['userId']
         console.log("userid is :", this.userId);
         var res = this.clinicId = param['clinicId']
@@ -104,10 +113,10 @@ export class CheckUpFormComponent implements OnInit {
                       Email: [user.email, Validators.required],
                       phone: [user.phone, Validators.required],
                       DOB: [user.dateOfBirth],
-                      visit_Type: ['followupconsultation', Validators.required],
-                      description: [, Validators.required],
+                      visit_Type: [, Validators.required],
+                      // description: [, Validators.required],
                       insurance: [user.insurance, Validators.required],
-                      primeSymptom: [],
+                      primeSymptom: [, Validators.required],
                       sex: [user.gender, Validators.required],
                       conditions: this._fb.array([
                         this.initExistingConditions(user.Job_conditions[0])
@@ -152,10 +161,10 @@ export class CheckUpFormComponent implements OnInit {
                       Email: [user.email, Validators.required],
                       phone: [user.phone, Validators.required],
                       DOB: [user.dateOfBirth],
-                      visit_Type: ['followupconsultation', Validators.required],
-                      description: [, Validators.required],
+                      visit_Type: [, Validators.required],
+                      // description: [, Validators.required],
                       insurance: [user.insurance, Validators.required],
-                      primeSymptom: [],
+                      primeSymptom: [, Validators.required],
                       sex: [user.gender, Validators.required],
                       conditions: this._fb.array([
                         this.initConditions()
@@ -206,14 +215,18 @@ export class CheckUpFormComponent implements OnInit {
                       this.birthdate = year + "-" + month + "-" + date;
                       console.log(this.birthdate)
                       this.publicToken = '';
+                      let number = '';
+                      if (param['number']) {
+                        number = param['number'];
+                      }
                       this.checkUpForm = this._fb.group({
                         first_Name: [this.fname, Validators.required],
                         last_Name: [this.lname, Validators.required],
                         Email: [this.email, Validators.required],
-                        phone: [, Validators.required],
+                        phone: [number, Validators.required],
                         DOB: [this.birthdate],
                         visit_Type: [, Validators.required],
-                        description: [, Validators.required],
+                        // description: [, Validators.required],
                         insurance: [, Validators.required],
                         primeSymptom: [, Validators.required],
                         sex: [, Validators.required],
@@ -238,16 +251,19 @@ export class CheckUpFormComponent implements OnInit {
 
                     
                       } else {
-                   
+                      let number = '';
+                      if (param['number']) {
+                        number = param['number'];
+                      }
                       this.publicToken = '';
                       this.checkUpForm = this._fb.group({
                         first_Name: ['', Validators.required],
                         last_Name: ['', Validators.required],
                         Email: ['', Validators.required],
-                        phone: [, Validators.required],
+                        phone: [number, Validators.required],
                         DOB: [''],
                         visit_Type: [, Validators.required],
-                        description: [, Validators.required],
+                        // description: [, Validators.required],
                         insurance: [, Validators.required],
                         primeSymptom: [, Validators.required],
                         sex: [, Validators.required],
@@ -281,6 +297,9 @@ export class CheckUpFormComponent implements OnInit {
 
 
       });
+  }
+)
+   
   }
   initExistingConditions(data) {
     console.log(data);
@@ -327,7 +346,7 @@ export class CheckUpFormComponent implements OnInit {
       "phone": job['phone'],
       "dateOfBirth": job['DOB'],
       "visitType": job['visit_Type'],
-      "description": job['description'],
+      // "description": job['description'],
       "avatar": "https://graph.facebook.com/" + this.uid + "/picture?type=large",
       "uid": this.uid,
       "primeSymptom": job['primeSymptom'],
@@ -350,7 +369,10 @@ export class CheckUpFormComponent implements OnInit {
     this.formSaved = true;
     this.route.params.subscribe(
       params => {
-        let param = params['count']
+        let param = params['count'], qParam = '';
+        if (this.online)
+        {qParam = '?number=' + this.number;
+      reminders['videoConsultId'] = this.number;}
         this._authService._saveCheckUpFormHosting(reminders, this.userId, this.DoctorId).then(
           data => {
             this._authService._saveCaredOne(reminders, this.DoctorId)
@@ -365,11 +387,12 @@ export class CheckUpFormComponent implements OnInit {
                   var clinicId = str.substring(0, n);
                   var host = str.substring(n, m);
                   console.log(host);
+                  
                   if (host == '.localhost') {
 
-                    window.location.href = 'http://' + this.clinicId + host + ':4200' + '/queue/' + param + '/' + this.userId + '?triaged=false';
+                    window.location.href = 'http://' + this.clinicId + host + ':4200' + '/medical-history/' + param + '/' + reminders['visitType'] + '/' + this.userId + qParam;
                   } else {
-                    window.location.href = 'http://' + this.clinicId + host + '/queue/' + param + '/' + this.userId + '?triaged=false';
+                    window.location.href = 'http://' + this.clinicId + host + '/medical-history/' + param + '/' + reminders['visitType'] + '/' + this.userId + qParam;
                   }
                 }
 
@@ -383,9 +406,9 @@ export class CheckUpFormComponent implements OnInit {
                   console.log(host);
                   if (host == '.localhost') {
 
-                    window.location.href = 'http://' + this.clinicId + host + ':4200' + '/medical-history/' + param + '/' + reminders['primeSymptom'] + '/' + this.userId;
+                    window.location.href = 'http://' + this.clinicId + host + ':4200' + '/medical-history/' + param + '/' + reminders['primeSymptom'] + '/' + this.userId + qParam;
                   } else {
-                    window.location.href = 'http://' + this.clinicId + host + '/medical-history/' + param + '/' + reminders['primeSymptom'] + '/' + this.userId;
+                    window.location.href = 'http://' + this.clinicId + host + '/medical-history/' + param + '/' + reminders['primeSymptom'] + '/' + this.userId + qParam;
                   }
                 }
 

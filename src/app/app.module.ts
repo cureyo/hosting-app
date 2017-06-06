@@ -6,7 +6,7 @@ import { AngularFireDatabase, AngularFireDatabaseModule } from 'angularfire2/dat
 import { FacebookInitParams, FacebookLoginResponse, FacebookService } from "ng2-facebook-sdk";
 import { RouterModule } from '@angular/router';
 import { MODULE_COMPONENTS, MODULE_ROUTES } from './app.routes';
-import { HttpModule } from '@angular/http';
+import { HttpModule, Jsonp, ConnectionBackend } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CONFIG } from '../app/config/firebase.config';
 import { AngularFireModule,} from 'angularfire2';
@@ -20,7 +20,10 @@ import {Ng2AutoCompleteModule} from "ng2-auto-complete/dist/index";
 import {GooglePlaceModule} from 'ng2-google-place-autocomplete';
 import {VideoCallComponent} from "./video-call/video-call.component";
 import { FbloginComponent } from './fblogin/fblogin.component';
-import { CheckUpFormComponent } from './check-up-form/check-up-form.component'
+import { CheckUpFormComponent } from './check-up-form/check-up-form.component';
+import { NoPlansComponent } from './no-plans/no-plans.component';
+
+
 
 // Must export the config
 export const firebaseConfig = {
@@ -54,13 +57,14 @@ export const firebaseAuthConfig = {
     HttpModule,
     Ng2AutoCompleteModule,
     GooglePlaceModule,
-    MetadataModule.forRoot()
+    MetadataModule.forRoot(),
+    
   ],
 
 
-  declarations: [ MODULE_COMPONENTS, FbloginComponent, CheckUpFormComponent],
+  declarations: [ MODULE_COMPONENTS, FbloginComponent, CheckUpFormComponent, NoPlansComponent],
 
-  providers: [{ provide: LocationStrategy, useClass: PathLocationStrategy }, AuthService, AngularFireAuth, AngularFireAuthModule, AngularFireDatabase, AngularFireDatabaseModule, FbService, FacebookService, MetadataService],
+  providers: [{ provide: LocationStrategy, useClass: PathLocationStrategy }, AuthService, AngularFireAuth, AngularFireAuthModule, AngularFireDatabase, AngularFireDatabaseModule, FbService, Jsonp, FacebookService, MetadataService],
 
   bootstrap: [AppComponent]
 })

@@ -16,6 +16,8 @@ export class HxFormComponent implements OnInit {
   private userEducation: any;
   private userHomeTown: any;
   private userLocation: any;
+  private online: boolean = false;
+  private number: any;
   private clinicId: any;
   private userWorkHistory: any;
   private currentToken: any;
@@ -90,6 +92,14 @@ export class HxFormComponent implements OnInit {
             console.log(this.formDep);
             console.log(this.formType);
             console.log(this.formAnswers)
+            this.activatedRoute.queryParams.subscribe(
+              qParams => {
+                if (qParams['number']) {
+          this.online = true;
+          this.number = qParams['number'];
+        }
+              }
+            )
 
           }
           )
@@ -150,7 +160,9 @@ export class HxFormComponent implements OnInit {
         console.log(loginData)
     console.log(model.controls['ques'].value)
     var str = window.location.hostname;
-
+let qParam = '';
+        if (this.online)
+        qParam = '?number=' + this.number;
     console.log(str);
     var n = str.indexOf(".");
     if (n == -1) {
@@ -168,7 +180,7 @@ export class HxFormComponent implements OnInit {
             this._authService._savePatientHx(model.controls['ques'].value, patientId, doctorId)
               .then(
               data => {
-                this.router.navigate(['queue/' + this.qCounter + '/' + patientId], { queryParams: { triaged: true } });
+                this.router.navigate(['queue/' + this.qCounter + '/' + patientId], { queryParams: { triaged: true, number: this.number } });
               }
               )
 

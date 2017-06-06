@@ -74,19 +74,19 @@ export class LoginComponent implements OnInit {
   // }
 
   sendOTP() {
-    
+
     this.activatedRoute.params.subscribe(
       params => {
         let param = params['id'];
         this._authService._GetConsultIds(param)
           .subscribe(
           data => {
-            
-            
+
+
             console.log("OTP Sent", this.OTPcode)
             this._authService._RequestOTP(data.phone, this.OTPcode);
             this.otp = this._fb.group({
-              otp: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(4) ]],
+              otp: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(4)]],
               phone: data.phone,
               email: data.email,
               password: data.setupPassword
@@ -99,12 +99,30 @@ export class LoginComponent implements OnInit {
   }
   onSubmit(model) {
     this._authService._UpdateOTP(model['phone']);
-    this._authService.loginMailUser({email: model['email'], password: model['password']});
+    //this._authService.loginMailUser({email: model['email'], password: model['password']});
     this.activatedRoute.params.subscribe(
       params => {
         let param = params['id'];
-    this.router.navigate(['consultation/' + param]);
-    });
+        let path = window.location.origin;
+
+        console.log(path);
+        //this.router.navigate(['fblogin', { queryParams: { number: model['phone'] } }]);
+      
+        var str = window.location.hostname;
+    console.log(str);
+
+    var n = str.indexOf(".");
+    var m = str.length;
+    var clinicId = str.substring(0, n);
+    var host = str.substring(n, m);
+    console.log(host);
+    if (host == '.localhost') {
+      console.log('http://login' + host + ':4200' + '/fblogin?clinicId=' + clinicId + '&number=' +params['id']);
+      window.location.href = 'https://login' + host + ':4200' + '/fblogin?clinicId=' + clinicId+ '&number=' + params['id'];
+    } else {
+      window.location.href = 'https://login' + host + '/fblogin?clinicId=' + clinicId+ '&number=' +params['id'];
+    }
+      });
   }
   validateOTP(control) {
     console.log(control);

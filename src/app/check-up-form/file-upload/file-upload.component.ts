@@ -143,7 +143,7 @@ export class CheckUpFileUploadComponent implements OnInit {
 
        // this.feedback.fileUploaded();
       }
-    );
+    ).catch( err=> console.log(err));
   }
   descExists(fileName) {
     if (this.textval[fileName]) {

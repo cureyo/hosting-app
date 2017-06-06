@@ -16,6 +16,8 @@ export class FbloginComponent implements OnInit {
   private userLocation: any;
   private clinicId: any;
   private pageId: any;
+  private online: boolean = false;
+  private phNumber: any;
   // private renderPlugin: boolean = false;
   private userWorkHistory: any;
   // private userFBId: any = "FBID_";
@@ -44,6 +46,10 @@ export class FbloginComponent implements OnInit {
           console.log(pageData)
           console.log(pageData.fbPageId);
           this.pageId = pageData.fbPageId;
+          if(params['number']) {
+            this.online = true;
+            this.phNumber = params['number'];
+          }
           // this.userFBId = Math.floor((Math.random() * 10000000000000) + 1);
           // this.renderPlugin = true;
         });
@@ -124,7 +130,11 @@ export class FbloginComponent implements OnInit {
                           let path = window.location.origin;
 
                           console.log(path);
-                          window.location.href = path + '/checkupForm/' + len + '?userId=' + userData.id + '&clinicId=' + this.clinicId
+                          if (this.online == true)
+                          window.location.href = path + '/checkupForm/' + len + '?userId=' + userData.id + '&clinicId=' + this.clinicId + '&number=' + this.phNumber
+                          else
+                          window.location.href = path + '/checkupForm/' + len + '?userId=' + userData.id + '&clinicId=' + this.clinicId 
+                         
                           //this.router.navigate(['checkupForm/' + len], { queryParams: { userId: userData.id, clinicId: this.clinicId } } )
                          
                         });
