@@ -17,8 +17,9 @@
                     </div>
      <form *ngIf="formHxReady" [formGroup]="formGp" class="form" >
            <div class="" formArrayName="ques">
-                        <div class="card card-stats" style="margin-top: 10px; margin-bottom: 10px;" *ngFor="let condition of formGp.controls.ques.controls; let i=index">
-                             <div class="card-content"  *ngIf="formAnswers[formDep[i]]" style="text-align: left;" [formGroupName]="i">
+               <div *ngFor="let condition of formGp.controls.ques.controls; let i=index">
+                        <div class="card card-stats" style="margin-top: 10px; margin-bottom: 10px;" *ngIf="formAnswers[formDep[i]]">
+                             <div class="card-content"   style="text-align: left;" [formGroupName]="i">
                     <!--  end of interface implementation -->  
                    
                                   
@@ -28,7 +29,8 @@
                                     <div class="form-group">-->
                                     <label style="font-size: 14px; white-space: pre-line;" class="label label-info">{{formQues[i]}}</label>
                                       <select *ngIf="formType[i] == 'mcq'  && formAnswers[formDep[i]]" formControlName="response" class="form-control" style="width: 70%">
-      <option [attr.selected]="" value="{{j.value}}" *ngFor="let j of formOps[i]">{{j.value}}</option>
+      <option  ></option>
+      <option value="{{j.value}}" *ngFor="let j of formOps[i]">{{j.value}}</option>
     </select>
     <!--<div class="checkbox" *ngIf="formType[i] == 'yes-no'" >
         <label class="checkbox-inline">
@@ -49,6 +51,7 @@
 				            </div>
                                     </div>
                                 </div>
+           </div>
                             </div>
                             <button [disabled]="!formGp.valid" (click)="saveHistory(formGp)" class="pull-right btn btn-round btn-warning"> Submit</button>
                          

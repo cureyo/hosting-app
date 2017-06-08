@@ -16,6 +16,7 @@ export class NoPlansComponent implements OnInit {
   private PageId: any;
   private DoctorId: any;
   private timeline: any = [];
+  private dynamicDiscount: any = [];
   private timelineReady: boolean = false;
   private timeLineCount: number = 0;
   private userId: any;
@@ -60,7 +61,7 @@ export class NoPlansComponent implements OnInit {
 
   ngOnInit() {
     this.mulTable = {
-      "2months": 2, "weekly": 0.25, "monthly": 1, "2weeks": 0.5, "3months": 3
+      "2months": 2, "weekly": 0.25, "monthly": 1, "2weeks": 0.5, "3months": 3, "3weeks": 0.75
     }
     this.monthTable = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -144,19 +145,19 @@ export class NoPlansComponent implements OnInit {
                                         if (this.transactionTable[doctor.id]) {
                                           console.log(doctor);
                                           if (doctor.online == 'payment') {
-                                            dFees[doctor.id]['online'] = this.partnerData.consultant[doctor.id].fee * (parseInt(this.carePathWayDetails.duration) / this.mulTable[this.transactionTable[doctor.id].Online['Job_Frequency']])
+                                            dFees[doctor.id]['online'] = Math.round(this.partnerData.consultant[doctor.id].fee * (parseInt(this.carePathWayDetails.duration) / this.mulTable[this.transactionTable[doctor.id].Online['Job_Frequency']]));
                                             onlineFee = dFees[doctor.id]['online'];
                                           }
                                           if (doctor.physical == 'payment') {
-                                            dFees[doctor.id]['physical'] = this.partnerData.consultant[doctor.id].fee * (parseInt(this.carePathWayDetails.duration) / this.mulTable[this.transactionTable[doctor.id].Online['Job_Frequency']])
+                                            dFees[doctor.id]['physical'] = Math.round(this.partnerData.consultant[doctor.id].fee * (parseInt(this.carePathWayDetails.duration) / this.mulTable[this.transactionTable[doctor.id].Online['Job_Frequency']]));
                                             phyFee = dFees[doctor.id]['physical'];
                                           } else if (doctor.physical == 'reminder') {
                                             dFees[doctor.id]['physical'] = 0;
                                             phyFee = 0;
                                           }
-                                          dFees[doctor.id]['consultTotal'] = onlineFee + phyFee;
+                                          dFees[doctor.id]['consultTotal'] = Math.round(onlineFee + phyFee);
                                           console.log(dFees[doctor.id]);
-                                          dFees['consultation']['total'] = dFees['consultation']['total'] + dFees[doctor.id]['consultTotal'];
+                                          dFees['consultation']['total'] = Math.round(dFees['consultation']['total'] + dFees[doctor.id]['consultTotal']);
 
                                           console.log(dFees['consultation']['total'])
                                           console.log(dFees['grand']['total'])
@@ -180,10 +181,13 @@ export class NoPlansComponent implements OnInit {
                                                 .subscribe(
                                                 priceData => {
                                                   console.log(priceData);
-                                                  dFees[item][this.transactionTable[item + 'LabTest'][item2].TestName] = priceData.price;
-                                                  dFees[item]['total'] = dFees[item]['total'] + parseInt(priceData['price']) * (this.carePathWayDetails.duration / this.mulTable[this.transactionTable[item + 'LabTest'][item2].TestFreq]);
-                                                  dFees['services']['total'] = dFees['services']['total'] + dFees[item]['total'];
-                                                  dFees['grand']['total'] = dFees['grand']['total'] + dFees['services']['total'];
+                                                  dFees[item][this.transactionTable[item + 'LabTest'][item2].TestName] = Math.round(priceData.price);
+                                                  dFees[item]['total'] = Math.round(dFees[item]['total'] + parseInt(priceData['price']) * (this.carePathWayDetails.duration / this.mulTable[this.transactionTable[item + 'LabTest'][item2].TestFreq]));
+                                                  dFees['services']['total'] = Math.round(dFees['services']['total'] + dFees[item]['total']);
+                                                  dFees['grand']['total'] = Math.round(dFees['grand']['total'] + dFees['services']['total']);
+                                                  for (let i = 0; i < ctr; i++) {
+                                                    this.changePayFreq(1, i, this.carePathWayDetails.duration);
+                                                  }
                                                 }
                                                 )
                                             }
@@ -201,11 +205,18 @@ export class NoPlansComponent implements OnInit {
                                       }
                                       console.log(this.feeTable);
                                       this.feeTable[ctr] = dFees;
-                                      this.changePayFreq(1, ctr, this.carePathWayDetails.duration);
+
                                       ctr++;
 
                                     }
                                     console.log(this.feeTable);
+                                    for (let item of this.transactionTable['RadiologicalLabTest']) {
+                                      console.log(item.TestName)
+                                      console.log(this.feeTable[0]['Radiological'][item.TestName])
+                                    }
+                                    for (let i = 0; i < ctr; i++) {
+                                      this.changePayFreq(1, i, this.carePathWayDetails.duration);
+                                    }
                                     this.plansReady = true;
 
                                   }
@@ -250,6 +261,8 @@ export class NoPlansComponent implements OnInit {
     if (value == 0) {
       value = duration;
     }
+    console.log(value, k, duration);
+    console.log(this.feeTable[k]['grand']['total']);
     this.feeTable[k]['bill'] = [];
     this.feeTable[k]['bill']['fee'] = this.feeTable[k]['grand']['total'] / (duration / value);
   }

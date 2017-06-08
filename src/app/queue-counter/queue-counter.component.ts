@@ -80,6 +80,7 @@ export class QueueCounterComponent implements OnInit {
                 this._authService._getCheckIn(this.clinicId, date2)
                     .subscribe(
                     data => {
+                        console.log(this.clinicId);
                         console.log(data);
                         console.log(data['q'])
 

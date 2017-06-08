@@ -57,7 +57,7 @@
                           
                             <hr/>
                             <div class="card-content">
-                              <p style="height: 100px;">{{plans.description}}</p>
+                              <p style="height: 150px;">{{plans.description}}</p>
                      
                                <hr/>
                               <!-- third Row--> 
@@ -169,7 +169,7 @@
                   <tr *ngFor="let test of transactionTable['RadiologicalLabTest'];let t=index;"><td><small><b>{{test.TestFreq}}</b> {{test.TestName}}</small></td>
                   <td  style="text-align: right;"><small >Yes</small>
                   </td>
-                  <td  style="text-align: right;"><small *ngIf="plans.services['Radiological'].transaction == 'payment'">Yes</small>
+                  <td  style="text-align: right;"><small *ngIf="plans.services['Radiological'].transaction == 'payment'">Rs. {{feeTable[k]['Radiological'][test.TestName]}}</small>
                   </td></tr>
                    <tr><td><small><b>Sub-Total </b></small></td>
                   <td  style="text-align: right;"><small >0</small>
@@ -242,10 +242,14 @@
                   </td>
                   <td  style="text-align: right;"><small >Rs. {{feeTable[k]['services']['total']}}</small>
                   </td></tr>
-                  <tr *ngIf="plans.addOns.markup" ><td><small><b>Discount</b></small></td>
-                  <td  style="text-align: right;"><small >0</small>
+                  <tr *ngIf="plans.addOns.markup" ><td *ngIf="plans.addOns.markupName != 'NA'"><small><b>{{plans.addOns.markupName}}</b></small></td>
+                  <td *ngIf="plans.addOns.markupName == 'NA'"><small><b>Discount</b></small></td>
+                  <td  style="text-align: right;"><small ></small>
                   </td>
-                  <td  style="text-align: right;"><small >Yes</small>
+                  <td  *ngIf="plans.addOns.markupName != 'NA' && plans.addOns.markup !='Dynamic'" style="text-align: right;"><small >{{plans.addOns.markup}} %</small>
+                  </td>
+                  <td  *ngIf="plans.addOns.markupName == 'NA'" style="text-align: right;"><small >NA</small>
+                  </td><td  *ngIf="plans.addOns.markup =='Dynamic'" style="text-align: right;"><small >{{dynamicDiscount[k]}}</small>
                   </td></tr>
                   <tr ><td><small><b>System Fee </b><br>(per month)</small></td>
                   <td style="text-align: right;"><small >Rs. 75</small>
