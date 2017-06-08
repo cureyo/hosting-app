@@ -22,7 +22,7 @@ import {VideoCallComponent} from "./video-call/video-call.component";
 import { FbloginComponent } from './fblogin/fblogin.component';
 import { CheckUpFormComponent } from './check-up-form/check-up-form.component';
 import { NoPlansComponent } from './no-plans/no-plans.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 // Must export the config
@@ -52,6 +52,7 @@ export const firebaseAuthConfig = {
     ReactiveFormsModule,
     RouterModule.forChild(MODULE_ROUTES),
     BrowserModule,
+     BrowserAnimationsModule,
     RouterModule.forRoot([]),
     AngularFireModule.initializeApp(firebaseConfig),
     HttpModule,

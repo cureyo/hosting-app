@@ -17,7 +17,7 @@ import {HxFormComponent} from "./HxForm/HxForm.component";
 import {FeedbackComponent} from "./feedback/feedback.component";
 import {ScreenShotComponent} from "./screenshots/screenshots.component";
 import {NoPlansComponent} from "./no-plans/no-plans.component";
-
+import {HorizontalTimelineComponent} from "./horizontal-timeline/horizontal-timeline.component";
 export const MODULE_ROUTES: Route[] =[
     { path: '', component: ClinicPageComponent },
     { path: 'resource/:item', component: ClinicPageComponent },
@@ -38,6 +38,7 @@ export const MODULE_ROUTES: Route[] =[
 export const MODULE_COMPONENTS = [
     AppComponent,
     ClinicPageComponent,
+    HorizontalTimelineComponent,
     MapsComponent,
     CaredoneFormComponent,
     FileUploadComponent,

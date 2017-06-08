@@ -38,8 +38,10 @@
                 
                   {{carePathWayDetails.description}}
                   
+                  <horizontal-timeline *ngIf="timelineReady" [timelineElements]="timeline" [showContent]="true"></horizontal-timeline>
                 </div>
               </div>
+              
   <!-- **********************************************************************************-->               
                  <!-- first card-->
  <!-- **********************************************************************************-->                         
@@ -302,7 +304,7 @@
         <h4 class="modal-title" id="myModalLabel" style="float: left;"><b>Complete Payment</b></h4>
          <button type="button" class="btn btn-default pull-right" (click)="closePayModal()">Close</button>
         <div *ngIf="payReady">
-<iframe [src]="payURL" width="100%" height="700px" scroll="yes"></iframe>
+<iframe [src]="payURL" width="100%" height="700px" scroll="yes" styel="-webkit-overflow-scrolling: touch;"></iframe>
 </div>
       </div>
       
@@ -313,3 +315,7 @@
     <!--<div *ngIf="payReady" class="main-content" style="z-index: 10000;">
 <iframe [src]="payURL" width="100%" height="700px;" scroll="yes"></iframe>
 </div>-->
+<div class="section">
+<iframe *ngIf="payReady"  #payFrame  id="payFrame" [src]="payURL" width="100%" height="700px" scroll="yes" styel="-webkit-overflow-scrolling: touch;"></iframe>
+</div>
+<div class="section" id="payFrame2"></div>
