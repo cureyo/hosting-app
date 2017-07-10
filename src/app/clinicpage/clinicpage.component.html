@@ -137,7 +137,9 @@
     <h3 class="title-modern">{{pageDetails.content.heroTile.card.title}}
         <br><small>{{pageDetails.content.heroTile.card.qual}}</small>
         <br><small>{{pageDetails.content.heroTile.card.experience}} years of experience</small></h3>
-        <button (click)="patientLogin()" class="btn btn-round"> Patient Check-in</button>
+        <a (click)="showCheckInButton()" style="color: blue; cursor: pointer" >At the clinic?</a>
+        <hr/>
+        <button *ngIf="showCheckin" (click)="patientLogin()" class="btn btn-round"> Patient Check-in </button>
 </div>
 
 </div>
@@ -463,6 +465,22 @@
         </div>
     </footer>
 </div>
+  <div class="modal fade" id="payModal2" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false" style="z-index:10000; background: rgba(0,0,0,0.5);">
+  <div class="modal-dialog" role="document"  style="position: relative; width:100%; height:800px; ">
+    <div class="modal-content" id="payModal2">
+      <div class="modal-header">
+       
+        <h4 class="modal-title" id="myModalLabel" style="float: left;"><b>Complete Payment</b></h4>
+         <button type="button" class="btn btn-default pull-right" (click)="closePayModal()">Close</button>
+        
+<a href="https://www.instamojo.com/Cureyo/cureyo-care-on-boarding-tests/" rel="im-checkout" data-behaviour="remote" data-style="light" data-text="Checkout With Instamojo" data-redirect_url="http://localhost:4200/"></a>
+
+      </div>
+      
+     
+    </div>
+  </div>
+    </div>
 </body>
 
 <!--   core js files    -->

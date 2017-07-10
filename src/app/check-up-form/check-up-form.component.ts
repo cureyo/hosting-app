@@ -43,6 +43,10 @@ export class CheckUpFormComponent implements OnInit {
   private fbURL: any;
   private publicToken: any = '';
   private fbURLSanit: any;
+  private hosted: boolean = false;
+  private clinicWebsite: any;
+  private pathwayId: any;
+  private itemId: any;
 
   constructor(
     private _fb: FormBuilder,
@@ -79,227 +83,356 @@ export class CheckUpFormComponent implements OnInit {
         console.log(this.symptoms)
         this.hasSym = true;
       })
-this._authService._getUser()
-.subscribe(
-  usDat=> {
-    console.log(usDat)
-     this.route.queryParams.subscribe(
-      param => {
-        console.log(param);
-        if (param['number']) {
-          this.online = true;
-          this.number = param['number'];
-        }
-        this.userId = param['userId']
-        console.log("userid is :", this.userId);
-        var res = this.clinicId = param['clinicId']
-        console.log("for clinicId: ", res)
-        this._authService._getDoctorId(res)
-          .subscribe(data => {
-            this.DoctorId = data.$value;
-            console.log("the doctor id is ", this.DoctorId);
-
-            this._authService._getcaredOnesDetails(this.DoctorId, this.userId)
-              .subscribe(user => {
-
-                if (user.firstName) {
-
-                  this.userId = user.uid;
-                  this.uid = user.uid;
-                  if (user.Job_conditions) {
-                    this.checkUpForm = this._fb.group({
-                      first_Name: [user.firstName, Validators.required],
-                      last_Name: [user.lastName, Validators.required],
-                      Email: [user.email, Validators.required],
-                      phone: [user.phone, Validators.required],
-                      DOB: [user.dateOfBirth],
-                      visit_Type: [, Validators.required],
-                      // description: [, Validators.required],
-                      insurance: [user.insurance, Validators.required],
-                      primeSymptom: [, Validators.required],
-                      sex: [user.gender, Validators.required],
-                      conditions: this._fb.array([
-                        this.initExistingConditions(user.Job_conditions[0])
-                      ])
-                    });
-                    let control = <FormArray>this.checkUpForm.controls['conditions'];
-                    console.log(user.Job_conditions);
-                    for (let item in user.Job_conditions) {
-
-                      if (item != '0' && item != '$exists' && item != '$key') {
-                        console.log(item);
-                        control.push(this.initExistingConditions(user.Job_conditions[item]))
-                      }
-                    }
-                    this.birthdate = user.dateOfBirth.replace('/', '-');
-                    if (user.humanApiPT) {
-                      this.publicToken = user.humanApiPT;
-                    }
-                    
-                    console.log("this.birthdate", this.birthdate);
-                    console.log("for clinic Id: ", this.clinicId);
-                    this._authService._getfbPageId(this.clinicId)
-                      .subscribe(
-                      data => {
-                        this.pageId = data.$value;
-                        //this.pageId = "164483500652387";
-                        this.userFBId = "FacbkId_" + this.userId;
-                        let fburl = "https://www.facebook.com/v2.3/plugins/send_to_messenger.php?messenger_app_id=" + this.appId + "&page_id=" + this.pageId + "&ref=" + this.userFBId;
-                        console.log(this.pageId);
-                        this.fbReady = true;
-                        this.fbURLSanit = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
-                        console.log(this.fbURLSanit);
-                        this.formReady = true;
-                      }
-                      )
-
+    this._authService._getUser()
+      .subscribe(
+      usDat => {
+        console.log(usDat)
+        this.route.queryParams.subscribe(
+          param => {
+            console.log(param);
+            if (param['number']) {
+              this.online = true;
+              this.number = param['number'];
+            }
+            if (param['clinicWebsite']) {
+              this.hosted = true;
+              this.clinicWebsite = param['clinicWebsite'];
+            }
+            this.userId = param['userId']
+            console.log("userid is :", this.userId);
+            var res = this.clinicId = param['clinicId']
+            console.log("for clinicId: ", res)
+            this._authService._getDoctorId(res)
+              .subscribe(data => {
+                this.DoctorId = data.$value;
+                console.log("the doctor id is ", this.DoctorId);
+                var mode = 'Physical', clinicId;
+                if (param['clinicId'])
+                  clinicId = param['clinicId'];
+                else {
+                  console.log(window.location);
+                  var str = window.location.hostname;
+                  console.log(str);
+                  var n = str.indexOf(".");
+                  if (n == -1) {
+                    n = str.length;
                   }
-                  else {
-                    this.checkUpForm = this._fb.group({
-                      first_Name: [user.firstName, Validators.required],
-                      last_Name: [user.lastName, Validators.required],
-                      Email: [user.email, Validators.required],
-                      phone: [user.phone, Validators.required],
-                      DOB: [user.dateOfBirth],
-                      visit_Type: [, Validators.required],
-                      // description: [, Validators.required],
-                      insurance: [user.insurance, Validators.required],
-                      primeSymptom: [, Validators.required],
-                      sex: [user.gender, Validators.required],
-                      conditions: this._fb.array([
-                        this.initConditions()
-                      ])
-                    });
-                    this.birthdate = user.dateOfBirth.replace('/', '-');
-                    if (user.humanApiPT) {
-                      this.publicToken = user.humanApiPT;
-                    }
-                    console.log("this.birthdate", this.birthdate);
-                     console.log("for clinic Id: ", this.clinicId);
-                    this._authService._getfbPageId(this.clinicId)
-                      .subscribe(
-                      data => {
-                        this.pageId = data.$value;
-                        //this.pageId = "164483500652387";
-                        this.userFBId = "FacbkId_" + this.userId;
-                        let fburl = "https://www.facebook.com/v2.3/plugins/send_to_messenger.php?messenger_app_id=" + this.appId + "&page_id=" + this.pageId + "&ref=" + this.userFBId;
-                        console.log(this.pageId);
-                        this.fbReady = true;
-                        this.fbURLSanit = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
-                        console.log(this.fbURLSanit);
-                        this.formReady = true;
-                      }
-                      )
-                  }
-                } else {
-                  this._authService._getUserDataFromCaredOnePatientInsights(this.userId, this.DoctorId)
-                    .subscribe(res => {
-                      console.log(res);
-                      if (res.birthday) {
-                            this.birthdate = res.birthday;
-                      this.userId = res.id;
-                      this.email = res.email;
-                      this.fname = res.first_name;
-                      this.lname = res.last_name;
-                      this.uid = res.id;
-
-                      //convert the mm-dd-yyyy to yyyy-mm--dd
-                      var nMonth = this.birthdate.indexOf('/');
-                      var month = this.birthdate.substring(0, nMonth);
-                      var len = this.birthdate.length;
-                      var birthday2half = this.birthdate.substring(nMonth + 1, len);
-                      var nDate = birthday2half.indexOf('/');
-                      var date = birthday2half.substring(0, nDate);
-                      var len2 = birthday2half.length;
-                      var year = birthday2half.substring(nDate + 1, len2);
-                      this.birthdate = year + "-" + month + "-" + date;
-                      console.log(this.birthdate)
-                      this.publicToken = '';
-                      let number = '';
-                      if (param['number']) {
-                        number = param['number'];
-                      }
-                      this.checkUpForm = this._fb.group({
-                        first_Name: [this.fname, Validators.required],
-                        last_Name: [this.lname, Validators.required],
-                        Email: [this.email, Validators.required],
-                        phone: [number, Validators.required],
-                        DOB: [this.birthdate],
-                        visit_Type: [, Validators.required],
-                        // description: [, Validators.required],
-                        insurance: [, Validators.required],
-                        primeSymptom: [, Validators.required],
-                        sex: [, Validators.required],
-                        conditions: this._fb.array([
-                          this.initConditions()
-                        ])
-                      });
-                       console.log("for clinic Id: ", this.clinicId);
-                      this._authService._getfbPageId(this.clinicId)
-                        .subscribe(
-                        data => {
-                          this.pageId = data.$value;
-                          //this.pageId = "164483500652387";
-                          this.userFBId = "FacbkId_" + this.userId;
-                          let fburl = "https://www.facebook.com/v2.3/plugins/send_to_messenger.php?messenger_app_id=" + this.appId + "&page_id=" + this.pageId + "&ref=" + this.userFBId;
-                          console.log(this.pageId);
-                          this.fbURLSanit = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
-                          console.log(this.fbURLSanit);
-                          this.formReady = true;
-                        }
-                        )
-
-                    
-                      } else {
-                      let number = '';
-                      if (param['number']) {
-                        number = param['number'];
-                      }
-                      this.publicToken = '';
-                      this.checkUpForm = this._fb.group({
-                        first_Name: ['', Validators.required],
-                        last_Name: ['', Validators.required],
-                        Email: ['', Validators.required],
-                        phone: [number, Validators.required],
-                        DOB: [''],
-                        visit_Type: [, Validators.required],
-                        // description: [, Validators.required],
-                        insurance: [, Validators.required],
-                        primeSymptom: [, Validators.required],
-                        sex: [, Validators.required],
-                        conditions: this._fb.array([
-                          this.initConditions()
-                        ])
-                      });
-                      this._authService._getfbPageId(this.clinicId)
-                        .subscribe(
-                        data => {
-                          this.pageId = data.$value;
-                          //this.pageId = "164483500652387";
-                          this.userFBId = "FacbkId_" + this.userId;
-                          let fburl = "https://www.facebook.com/v2.3/plugins/send_to_messenger.php?messenger_app_id=" + this.appId + "&page_id=" + this.pageId + "&ref=" + this.userFBId;
-                          console.log(this.pageId);
-                          this.fbURLSanit = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
-                          console.log(this.fbURLSanit);
-                          this.formReady = true;
-                        }
-                        )
-
-                    
-                      }
-                  })
+                  console.log(n);
+                  var res = str.substring(0, n);
+                  console.log("location", res);
+                  clinicId = res;
                 }
-              });
 
-          }
-          )
+                if (param['number'])
+                  mode = 'Online';
+
+                this._authService._getActivePathways(this.userId, clinicId, mode)
+                  .subscribe(
+                  activePaths => {
+                    var toDate = new Date();
+                    var toTime = toDate.getTime();
+
+                    this.pathwayId = (activePaths.pathway) ? activePaths.pathway : 'unplanned';
 
 
 
-      });
-  }
-)
-   
+                    this.itemId = (activePaths.itemId) ? activePaths.itemId : toTime;
+
+
+                    this._authService._getcaredOnesDetails(this.DoctorId, this.userId)
+                      .subscribe(user => {
+
+                        if (user.firstName) {
+
+                          this.userId = user.uid;
+                          this.uid = user.uid;
+                          if (user.Job_conditions) {
+                            this.checkUpForm = this._fb.group({
+                              first_Name: [user.firstName, Validators.required],
+                              last_Name: [user.lastName, Validators.required],
+                              Email: [user.email, Validators.required],
+                              phone: [user.phone, Validators.required],
+                              DOB: [user.dateOfBirth],
+                              visit_Type: [, Validators.required],
+                              // description: [, Validators.required],
+                              insurance: [user.insurance, Validators.required],
+                              primeSymptom: [, Validators.required],
+                              sex: [user.gender, Validators.required],
+                              conditions: this._fb.array([
+                                this.initExistingConditions(user.Job_conditions[0])
+                              ])
+                            });
+                            let control = <FormArray>this.checkUpForm.controls['conditions'];
+                            console.log(user.Job_conditions);
+                            for (let item in user.Job_conditions) {
+
+                              if (item != '0' && item != '$exists' && item != '$key') {
+                                console.log(item);
+                                control.push(this.initExistingConditions(user.Job_conditions[item]))
+                              }
+                            }
+                            if (user.dateOfBirth)
+                              this.birthdate = user.dateOfBirth.replace('/', '-');
+                            if (user.humanApiPT) {
+                              this.publicToken = user.humanApiPT;
+                            }
+
+                            console.log("this.birthdate", this.birthdate);
+                            console.log("for clinic Id: ", this.clinicId);
+                            this._authService._getfbPageId(this.clinicId)
+                              .subscribe(
+                              data => {
+                                this.pageId = data.$value;
+                                //this.pageId = "164483500652387";
+                                this.userFBId = "FacbkId_" + this.userId;
+                                let fburl = "https://www.facebook.com/v2.3/plugins/send_to_messenger.php?messenger_app_id=" + this.appId + "&page_id=" + this.pageId + "&ref=" + this.userFBId;
+                                console.log(this.pageId);
+                                this.fbReady = true;
+                                this.fbURLSanit = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
+                                console.log(this.fbURLSanit);
+                                this._authService._fetchUser(this.DoctorId)
+                                      .subscribe(
+                                      doctorData => {
+                                        if (!activePaths.pathway) {
+                                          this._authService._saveActivePathways(this.userId, clinicId, mode, this.pathwayId, this.itemId);
+                                          var nowDate = new Date();
+
+                                          var updtJSON = {
+                                            "actions": {
+                                              "chat": ["patient", doctorData.phone]
+                                            },
+                                            "description": user['firstName'] + " has initiated Consultation with " + doctorData.fullName + ", " + doctorData.speciality,
+                                            "icon": 'local_hospital',
+                                            "partnerId": doctorData.phone,
+                                            "status": "started",
+                                            "time": nowDate.getMonth() + ', ' + nowDate.getUTCDate() + ', ' + nowDate.getFullYear(),
+                                            "title": "Consultation with " + doctorData.fullName
+                                          };
+                                          this._authService._savePatientUpdates(this.userId, this.pathwayId, this.itemId, updtJSON);
+                                        }
+                                      }
+                                      )
+                                this.formReady = true;
+                              }
+                              )
+
+                          }
+                          else {
+                            this.checkUpForm = this._fb.group({
+                              first_Name: [user.firstName, Validators.required],
+                              last_Name: [user.lastName, Validators.required],
+                              Email: [user.email, Validators.required],
+                              phone: [user.phone, Validators.required],
+                              DOB: [user.dateOfBirth],
+                              visit_Type: [, Validators.required],
+                              // description: [, Validators.required],
+                              insurance: [user.insurance, Validators.required],
+                              primeSymptom: [, Validators.required],
+                              sex: [user.gender, Validators.required],
+                              conditions: this._fb.array([
+                                this.initConditions()
+                              ])
+                            });
+                            if (user.dateOfBirth)
+                              this.birthdate = user.dateOfBirth.replace('/', '-');
+                            if (user.humanApiPT) {
+                              this.publicToken = user.humanApiPT;
+                            }
+                            console.log("this.birthdate", this.birthdate);
+                            console.log("for clinic Id: ", this.clinicId);
+                            this._authService._getfbPageId(this.clinicId)
+                              .subscribe(
+                              data => {
+                                this.pageId = data.$value;
+                                //this.pageId = "164483500652387";
+                                this.userFBId = "FacbkId_" + this.userId;
+                                let fburl = "https://www.facebook.com/v2.3/plugins/send_to_messenger.php?messenger_app_id=" + this.appId + "&page_id=" + this.pageId + "&ref=" + this.userFBId;
+                                console.log(this.pageId);
+                                this.fbReady = true;
+                                this.fbURLSanit = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
+                                console.log(this.fbURLSanit);
+                                this._authService._fetchUser(this.DoctorId)
+                                      .subscribe(
+                                      doctorData => {
+                                        if (!activePaths.pathway) {
+                                          this._authService._saveActivePathways(this.userId, clinicId, mode, this.pathwayId, this.itemId);
+                                          var nowDate = new Date();
+
+                                          var updtJSON = {
+                                            "actions": {
+                                              "chat": ["patient", doctorData.phone]
+                                            },
+                                            "description": user['firstName'] + " has initiated Consultation with " + doctorData.fullName + ", " + doctorData.speciality,
+                                            "icon": 'local_hospital',
+                                            "partnerId": doctorData.phone,
+                                            "status": "started",
+                                            "time": nowDate.getMonth() + ', ' + nowDate.getUTCDate() + ', ' + nowDate.getFullYear(),
+                                            "title": "Consultation with " + doctorData.fullName
+                                          };
+                                          this._authService._savePatientUpdates(this.userId, this.pathwayId, this.itemId, updtJSON);
+                                        }
+                                      }
+                                      )
+                                this.formReady = true;
+                              }
+                              )
+                          }
+                        } else {
+                          this._authService._getUserDataFromCaredOnePatientInsights(this.userId, this.DoctorId)
+                            .subscribe(res => {
+                              console.log(res);
+                              if (res.birthday) {
+                                this.birthdate = res.birthday;
+                                this.userId = res.id;
+                                this.email = res.email;
+                                this.fname = res.first_name;
+                                this.lname = res.last_name;
+                                this.uid = res.id;
+
+                                //convert the mm-dd-yyyy to yyyy-mm--dd
+                                var nMonth = this.birthdate.indexOf('/');
+                                var month = this.birthdate.substring(0, nMonth);
+                                var len = this.birthdate.length;
+                                var birthday2half = this.birthdate.substring(nMonth + 1, len);
+                                var nDate = birthday2half.indexOf('/');
+                                var date = birthday2half.substring(0, nDate);
+                                var len2 = birthday2half.length;
+                                var year = birthday2half.substring(nDate + 1, len2);
+                                this.birthdate = year + "-" + month + "-" + date;
+                                console.log(this.birthdate)
+                                this.publicToken = '';
+                                let number = '';
+                                if (param['number']) {
+                                  number = param['number'];
+                                }
+                                this.checkUpForm = this._fb.group({
+                                  first_Name: [this.fname, Validators.required],
+                                  last_Name: [this.lname, Validators.required],
+                                  Email: [this.email, Validators.required],
+                                  phone: [number, Validators.required],
+                                  DOB: [this.birthdate],
+                                  visit_Type: [, Validators.required],
+                                  // description: [, Validators.required],
+                                  insurance: [, Validators.required],
+                                  primeSymptom: [, Validators.required],
+                                  sex: [, Validators.required],
+                                  conditions: this._fb.array([
+                                    this.initConditions()
+                                  ])
+                                });
+                                console.log("for clinic Id: ", this.clinicId);
+                                this._authService._getfbPageId(this.clinicId)
+                                  .subscribe(
+                                  data => {
+                                    this.pageId = data.$value;
+                                    //this.pageId = "164483500652387";
+                                    this.userFBId = "FacbkId_" + this.userId;
+                                    let fburl = "https://www.facebook.com/v2.3/plugins/send_to_messenger.php?messenger_app_id=" + this.appId + "&page_id=" + this.pageId + "&ref=" + this.userFBId;
+                                    console.log(this.pageId);
+                                    this.fbURLSanit = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
+                                    console.log(this.fbURLSanit);
+                                    this._authService._fetchUser(this.DoctorId)
+                                      .subscribe(
+                                      doctorData => {
+                                        if (!activePaths.pathway) {
+                                          this._authService._saveActivePathways(this.userId, clinicId, mode, this.pathwayId, this.itemId);
+                                          var nowDate = new Date();
+
+                                          var updtJSON = {
+                                            "actions": {
+                                              "chat": ["patient", doctorData.phone]
+                                            },
+                                            "description": user['firstName'] + " has initiated Consultation with " + doctorData.fullName + ", " + doctorData.speciality,
+                                            "icon": 'local_hospital',
+                                            "partnerId": doctorData.phone,
+                                            "status": "started",
+                                           "time": nowDate.getMonth() + ', ' + nowDate.getUTCDate() + ', ' + nowDate.getFullYear(),
+                                            "title": "Consultation with " + doctorData.fullName
+                                          };
+                                          this._authService._savePatientUpdates(this.userId, this.pathwayId, this.itemId, updtJSON);
+                                        }
+                                      }
+                                      )
+
+                                    this.formReady = true;
+                                  }
+                                  )
+
+
+                              } else {
+                                let number = '';
+                                if (param['number']) {
+                                  number = param['number'];
+                                }
+                                this.publicToken = '';
+                                this.checkUpForm = this._fb.group({
+                                  first_Name: ['', Validators.required],
+                                  last_Name: ['', Validators.required],
+                                  Email: ['', Validators.required],
+                                  phone: [number, Validators.required],
+                                  DOB: [''],
+                                  visit_Type: [, Validators.required],
+                                  // description: [, Validators.required],
+                                  insurance: [, Validators.required],
+                                  primeSymptom: [, Validators.required],
+                                  sex: [, Validators.required],
+                                  conditions: this._fb.array([
+                                    this.initConditions()
+                                  ])
+                                });
+                                this._authService._getfbPageId(this.clinicId)
+                                  .subscribe(
+                                  data => {
+                                    this.pageId = data.$value;
+                                    //this.pageId = "164483500652387";
+                                    this.userFBId = "FacbkId_" + this.userId;
+                                    let fburl = "https://www.facebook.com/v2.3/plugins/send_to_messenger.php?messenger_app_id=" + this.appId + "&page_id=" + this.pageId + "&ref=" + this.userFBId;
+                                    console.log(this.pageId);
+                                    this.fbURLSanit = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
+                                    console.log(this.fbURLSanit);
+                                    this._authService._fetchUser(this.DoctorId)
+                                      .subscribe(
+                                      doctorData => {
+                                        if (!activePaths.pathway) {
+                                          this._authService._saveActivePathways(this.userId, clinicId, mode, this.pathwayId, this.itemId);
+                                          var nowDate = new Date();
+
+                                          var updtJSON = {
+                                            "actions": {
+                                              "chat": ["patient", doctorData.phone]
+                                            },
+                                            "description": user['firstName'] + " has initiated Consultation with " + doctorData.fullName + ", " + doctorData.speciality,
+                                            "icon": 'local_hospital',
+                                            "partnerId": doctorData.phone,
+                                            "status": "started",
+                                            "time": nowDate.getMonth() + ', ' + nowDate.getUTCDate() + ', ' + nowDate.getFullYear(),
+                                            "title": "Consultation with " + doctorData.fullName
+                                          };
+                                          this._authService._savePatientUpdates(this.userId, this.pathwayId, this.itemId, updtJSON);
+                                        }
+                                      }
+                                      )
+                                    this.formReady = true;
+                                  }
+                                  )
+
+
+                              }
+                            })
+                        }
+                      })
+                      ;
+                  });
+
+              }
+              )
+
+
+
+          });
+      }
+      )
+
   }
   initExistingConditions(data) {
     console.log(data);
@@ -370,15 +503,19 @@ this._authService._getUser()
     this.route.params.subscribe(
       params => {
         let param = params['count'], qParam = '';
-        if (this.online)
-        {qParam = '?number=' + this.number;
-      reminders['videoConsultId'] = this.number;}
+        if (this.online) {
+          qParam = '?number=' + this.number;
+          reminders['videoConsultId'] = this.number;
+        }
+
         this._authService._saveCheckUpFormHosting(reminders, this.userId, this.DoctorId).then(
           data => {
             this._authService._saveCaredOne(reminders, this.DoctorId)
               .then(
               data2 => {
                 console.log(data)
+                ///////////
+
                 if (reminders['primeSymptom'] == "NA" || !reminders['primeSymptom']) {
                   //this.router.navigate(['queue/' + param + '/' + this.userId], { queryParams: { triaged: false } });
                   var str = window.location.hostname;
@@ -387,8 +524,10 @@ this._authService._getUser()
                   var clinicId = str.substring(0, n);
                   var host = str.substring(n, m);
                   console.log(host);
-                  
-                  if (host == '.localhost') {
+                  if (this.hosted) {
+                    window.location.href = 'http://' + this.clinicWebsite + '/medical-history/' + param + '/' + reminders['visitType'] + '/' + this.userId + qParam;
+                  }
+                  else if (host == '.localhost') {
 
                     window.location.href = 'http://' + this.clinicId + host + ':4200' + '/medical-history/' + param + '/' + reminders['visitType'] + '/' + this.userId + qParam;
                   } else {
@@ -404,7 +543,10 @@ this._authService._getUser()
                   var clinicId = str.substring(0, n);
                   var host = str.substring(n, m);
                   console.log(host);
-                  if (host == '.localhost') {
+                  if (this.hosted) {
+                    window.location.href = 'http://' + this.clinicWebsite + '/medical-history/' + param + '/' + reminders['visitType'] + '/' + this.userId + qParam;
+                  }
+                  else if (host == '.localhost') {
 
                     window.location.href = 'http://' + this.clinicId + host + ':4200' + '/medical-history/' + param + '/' + reminders['primeSymptom'] + '/' + this.userId + qParam;
                   } else {
@@ -438,7 +580,7 @@ this._authService._getUser()
 
   hAPIConnect() {
     //var request = require('request');
-    
+
     let self = this;
     console.log(encodeURIComponent(self.userId));
     var options = {
@@ -453,18 +595,18 @@ this._authService._getUser()
           .then(
           res => {
             console.log(res);
-          //   let headers = new Headers();
-          //   headers.append('Content-Type','application/json')
-          // //headers.append('clientSecret', '21ee8e8ce1410c3f6ff6ea6171aa4f88b1fca3fe');
-          // console.log(sessionTokenObject, headers);
-          //   self.http.post('https://user.humanapi.co/v1/connect/tokens', sessionTokenObject, {
-          //     headers: headers
-          //   })
-          //     .subscribe(
-          //     humanToken => {
-          //       console.log(humanToken)
-          //     }
-          //     );
+            //   let headers = new Headers();
+            //   headers.append('Content-Type','application/json')
+            // //headers.append('clientSecret', '21ee8e8ce1410c3f6ff6ea6171aa4f88b1fca3fe');
+            // console.log(sessionTokenObject, headers);
+            //   self.http.post('https://user.humanapi.co/v1/connect/tokens', sessionTokenObject, {
+            //     headers: headers
+            //   })
+            //     .subscribe(
+            //     humanToken => {
+            //       console.log(humanToken)
+            //     }
+            //     );
           }
           )
       },

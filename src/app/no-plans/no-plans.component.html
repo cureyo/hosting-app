@@ -68,12 +68,12 @@
                                   
                             <div *ngFor="let doctor of plans.consultations;let t=index;">
                              <div style="float:left; margin:5px;">
-                                 <img *ngIf="transactionTable[doctor.id] && partnerData.consultant[doctor.id] && partnerData.consultant[doctor.id].img" src="{{partnerData.consultant[doctor.id].img}}" style="width: 30px; height: 30px; border-radius: 50%;"/>
-                                 <img *ngIf="transactionTable[doctor.id] && partnerData.consultant[doctor.id] && !partnerData.consultant[doctor.id].img" src="https://care.cureyo.com/img/messengerImages/{{partnerData.consultant[doctor.id].icon}}.png" style="width: 30px; height: 30px; border-radius:50%;"/>
+                                 <img *ngIf="transactionTable[doctor.id] && partnerData.consult[doctor.id] && partnerData.consult[doctor.id].img" src="{{partnerData.consult[doctor.id].img}}" style="width: 30px; height: 30px; border-radius: 50%;"/>
+                                 <img *ngIf="transactionTable[doctor.id] && partnerData.consult[doctor.id] && !partnerData.consult[doctor.id].img" src="https://care.cureyo.com/img/messengerImages/{{partnerData.consult[doctor.id].icon}}.png" style="width: 30px; height: 30px; border-radius:50%;"/>
                               </div>
-                               <div *ngIf="transactionTable[doctor.id] && partnerData.consultant[doctor.id]" style="float:left; ">
+                               <div *ngIf="transactionTable[doctor.id] && partnerData.consult[doctor.id]" style="float:left; ">
                                  <p><b>{{doctor.name}}</b>
-                              <br><small>{{partnerData.consultant[doctor.id].speciality}}</small></p>
+                              <br><small>{{partnerData.consult[doctor.id].speciality}}</small></p>
                                </div>
                               
                               
@@ -92,12 +92,12 @@
                   <tr><td><small><b>{{transactionTable[doctor.id].Online.Job_Frequency}} </b>online consultation</small></td>
                   <td style="text-align: right;"><small >Yes</small>
                   </td>
-                  <td style="text-align: right;"><small *ngIf="doctor.online == 'payment'">Rs. {{partnerData.consultant[doctor.id].fee}} <br>per visit</small>
+                  <td style="text-align: right;"><small *ngIf="doctor.online == 'payment'">Rs. {{partnerData.consult[doctor.id].fee}} <br>per visit</small>
                   </td></tr>
                   <tr><td><small><b>{{transactionTable[doctor.id].Physical.Job_Frequency}} </b>physical consultation</small></td>
                   <td style="text-align: right;"><small >Yes</small>
                   </td>
-                  <td style="text-align: right;"><small *ngIf="doctor.physical == 'payment'">Rs. {{partnerData.consultant[doctor.id].fee}} <br>per visit</small>
+                  <td style="text-align: right;"><small *ngIf="doctor.physical == 'payment'">Rs. {{partnerData.consult[doctor.id].fee}} <br>per visit</small>
                   </td></tr>
                    <tr><td><small><b>Sub-Total </b></small></td>
                   <td  style="text-align: right;"><small >0</small>

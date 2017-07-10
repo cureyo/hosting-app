@@ -23,7 +23,9 @@ import { FbloginComponent } from './fblogin/fblogin.component';
 import { CheckUpFormComponent } from './check-up-form/check-up-form.component';
 import { NoPlansComponent } from './no-plans/no-plans.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import {FeedbackFileUploadComponent} from './feedback/file-upload/file-upload.component';
+import {FeedbackComponent} from './feedback/feedback.component';
+import {ReportUploadComponent} from './reportUpload/reportUpload.component';
 
 // Must export the config
 export const firebaseConfig = {
@@ -60,12 +62,13 @@ export const firebaseAuthConfig = {
     GooglePlaceModule,
     MetadataModule.forRoot(),
     
+    
   ],
 
 
   declarations: [ MODULE_COMPONENTS, FbloginComponent, CheckUpFormComponent, NoPlansComponent],
 
-  providers: [{ provide: LocationStrategy, useClass: PathLocationStrategy }, AuthService, AngularFireAuth, AngularFireAuthModule, AngularFireDatabase, AngularFireDatabaseModule, FbService, Jsonp, FacebookService, MetadataService],
+  providers: [{ provide: LocationStrategy, useClass: PathLocationStrategy }, AuthService, AngularFireAuth, AngularFireAuthModule, AngularFireDatabase, AngularFireDatabaseModule, FbService, Jsonp, FacebookService, FeedbackComponent, ReportUploadComponent, FeedbackFileUploadComponent, MetadataService],
 
   bootstrap: [AppComponent]
 })

@@ -5,7 +5,7 @@
 
         <!-- drag and Drop part-->
            <div style="padding: 10px;">
-       <p style="font-weight: 400; text-align: left;">Click a Picture of Doctor's Notes</p>
+       <p style="font-weight: 400; text-align: left;">Upload reports for Consultation</p>
       
         <!-- end of drag and Drop part-->  
         <!-- second part-->
@@ -30,10 +30,9 @@
                     <!--</td>
                     <td width="50%">   -->
                         <select style="display: inline-block; z-index: 10000; outline: none;" id="textval" [(ngModel)]="textval[item?.file?.name]">
-      <option value="Prescription">Prescription</option>
-      <option value="Referral">Referral Note</option>
-      <option value="Diet">Diet Note</option>
-      <option value="Investigation">Investigation Report</option>
+      <option value="settings_overscan">X-ray</option>
+      <option value="invert_colors">Lab Report</option>
+      <option value="content_paste">Prescription</option>
     </select>
     <br>
     <strong>{{ item?.file?.name }}</strong>
@@ -68,14 +67,7 @@
         </div>
         <!-- end of second part-->
         
-       <div class="card" *ngIf="pathImageList && pathImageList[0]">
-           <div class="card-content">
-           <div style="margin: 10px; float: left;"*ngFor="let images of pathImageList">
-               <img [src]="images.fileUrl" style="width: 50px; height: 50px;">
-               <p><b>{{images.Description}}</b></p>
-           </div>
-           </div>
-       </div>
+       
        
            
             </div> 

@@ -18,6 +18,8 @@ export class FbloginComponent implements OnInit {
   private pageId: any;
   private online: boolean = false;
   private phNumber: any;
+  private hosted: boolean = false;
+  private clinicWebsite: any;
   // private renderPlugin: boolean = false;
   private userWorkHistory: any;
   // private userFBId: any = "FBID_";
@@ -41,6 +43,9 @@ export class FbloginComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(
       params => {
         this.clinicId = params['clinicId'];
+        if (params['clinicWebsite'])
+        {this.clinicWebsite = params['clinicWebsite'];
+      this.hosted = true;}
         this._authService._getDoctorPage(this.clinicId).subscribe(
         pageData => {
           console.log(pageData)
@@ -70,9 +75,37 @@ export class FbloginComponent implements OnInit {
     
   }
   clinicFbLogin() {
+    if (window.navigator.userAgent.indexOf("FBAN") > -1 || window.navigator.userAgent.indexOf("FBAV") > -1) {
+      console.log("Facebook browser detected");
+      this._authService.fbApplogin()
+      .then(data => alert(data))
+      .catch(err => alert(err));
+      let path = window.location.origin;
+      this.activatedRoute.queryParams
+      .subscribe(
+        params => {
+          if (params['next']) {
+            let path = window.location.origin;
+            let parameters = '?clinicId=' + this.clinicId;
+
+            if ( params['pathwayId'])
+            parameters = parameters + '&pathwayId='+ params['pathwayId'];
+            if ( params['itemId'])
+            parameters = parameters + '&itemId='+ params['itemId'];
+
+            window.location.href = path + params['next'] + parameters;
+          }
+        }
+      )
+                          
+
+    } else {
+      console.log("Regular browser");
+      
     this._authService.clinicFblogin()
       .then(data => {
         console.log(data);
+        
         this._fs.getLoginStatus().then((response: FacebookLoginResponse) => {
           console.log(response);
           this._fs.api('/' + data.user.providerData[0].uid + '?fields=first_name,last_name,email,education,birthday,work,location,hometown').then(
@@ -128,12 +161,16 @@ export class FbloginComponent implements OnInit {
                           console.log("_saveCheckInData", data)
                           this._authService._saveCheckIn(this.clinicId, date2, userData.id, len);
                           let path = window.location.origin;
+                          let parameters = '?userId=' + userData.id + '&clinicId=' + this.clinicId;
 
-                          console.log(path);
                           if (this.online == true)
-                          window.location.href = path + '/checkupForm/' + len + '?userId=' + userData.id + '&clinicId=' + this.clinicId + '&number=' + this.phNumber
-                          else
-                          window.location.href = path + '/checkupForm/' + len + '?userId=' + userData.id + '&clinicId=' + this.clinicId 
+                          parameters = parameters + '&number=' + this.phNumber;
+
+                          if (this.hosted == true)
+                          parameters = parameters + '&clinicWebsite=' + this.clinicWebsite;
+                          console.log(path);
+                         
+                          window.location.href = path + '/checkupForm/' + len + parameters;
                          
                           //this.router.navigate(['checkupForm/' + len], { queryParams: { userId: userData.id, clinicId: this.clinicId } } )
                          
@@ -208,7 +245,17 @@ export class FbloginComponent implements OnInit {
                           let path = window.location.origin;
 
                           console.log(path);
-                          window.location.href = path + '/checkupForm/' + len + '?userId=' + tempUserId + '&clinicId=' + this.clinicId
+                             let parameters = '?userId=' + tempUserId + '&clinicId=' + this.clinicId;
+                          
+                          if (this.online == true)
+                          parameters = parameters + '&number=' + this.phNumber;
+
+                          if (this.hosted == true)
+                          parameters = parameters + '&clinicWebsite=' + this.clinicWebsite;
+                          console.log(path);
+                         
+                          window.location.href = path + '/checkupForm/' + len + parameters;
+                         
                           //this.router.navigate(['checkupForm/' + len], { queryParams: { userId: userData.id, clinicId: this.clinicId } } )
                          
                        
@@ -231,6 +278,9 @@ export class FbloginComponent implements OnInit {
              
            
         })
+      //   this._authService.login(provider);
+      // console.log("rerouting from login(provider)")
+    }
       }
 
       

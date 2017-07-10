@@ -14,12 +14,12 @@ import { CacheService, CacheStoragesEnum } from 'ng2-cache/ng2-cache';
 
 declare var $: any;
 @Component({
-  templateUrl: 'clinicpage.component.html',
-  selector: 'clinicpage-cmp',
+  templateUrl: 'clinicpage2.component.html',
+  selector: 'clinicpage2-cmp',
   moduleId: module.id
 
 })
-export class ClinicPageComponent implements OnInit, AfterViewInit {
+export class ClinicPageComponent2 implements OnInit, AfterViewInit {
 
   // @Input() pageDetails: any;
 
@@ -204,9 +204,7 @@ export class ClinicPageComponent implements OnInit, AfterViewInit {
 
       this._authService._getDoctorPage(res).subscribe(
         pageData => {
-          if (pageData.type == "2") {
-            this.router.navigate(['home'])
-          }
+
           console.log(pageData);
           this.pageDetails = pageData;
           this.setMetadata();

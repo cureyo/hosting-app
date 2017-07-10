@@ -1,11 +1,12 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { FileUploader, FileUploadModule, FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 import { FirebaseApp } from 'angularfire2';
-import {AngularFireDatabase} from 'angularfire2/database';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { FormGroup, FormBuilder, Validators, FormArray } from "@angular/forms";
 import { AuthService } from "../../services/firebaseauth.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import {FeedbackComponent} from "../feedback.component"
+import { FeedbackComponent } from "../feedback.component"
+import { ReportUploadComponent } from "../../reportUpload/reportUpload.component"
 declare var $: any;
 const URL = 'gs://cureyo-your-personal-hospital.appspot.com/files/';
 @Component({
@@ -23,9 +24,13 @@ export class FeedbackFileUploadComponent implements OnInit {
   public temp_data: any;
 
   private textval: any = [];
+  private pathImageList: any = [];
   private qLength: number = 0;
   private rptCount: number = 0;
+  private pathRptCount: number = 0;
   private i: any;
+  private pathwayId: any;
+  private itemId: any;
   storage: any;
   uploader: FileUploader = new FileUploader({ url: '' });
   uid: string;
@@ -36,7 +41,9 @@ export class FeedbackFileUploadComponent implements OnInit {
     private _authService: AuthService,
     private _fb: FormBuilder,
     private router: Router,
-    private feedback: FeedbackComponent) {
+    private activatedRouter: ActivatedRoute,
+    private feedback: FeedbackComponent,
+    private reportUpload: ReportUploadComponent) {
     this.storage = firebaseApp.storage();
     //this.ref = fb;
     this.uid = localStorage.getItem('uid');
@@ -45,13 +52,81 @@ export class FeedbackFileUploadComponent implements OnInit {
   ngOnInit() {
     console.log(this.userId)
     this._authService._getHealthReports(this.userId)
-    .subscribe(
+      .subscribe(
       data => {
         console.log(data);
         console.log(data.length);
         this.rptCount = data.length;
+
+        this.activatedRouter.queryParams
+          .subscribe(
+          params => {
+            if (params['pathwayId'] && params['itemId']) {
+              this._authService._getPathwayImages(this.userId, params['pathwayId'], params['itemId'])
+                .subscribe(
+                pathImages => {
+                  if (pathImages['images'])
+                      this.pathRptCount = pathImages['images'].length;
+                      else 
+                      this.pathRptCount = 0;
+                  this.pathwayId = params['pathwayId'];
+                  this.itemId = params['itemId'];
+                }
+                )
+            } else {
+              var mode = 'Physical', clinicId;
+              if (params['clinicId'])
+                clinicId = params['clinicId'];
+              else {
+                console.log(window.location);
+                var str = window.location.hostname;
+                console.log(str);
+                var n = str.indexOf(".");
+                if (n == -1) {
+                  n = str.length;
+                }
+                console.log(n);
+                var res = str.substring(0, n);
+                console.log("location", res);
+                clinicId = res;
+              }
+
+              if (params['number'])
+                mode = 'Online';
+
+              this._authService._getActivePathways(this.userId, clinicId, mode)
+                .subscribe(
+                activePaths => {
+                  var toDate = new Date();
+                  var toTime = toDate.getTime();
+
+                  this.pathwayId = (activePaths.pathway) ? activePaths.pathway : 'unplanned';
+
+
+
+                  this.itemId = (activePaths.itemId) ? activePaths.itemId : toTime;
+                  if (!activePaths.pathway)
+                    this._authService._saveActivePathways(this.userId, clinicId, mode, this.pathwayId, this.itemId);
+
+                  this._authService._getPathwayImages(this.userId, this.pathwayId, this.itemId)
+                    .subscribe(
+                    pathImages => {
+                      if (pathImages['images'])
+                      this.pathRptCount = pathImages['images'].length;
+                      else 
+                      this.pathRptCount = 0;
+
+                      this.pathImageList = pathImages;
+
+                    }
+                    )
+                }
+                )
+            }
+          }
+          )
       }
-    )
+      )
 
     this.uploader.onAfterAddingFile = (fileItem) => {
       console.log(this.uploader.queue);
@@ -122,26 +197,35 @@ export class FeedbackFileUploadComponent implements OnInit {
     // to save the file on the db:
     this._authService._savePatientHealthReports(reminder, this.userId, this.rptCount).then(
       data => {
-        console.log("the data:", data);
-       // this.rptCount = this.rptCount + 1;
-        $.notify({
-          icon: "notifications",
-          message: reminder['fileName'] + " added"
+        this._authService._savePathwayImages(this.userId, this.pathwayId, this.itemId, reminder, this.pathRptCount)
+          .then(
+          data2 => {
+            console.log("the data:", data);
+            // this.rptCount = this.rptCount + 1;
+            $.notify({
+              icon: "notifications",
+              message: reminder['fileName'] + " added"
 
-        }, {
-            type: 'cureyo',
-            timer: 4000,
-            allow_dismiss: true,
-            placement: {
-              from: 'top',
-              align: 'right'
-            }
-          });
-        setTimeout(function () {
-          $.notifyClose('top-right');
-        }, 3000);
+            }, {
+                type: 'cureyo',
+                timer: 4000,
+                allow_dismiss: true,
+                placement: {
+                  from: 'top',
+                  align: 'right'
+                }
+              });
+            setTimeout(function () {
+              $.notifyClose('top-right');
+            }, 3000);
+            console.log(this.router.url);
+            if (this.router.url == '/reportUpload')
+              this.reportUpload.fileUploaded();
+            else
+              this.feedback.fileUploaded();
+          }
+          )
 
-        this.feedback.fileUploaded();
       }
     );
   }

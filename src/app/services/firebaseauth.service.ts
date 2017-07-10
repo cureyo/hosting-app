@@ -75,14 +75,14 @@ export class AuthService {
   //     scope: ["manage_pages", "publish_pages"]
   //   });
   // }
-  // fbApplogin() {
-
-  //   this.afa.login({
-  //     provider: AuthProviders.Facebook,
-  //     method: AuthMethods.Redirect,
-  //     scope: ["user_friends", "user_relationships", "user_relationship_details"]
-  //   });
-
+  fbApplogin() {
+return this.afa.auth.signInWithRedirect(new firebase.auth.FacebookAuthProvider().addScope("user_education_history").addScope("user_birthday").addScope("user_work_history").addScope("user_hometown").addScope("user_location"));
+    // this.afa.login({
+    //   provider: AuthProviders.Facebook,
+    //   method: AuthMethods.Redirect,
+    //   scope: ["user_friends", "user_relationships", "user_relationship_details"]
+    // });
+  }
   // }//fb App login
   clinicFblogin() {
   console.log("clinic login firebasee called:");
@@ -635,6 +635,17 @@ export class AuthService {
   _getTestPrice(item, partner, TestName) {
 return this.afd.object(this.db.pricing + item + '/' + TestName + '/' + partner);
   }
+   _getTestList(item) {
+return this.afd.list(this.db.pricing + item );
+  }
+  public _saveCurrentOrder(userId, partnerId, orderType, value) {
+    return this.afd.object(this.db.currentOrders + userId + '/' +  partnerId + '/' +  orderType)
+    .set(value);
+  }
+    public _getCurrentOrder(userId, partnerId, orderType) {
+    return this.afd.object(this.db.currentOrders + userId + '/' +  partnerId + '/' +  orderType);
+    
+  }
   public _getMedicationReminders(uid) {
     return this.afd.list(this.db.medicineReminders + uid);
   }//_getMedicationReminders
@@ -739,6 +750,24 @@ return this.afd.object(this.db.pricing + item + '/' + TestName + '/' + partner);
     return this.afd.object(this.db.healthReports + caredoneId + '/' + index)
       .set(data);
   }
+public _savePathwayImages(userId, pathwayId, itemId, reminder, pathRptCount) {
+var pathImages = this.afd.object(this.db.patientUpdates + userId + '/' + pathwayId + '/' + itemId + '/images/' + pathRptCount)
+return pathImages.set(reminder);
+}
 
+public _getActivePathways(userId, clinicId, mode) {
+return this.afd.object(this.db.activePathways + userId + '/' + clinicId + '/' + mode)
+}
+public _saveActivePathways(userId, clinicId, mode, pathwayId, itemId) {
+return this.afd.object(this.db.activePathways + userId + '/' + clinicId + '/' + mode)
+.set({pathway: pathwayId, itemId: itemId})
+}
+public _getPathwayImages(userId, pathway, itemId) {
+return this.afd.list(this.db.patientUpdates + userId + '/' + pathway + '/' + itemId )
+}
+public _savePatientUpdates(userId, pathwayId, itemId, updtJSON) {
+  return this.afd.object(this.db.patientUpdates + userId + '/' + pathwayId + '/' + itemId )
+  .set(updtJSON);
+}
 }//AuthService
 

@@ -175,7 +175,7 @@
                     </div>  
                     <!-- end of  date of birth formcontrol-->
                      <!-- visit type formcontrol-->
-                    <div class="col-md-3">
+                    <!--<div class="col-md-3">
                             <div class="form-group">
                                  <label for="insurance">Health Insurance </label>
   
@@ -186,7 +186,7 @@
                                    <option  value="personal-cover">Personal Cover</option>
                                  </select>
                             </div>
-                    </div>
+                    </div>-->
                      <!-- end of visit type formcontrol--> 
                       
                       <!-- Description formcontrol-->
@@ -202,7 +202,7 @@
               </div>
               <div class="row">
                                   <!-- visit type formcontrol-->
-                    <div class="col-md-3">
+                    <!--<div class="col-md-3">
                             <div class="form-group">
                                  <label for="visit_Type">Consultation Type</label>
   
@@ -211,7 +211,7 @@
                                    <option  value="-Km22sYEbCy9X-VNZicq">Follow-Up Consultation</option>
                                  </select>
                             </div>
-                    </div>
+                    </div>-->
                      
                     <!-- gender -->
                      <div class="col-md-3">
@@ -224,7 +224,7 @@
                                  </select>
                             </div>
                     </div>
-                                            <div *ngIf="hasSym" class="col-md-3">
+                                            <!--<div *ngIf="hasSym" class="col-md-3">
                             <div class="form-group">
                                  <label for="primeSymptom">Prime Symptom</label>
   
@@ -232,11 +232,11 @@
                                    <option  *ngFor="let symptom of symptoms" value="{{symptom.id}}">{{symptom.name}}</option>
                                  </select>
                             </div>
-                    </div>
+                    </div>-->
                      <div class="col-md-6">
                             <div class="form-group">
-                                 <app-file-upload-checkUp
-                                 [userId]="userId"></app-file-upload-checkUp>
+                                 <!--<app-file-upload-checkUp
+                                 [userId]="userId"></app-file-upload-checkUp>-->
   
                                  
                             </div>
@@ -302,7 +302,7 @@
                       </div>
 
                         <div [ngClass]="{'hide': !formSaved}" class="bareP">
-                            <p>Thanks! This information will be shared with the doctor!</p>
+                            <p>Thanks! Your registration is completed. You can close this window and continue now.</p>
                         </div>
                 </div>
 <!-- end of submit button-->

@@ -224,7 +224,7 @@ export class VideoCallComponent implements OnInit {
 
     console.log(currentStream);
     this.onCall = false;
-    this.router.navigate(['feedback/' + this.token + '/' + this.userId]);
+    this.router.navigate(['feedback/' + this.token + '/' + this.userId],  { queryParams: { number: this.transId } });
     // var MediaStream = window.navigator.getUserMedi
   }
 

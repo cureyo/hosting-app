@@ -7,11 +7,11 @@ import { FormGroup, FormBuilder, Validators, FormArray } from "@angular/forms";
 import { Http, Response, Headers } from '@angular/http';
 
 @Component({
-  selector: 'app-feedback',
-  templateUrl: './feedback.component.html',
+  selector: 'app-reportUpload',
+  templateUrl: './reportUpload.component.html',
   //styleUrls: ['./fblogin.component.css']
 })
-export class FeedbackComponent implements OnInit {
+export class ReportUploadComponent implements OnInit {
   private userBday: any;
   private userEducation: any;
   private userHomeTown: any;
@@ -57,21 +57,22 @@ export class FeedbackComponent implements OnInit {
 
   ngOnInit() {
 
-    this.activatedRoute.params.subscribe(
-      params => {
-        let form = params['case'];
-        this.userId = params['id']
-        console.log(this.userId, form)
+    
+        //let form = params['case'];
+       
+        this._authService._getUser() 
+        .subscribe(userData => {
+           this.userId = userData.user.uid;
+           console.log(this.userId)
         this.feedbackForm = this._fb.group({
-          rating: ['', Validators.required],
-          feedbackDetail: [''],
-          //commented temporarily
+          
 
           prescriptionUpload: ['', Validators.required]
         });
         this.formReady = true;
-      }
-    )
+        })
+       
+      
 
   }
  fileUploaded() {
@@ -80,39 +81,6 @@ export class FeedbackComponent implements OnInit {
    
  }
   saveFeedback(model) {
-    console.log(model.value);
-    //console.log(model.controls['ques'].value)
-    var str = window.location.hostname;
-    console.log(str);
-    var n = str.indexOf(".");
-    if (n == -1) {
-      n = str.length;
-    }
-    console.log(n);
-    var res = str.substring(0, n);
-    console.log("location", res)
-    this._authService._getDoctorId(res)
-      .subscribe(data => {
-        this.activatedRoute.params.subscribe(
-          params => {
-            let patientId = params['id'];
-            let doctorId = data.$value;
-            this._authService._savePatientFeedback(model.value, patientId, doctorId)
-              .then(
-              data => {
-                this._authService._findCaredOne(doctorId,patientId)
-                .subscribe(
-                  cardData => {
-                    console.log(cardData);
-                    this.router.navigate(['care-plan/'+ patientId + '/' + cardData.latestPathway]);
-                  }
-                )
-                
-              }
-              )
-
-          }
-        )
-      });
+    alert('Thanks! These reports have been saved. You can now close this window.')
   }
 }

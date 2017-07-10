@@ -74,6 +74,7 @@ export class NoPlansComponent implements OnInit {
         params => {
           let param = params['id'];
           self.userId = param;
+          self.pathWaysId = params['pathway']
         })
     })();
 
@@ -93,10 +94,12 @@ export class NoPlansComponent implements OnInit {
 
                   console.log(pathWaysID);
                   var t = Object.keys(pathWaysID.Paths);
-                  this.pathWaysId = t[0];
+                  //this.pathWaysId = t[0];
                   this.careSchedule = pathWaysID.Paths[this.pathWaysId];
                   console.log("pathways Id:", this.pathWaysId);
-                  if (this.pathWaysId) {
+                  
+                  if (!this.careSchedule.plan || this.careSchedule.plan == 'No') {
+                    if (this.pathWaysId) {
 
                     this._authService._getcarePathWays(this.pathWaysId)
                       .subscribe(carepathWaysObj => {
@@ -144,12 +147,12 @@ export class NoPlansComponent implements OnInit {
                                         dFees[doctor.id] = [];
                                         if (this.transactionTable[doctor.id]) {
                                           console.log(doctor);
-                                          if (doctor.online == 'payment') {
-                                            dFees[doctor.id]['online'] = Math.round(this.partnerData.consultant[doctor.id].fee * (parseInt(this.carePathWayDetails.duration) / this.mulTable[this.transactionTable[doctor.id].Online['Job_Frequency']]));
+                                          if (doctor.online == 'payment' && this.partnerData.consult[doctor.id] && this.partnerData.consult[doctor.id].fee) {
+                                            dFees[doctor.id]['online'] = Math.round(this.partnerData.consult[doctor.id].fee * (parseInt(this.carePathWayDetails.duration) / this.mulTable[this.transactionTable[doctor.id].Online['Job_Frequency']]));
                                             onlineFee = dFees[doctor.id]['online'];
                                           }
-                                          if (doctor.physical == 'payment') {
-                                            dFees[doctor.id]['physical'] = Math.round(this.partnerData.consultant[doctor.id].fee * (parseInt(this.carePathWayDetails.duration) / this.mulTable[this.transactionTable[doctor.id].Online['Job_Frequency']]));
+                                          if (doctor.physical == 'payment'  && this.partnerData.consult[doctor.id] && this.partnerData.consult[doctor.id].fee) {
+                                            dFees[doctor.id]['physical'] = Math.round(this.partnerData.consult[doctor.id].fee * (parseInt(this.carePathWayDetails.duration) / this.mulTable[this.transactionTable[doctor.id].Online['Job_Frequency']]));
                                             phyFee = dFees[doctor.id]['physical'];
                                           } else if (doctor.physical == 'reminder') {
                                             dFees[doctor.id]['physical'] = 0;
@@ -232,6 +235,10 @@ export class NoPlansComponent implements OnInit {
                   else {
                     alert("PathwaysId is not found:")
                   }
+                  } else {
+                    window.location.href = 'https://' + this.pageName + '.cureyo.com'
+                  }
+                  
                 })
             }
             else {
@@ -368,8 +375,9 @@ export class NoPlansComponent implements OnInit {
             var targetMonth2 = targetDate2.getMonth();
             var targetYear2 = targetDate2.getFullYear();
             let img2 = "https://care.cureyo.com/img/messengerImages/local_hospital.png";
-            if (partnerData.consultant[careItem.consultant] && partnerData.consultant[careItem.consultant].img != "")
-              img2 = partnerData.consultant[careItem.consultant].img;
+            console.log(partnerData);
+            if (partnerData.consult[careItem.consultant] && partnerData.consult[careItem.consultant].img != "")
+              img2 = partnerData.consult[careItem.consultant].img;
             this.timeLineCount++;
             if (this.timeline[targetTime2]) {
               var tempTitle = this.timeline[targetTime2].title, tempImage = this.timeline[targetTime2].img, tempContent = this.timeline[targetTime2].content;
@@ -378,12 +386,12 @@ export class NoPlansComponent implements OnInit {
                 tempTitle = tempTitle + ' & ' + consultType + ' Review';
 
               tempImage = tempImage.concat(img2);
-              tempContent = tempContent + ' | ' + consultType + " Review with " + partnerData.consultant[careItem.consultant].name;
+              tempContent = tempContent + ' | ' + consultType + " Review with " + partnerData.consult[careItem.consultant].name;
               this.timeline[targetTime2] = { caption: this.timeline[targetTime2].caption, date: this.timeline[targetTime2].date, title: tempTitle, content: tempContent, img: tempImage, timeInMills: this.timeline[targetTime2].timeInMills };
             }
 
             else {
-              this.timeline[targetTime2] = { caption: targetDay2 + ' ' + this.monthTable[targetMonth2], date: new Date(targetYear2, targetMonth2 + 1, targetDay2), title: consultType + ' Review', content: consultType + " Review with " + partnerData.consultant[careItem.consultant].name, img: [img2], timeInMills: targetTime2 };
+              this.timeline[targetTime2] = { caption: targetDay2 + ' ' + this.monthTable[targetMonth2], date: new Date(targetYear2, targetMonth2 + 1, targetDay2), title: consultType + ' Review', content: consultType + " Review with " , img: [img2], timeInMills: targetTime2 };
               console.log("new Entry:", targetDay2)
             }
 

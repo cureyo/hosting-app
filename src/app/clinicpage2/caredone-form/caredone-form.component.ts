@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from "@ang
 import { Caredone } from "../../models/caredone.interface";
 import { AuthService } from "../../services/firebaseauth.service";
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClinicPageComponent } from "../clinicpage.component";
+//import { ClinicPageComponent2 } from "../clinicpage2.component";
 import {FileUploadComponent} from "../file-upload/file-upload.component"
 import { Http, Response, Headers } from '@angular/http';
 
