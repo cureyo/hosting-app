@@ -28,6 +28,7 @@ export const AppConfig = {
     users:              environment.envName + '/UserTable/',
     scheduledJobs:      environment.envName + '/Scheduled_Jobs/',
     caredOnes:          environment.envName + '/CaredOnes/',
+    phone2FBID:         environment.envName + '/Phone2FBId/',
     httpRequests:       environment.envName + '/HttpRequests/',
     PaymentPlans:       environment.envName + '/PaymentPlans/',
     medicineReminders:  environment.envName + '/Medicine_Reminders/',

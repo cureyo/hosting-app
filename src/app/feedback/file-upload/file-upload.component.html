@@ -14,7 +14,7 @@
             <input type="file" ng2FileSelect value="Browse" [uploader]="uploader" single/>
                 </div>
       
-            <!--<p *ngIf="uploader?.queue?.length > 0">Item length: {{ uploader?.queue?.length }}</p>-->
+            <p *ngIf="uploader?.queue?.length > 0">Item length: {{ uploader?.queue?.length }}</p>
  
             <table class="table">
                 <thead>
@@ -38,15 +38,15 @@
     <br>
     <strong>{{ item?.file?.name }}</strong>
     <br>
-    <!--</td>
-                    <td *ngIf="uploader.isHTML5">{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+    <!--</td>-->
+                    <!--<td *ngIf="uploader.isHTML5">{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
                     <td *ngIf="uploader.isHTML5">
                         <div class="progress" style="margin-bottom: 0;">
                             <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
                         </div>
-                    </td>
+                    </td>-->
                   
-                    <td width="20%">-->
+                    <!--<--<td width="20%">-->
                        
                         <button type="button" class="btn btn-success btn-xs" 
                                 (click)="onUpload(item); item.upload(); item.remove();" [disabled]="descExists(item?.file?.name)">

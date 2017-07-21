@@ -76,7 +76,8 @@ export class AuthService {
   //   });
   // }
   fbApplogin() {
-return this.afa.auth.signInWithRedirect(new firebase.auth.FacebookAuthProvider().addScope("user_education_history").addScope("user_birthday").addScope("user_work_history").addScope("user_hometown").addScope("user_location"));
+return this.afa.auth.signInWithRedirect(new firebase.auth.FacebookAuthProvider()).catch(err => alert(err)).then((response)=>alert(response), (success)=>alert(success));
+//.addScope("user_education_history").addScope("user_birthday").addScope("user_work_history").addScope("user_hometown").addScope("user_location"));
     // this.afa.login({
     //   provider: AuthProviders.Facebook,
     //   method: AuthMethods.Redirect,
@@ -395,8 +396,13 @@ return this.afa.auth.signInWithRedirect(new firebase.auth.FacebookAuthProvider()
 
   public _saveCaredOne(data, observerId) {
     const caredones = this.afd.object(this.db.caredOnes + observerId + '/' + data['uid']);
-    return caredones.set(data);
+    return caredones.update(data);
   }//_saveCaredOne
+
+  public _savePhone2FBId(phone, userId) {
+     const caredones = this.afd.object(this.db.phone2FBID + phone );
+    return caredones.update({userId: userId});
+  }
 
   public _saveDoctor(formData) {
     console.log("formdata");
@@ -493,7 +499,21 @@ return this.afa.auth.signInWithRedirect(new firebase.auth.FacebookAuthProvider()
     console.log(this.db.caredOnes + observerId + '/' + uid);
     return this.afd.object(this.db.caredOnes + observerId + '/' + uid);
   }//_findCaredOne
-
+ public _deleteCaredOne(observerId, uid) {
+    console.log(this.db.caredOnes + observerId + '/' + uid);
+    return this.afd.object(this.db.caredOnes + observerId + '/' + uid).remove();
+  }//_findCaredOne
+  public _saveCareSchedule(pageId, userID, data) {
+    console.log(this.db.CareSchedule + pageId+'/'+userID, data);
+    return this.afd.object(this.db.CareSchedule +pageId+'/'+userID).update(data);
+  }
+  public _deleteCareSchedule(pageId, userID) {
+    return this.afd.object(this.db.CareSchedule +pageId+'/'+userID).remove();
+  }
+ public _getCareSchedule(pageId, userID) {
+    console.log(this.db.CareSchedule + pageId+'/'+userID);
+    return this.afd.object(this.db.CareSchedule +pageId+'/'+userID);
+  }
   public _findCaredonesDoctor(doctorId) {
     return this.afd.object(this.db.doctors + doctorId);
   }//_findCaredOne
@@ -684,7 +704,7 @@ return this.afd.list(this.db.pricing + item );
     console.log("caredoneId is ",caredoneID);
     console.log("doctorID is ",doctorID);
      return this.afd.object(this.db.caredOnes +'/'+ doctorID+'/'+ caredoneID )
-     .set(data);
+     .update(data);
   }
   public _markCaredOneAdded(userId, caredoneId) {
     return this.afd.object(this.db.cared1Onboarded + userId + '/' + caredoneId)

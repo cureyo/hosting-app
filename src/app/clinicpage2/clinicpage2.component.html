@@ -84,7 +84,7 @@
 <!-- End Navbar -->
 
 <div class="wrapper">
-	<div class="header" >
+	<div class="header" id="heroSection">
 			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 								<div class="carousel slide" data-ride="carousel">
 
@@ -98,6 +98,7 @@
 									<!-- Wrapper for slides -->
 									<div class="carousel-inner" style="min-height: 600px;">
 										<div class="item active">
+											<div style="background: #008b9c;">
 											<div class="carousel-caption" style="height: 100%;  top: 20%;">
 												<div class="col-md-6" style="text-align: left;">
 												<h3 ><b>A Modern Approach to Woman Care</b></h3>
@@ -106,7 +107,8 @@
 											</div>
 												<h4><i class="material-icons">location_on</i> Yellowstone National Park, United States</h4>
 											</div>
-											<img src="assets/img/bg2.jpeg" alt="Awesome Image"  style="min-height: 600px;">
+											</div>
+											<img [src]="pageDetails.content.heroTile.bgImage" alt="Awesome Image"  style="top: 0; bottom: 0; width: 100%; height: 100%; overflow: hidden;">
 											
 											
 											

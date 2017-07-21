@@ -22,6 +22,7 @@ export class CheckUpFormComponent implements OnInit {
   private userId: any;
   private DoctorId: any;
   private online: boolean = false;
+  private latestPathway: any;
   private number: any;
   private userData: any
   private birthdate: string;
@@ -47,6 +48,8 @@ export class CheckUpFormComponent implements OnInit {
   private clinicWebsite: any;
   private pathwayId: any;
   private itemId: any;
+  private connectED: boolean = false;
+  private connectUID: any;
 
   constructor(
     private _fb: FormBuilder,
@@ -87,6 +90,9 @@ export class CheckUpFormComponent implements OnInit {
       .subscribe(
       usDat => {
         console.log(usDat)
+        if (usDat.isAuth == false) {
+          this._authService.loginMailUser({email: "omni-user@cureyo.com", password: "pass9967092749"})
+        }
         this.route.queryParams.subscribe(
           param => {
             console.log(param);
@@ -97,6 +103,11 @@ export class CheckUpFormComponent implements OnInit {
             if (param['clinicWebsite']) {
               this.hosted = true;
               this.clinicWebsite = param['clinicWebsite'];
+            }
+             if (param['connectUID']) {
+              this.connectED = true;
+              this.connectUID = param['connectUID'];
+              
             }
             this.userId = param['userId']
             console.log("userid is :", this.userId);
@@ -146,6 +157,7 @@ export class CheckUpFormComponent implements OnInit {
 
                           this.userId = user.uid;
                           this.uid = user.uid;
+                          this.latestPathway = user.latestPathway;
                           if (user.Job_conditions) {
                             this.checkUpForm = this._fb.group({
                               first_Name: [user.firstName, Validators.required],
@@ -153,6 +165,7 @@ export class CheckUpFormComponent implements OnInit {
                               Email: [user.email, Validators.required],
                               phone: [user.phone, Validators.required],
                               DOB: [user.dateOfBirth],
+                              language: ['English',  Validators.required],
                               visit_Type: [, Validators.required],
                               // description: [, Validators.required],
                               insurance: [user.insurance, Validators.required],
@@ -224,6 +237,7 @@ export class CheckUpFormComponent implements OnInit {
                               Email: [user.email, Validators.required],
                               phone: [user.phone, Validators.required],
                               DOB: [user.dateOfBirth],
+                              language: ['English',  Validators.required],
                               visit_Type: [, Validators.required],
                               // description: [, Validators.required],
                               insurance: [user.insurance, Validators.required],
@@ -311,6 +325,7 @@ export class CheckUpFormComponent implements OnInit {
                                   Email: [this.email, Validators.required],
                                   phone: [number, Validators.required],
                                   DOB: [this.birthdate],
+                                  language: ['English',  Validators.required],
                                   visit_Type: [, Validators.required],
                                   // description: [, Validators.required],
                                   insurance: [, Validators.required],
@@ -371,6 +386,7 @@ export class CheckUpFormComponent implements OnInit {
                                   Email: ['', Validators.required],
                                   phone: [number, Validators.required],
                                   DOB: [''],
+                                  language: ['English',  Validators.required],
                                   visit_Type: [, Validators.required],
                                   // description: [, Validators.required],
                                   insurance: [, Validators.required],
@@ -478,6 +494,7 @@ export class CheckUpFormComponent implements OnInit {
       "email": job['Email'],
       "phone": job['phone'],
       "dateOfBirth": job['DOB'],
+      "language": job['language'],
       "visitType": job['visit_Type'],
       // "description": job['description'],
       "avatar": "https://graph.facebook.com/" + this.uid + "/picture?type=large",
@@ -513,10 +530,33 @@ export class CheckUpFormComponent implements OnInit {
             this._authService._saveCaredOne(reminders, this.DoctorId)
               .then(
               data2 => {
+                console.log(reminders['phone'], this.userId);
+                this._authService._savePhone2FBId((this.connectUID)?this.connectUID:reminders['phone'], this.userId)
+                .then(
+                  data3 => {
+                    
+                  
                 console.log(data)
                 ///////////
+                if (this.connectED) {
+                  var str = window.location.hostname;
+                  var n = str.indexOf(".");
+                  var m = str.length;
+                  var clinicId = str.substring(0, n);
+                  var host = str.substring(n, m);
+                  
+                  this.router.navigate(['care-plan/'+ this.uid + '/' + this.latestPathway], {queryParams: {clinicId: this.clinicId}})
+                  // if (this.hosted) {
+                  //   window.location.href = 'http://' + this.clinicWebsite + '/care-plan/'+ this.uid + '/' + this.latestPathway;
+                  // }
+                  // else if (host == '.localhost') {
 
-                if (reminders['primeSymptom'] == "NA" || !reminders['primeSymptom']) {
+                  //   window.location.href = 'http://' + this.clinicId + host + ':4200/' + 'care-plan/'+ this.uid + '/' + this.latestPathway;
+                  // } else {
+                  //   window.location.href = 'http://' + this.clinicId + host + '/care-plan/'+ this.uid + '/' + this.latestPathway;
+                  // }
+                }
+                else if (reminders['primeSymptom'] == "NA" || !reminders['primeSymptom']) {
                   //this.router.navigate(['queue/' + param + '/' + this.userId], { queryParams: { triaged: false } });
                   var str = window.location.hostname;
                   var n = str.indexOf(".");
@@ -534,7 +574,9 @@ export class CheckUpFormComponent implements OnInit {
                     window.location.href = 'http://' + this.clinicId + host + '/medical-history/' + param + '/' + reminders['visitType'] + '/' + this.userId + qParam;
                   }
                 }
+                else if (param == 'x') {
 
+                }
                 else {
                   //this.router.navigate(['medical-history/' + param + '/' + reminders['primeSymptom'] + '/' + this.userId]) 
                   var str = window.location.hostname;
@@ -553,7 +595,8 @@ export class CheckUpFormComponent implements OnInit {
                     window.location.href = 'http://' + this.clinicId + host + '/medical-history/' + param + '/' + reminders['primeSymptom'] + '/' + this.userId + qParam;
                   }
                 }
-
+                }
+                )
               }
               )
           }

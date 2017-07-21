@@ -32,6 +32,7 @@ export class ClinicPageComponent implements OnInit, AfterViewInit {
   private resourceDetails: any;
   private partnerDetailsReady: boolean = false;
   private partnerDetails: any = [];
+  private fullPartnerList: any;
   private blogBox: any = [];
   private blogPage: boolean = false;
   private blogData: any;
@@ -82,6 +83,9 @@ export class ClinicPageComponent implements OnInit, AfterViewInit {
 
     if (this.pageDetailsData) {
       this.pageDetails = this.pageDetailsData.data;
+        if (this.pageDetails.type == "2") {
+            this.router.navigate(['home'])
+          }
       //this.partnerDetails = this.pageDetailsData.partnerDetails
       console.log(this.pageDetails.metaData);
       this.setMetadata();
@@ -96,14 +100,16 @@ export class ClinicPageComponent implements OnInit, AfterViewInit {
         partnerList => {
 
           console.log(partnerList);
-          let ctr = 0;
+          this.fullPartnerList = {consult:[], vendor:[]};
+          let ctr = 0, ctr2 = 0, ctr4 = 0;
           console.log(partnerList.consult);
           if (partnerList.consult) {
             for (let item in partnerList.consult) {
               console.log(item);
               if (partnerList.consult[item].name != 'self') {
                 this.partnerDetails[ctr] = partnerList.consult[item];
-
+                this.fullPartnerList.consult[ctr2] =  partnerList.consult[item];
+                ctr2++;
                 if (partnerList.consult[item].uid) {
                   this._authService._fetchUser(partnerList.consult[item].uid)
                     .subscribe(
@@ -129,6 +135,8 @@ export class ClinicPageComponent implements OnInit, AfterViewInit {
             for (let item of partnerList.vendors) {
               console.log(item);
               this.partnerDetails[ctr] = item;
+               this.fullPartnerList.consult[ctr4] =  partnerList.vendor[item];
+               ctr4++;
               if (partnerList.vendors[item].uid) {
                 this._authService._fetchUser(partnerList.vendors[item].uid)
                   .subscribe(

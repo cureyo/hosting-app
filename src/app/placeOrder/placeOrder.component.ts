@@ -30,6 +30,10 @@ export class PlaceOrderComponent implements OnInit {
 
   ngOnInit() {
 
+this._authService.loginMailUser({email: "omni-user@cureyo.com", password:"pass9967092749"})
+.then(
+  randData => {
+
 
     this.activatedRoute.params.subscribe(
       params => {
@@ -45,19 +49,28 @@ export class PlaceOrderComponent implements OnInit {
               .subscribe(
               currentOrder => {
                 console.log("currentOrder", currentOrder);
+                let k = 0;
+                if (currentOrder) {
+                  if (currentOrder[0])
+                k = 0;
+                else if (currentOrder[1])
+                k = 1;
                 this.addTestForm = this._fb.group({
                   item: this._fb.array([
-                    this.addTestItem2(currentOrder[0].name)
+                    this.addTestItem2(currentOrder[k].name)
                   ])
                 });
+                k++;
 
-                for (let i = 1; i < currentOrder.length; i++) {
+                for (let i = k; i < currentOrder.length; i++) {
                   if (currentOrder[i] && currentOrder[i].name) {
                     let control = <FormArray>this.addTestForm.controls['item'];
                   control.push(this.addTestItem2(currentOrder[i].name));
                   }
                   
                 }
+                }
+                
                 this.formReady = true;
               }
               )
@@ -66,7 +79,7 @@ export class PlaceOrderComponent implements OnInit {
           )
       }
     )
-
+})
 
   }
   addTestItem() {
@@ -98,6 +111,8 @@ export class PlaceOrderComponent implements OnInit {
     this._authService._saveCurrentOrder(this.userId, this.partnerId, this.orderType, finalArray)
     .then(
       data => alert("These items have been added. You can now close this window and review/ confirm your request.")
+    ).catch(
+      error => alert(error)
     )
   }
 }

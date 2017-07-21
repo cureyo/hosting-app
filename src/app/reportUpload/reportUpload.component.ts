@@ -57,29 +57,42 @@ export class ReportUploadComponent implements OnInit {
 
   ngOnInit() {
 
-    
-        //let form = params['case'];
-       
-        this._authService._getUser() 
-        .subscribe(userData => {
-           this.userId = userData.user.uid;
-           console.log(this.userId)
+
+    //let form = params['case'];
+
+    this._authService._getUser()
+      .subscribe(userData => {
+        this.userId = userData.user.uid;
+        console.log(this.userId)
         this.feedbackForm = this._fb.group({
-          
+
 
           prescriptionUpload: ['', Validators.required]
         });
         this.formReady = true;
-        })
-       
-      
+      },
+      error => {
+        this.activatedRoute.queryParams.subscribe(
+          qParams => {
+            this.userId = qParams['userId'];
+            console.log(this.userId)
+            this.feedbackForm = this._fb.group({
+
+
+              prescriptionUpload: ['', Validators.required]
+            });
+            this.formReady = true;
+          })
+
+      })
+
 
   }
- fileUploaded() {
-   console.log(this.feedbackForm)
-   this.feedbackForm.controls['prescriptionUpload'].setValue("true");
-   
- }
+  fileUploaded() {
+    console.log(this.feedbackForm)
+    this.feedbackForm.controls['prescriptionUpload'].setValue("true");
+
+  }
   saveFeedback(model) {
     alert('Thanks! These reports have been saved. You can now close this window.')
   }

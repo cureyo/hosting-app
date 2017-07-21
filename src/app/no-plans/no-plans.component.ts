@@ -69,12 +69,19 @@ export class NoPlansComponent implements OnInit {
     (function () {
       var str = window.location.hostname;
       var n = str.indexOf(".");
-      self.pageName = str.substring(0, n);
+      
       self.route.params.subscribe(
         params => {
           let param = params['id'];
           self.userId = param;
           self.pathWaysId = params['pathway']
+          self.route.queryParams.subscribe(
+          qParams => {
+            if (str.substring(0, n) == 'login' && qParams['clinicId'])
+            self.pageName = qParams['clinicId'];
+            else 
+            self.pageName = str.substring(0, n);
+          })
         })
     })();
 
@@ -93,7 +100,7 @@ export class NoPlansComponent implements OnInit {
 
 
                   console.log(pathWaysID);
-                  var t = Object.keys(pathWaysID.Paths);
+                  //var t = Object.keys(pathWaysID.Paths);
                   //this.pathWaysId = t[0];
                   this.careSchedule = pathWaysID.Paths[this.pathWaysId];
                   console.log("pathways Id:", this.pathWaysId);
@@ -213,10 +220,10 @@ export class NoPlansComponent implements OnInit {
 
                                     }
                                     console.log(this.feeTable);
-                                    for (let item of this.transactionTable['RadiologicalLabTest']) {
-                                      console.log(item.TestName)
-                                      console.log(this.feeTable[0]['Radiological'][item.TestName])
-                                    }
+                                    // for (let item of this.transactionTable['RadiologicalLabTest']) {
+                                    //   console.log(item.TestName)
+                                    //   console.log(this.feeTable[0]['Radiological'][item.TestName])
+                                    // }
                                     for (let i = 0; i < ctr; i++) {
                                       this.changePayFreq(1, i, this.carePathWayDetails.duration);
                                     }
@@ -283,7 +290,7 @@ export class NoPlansComponent implements OnInit {
     }
     const domainURL = "https://subscriptions.zoho.com/api/v1/plans";
     const domData = {
-      "plan_code": Math.floor((Math.random() * 100000) + 1),
+      "plan_code": "ABC" + Math.floor((Math.random() * 100000) + 1),
       "name": this.carePathWayDetails.name + ": " + this.paymentPlans[k].title,
       "recurring_price": price,
       "interval": t,
@@ -365,7 +372,8 @@ export class NoPlansComponent implements OnInit {
             consultType = "Online";
           else
             consultType = "Physical";
-
+            console.log(transactionTable)
+            console.log(careItem.consultant,  careItem)
           var iterations = carePathWayDetails.duration / this.mulTable[transactionTable[careItem.consultant][consultType].Job_Frequency];
           console.log(iterations);
           for (let i = 0; i < iterations; i++) {
@@ -391,7 +399,8 @@ export class NoPlansComponent implements OnInit {
             }
 
             else {
-              this.timeline[targetTime2] = { caption: targetDay2 + ' ' + this.monthTable[targetMonth2], date: new Date(targetYear2, targetMonth2 + 1, targetDay2), title: consultType + ' Review', content: consultType + " Review with " , img: [img2], timeInMills: targetTime2 };
+              console.log(careItem.messageText, careItem, "careItem.messageText")
+              this.timeline[targetTime2] = { caption: targetDay2 + ' ' + this.monthTable[targetMonth2], date: new Date(targetYear2, targetMonth2 + 1, targetDay2), title: consultType + ' Review', content: careItem.messageText, img: [img2], timeInMills: targetTime2 };
               console.log("new Entry:", targetDay2)
             }
 

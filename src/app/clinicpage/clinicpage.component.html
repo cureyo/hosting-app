@@ -114,7 +114,7 @@
             </div>
       
     </div>
-    <div *ngIf="!resourcePage && !blogPage" class="section section-header" id="heroSection">
+    <div *ngIf="doctorPage" class="section section-header" id="heroSection">
         <div *ngIf="pageDetails" class="parallax filter filter-color-blue"   style="min-height: 800px;">
             <div class="image" 
                [style.background-image]=getSafeURL(pageDetails.content.heroTile.bgImage)
@@ -153,6 +153,41 @@
             </div>
         </div>
     </div>
+    	<div class="header" id="heroSection">
+			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+								<div class="carousel slide" data-ride="carousel">
+
+									
+									<ol class="carousel-indicators">
+										<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+										
+									</ol>
+
+								
+									<div class="carousel-inner" style="min-height: 600px;">
+										<div class="item active parallax filter filter-color-blue">
+											<div style="background: #008b9c;">
+											<div class="carousel-caption" style="height: 100%;  top: 20%;">
+												<div class="col-md-6" style="text-align: left;">
+												<h3 class="title-modern" ><b>A Modern Approach to Woman Care</b></h3>
+												<h6 class="title-modern">We understand today's working women. Our treatments and protocols are built keeping your busy routine in mind. We leverage technology, to help you spend lesser time travelling and waiting, and more time getting better.</h6>
+											<button class="btn btn-round" style="border-color: #FFFFFF; color: #FFFFFF; background-color: transparent; border: 1px solid white;">Learn More</button>
+											</div>
+												<!--<h4><i class="material-icons">location_on</i> Yellowstone National Park, United States</h4>-->
+											</div>
+											</div>
+											<img [src]="pageDetails.content.heroTile.bgImage" alt="Awesome Image" >
+											
+											
+											
+										</div>
+										
+									</div>
+
+									
+								</div>
+							</div>
+	</div>
 <div *ngIf="blogPage" class="section section-header" id="heroSection">
         <div  class="parallax filter filter-color-blue"   style="min-height: 800px;">
             <div class="image" 
@@ -339,11 +374,11 @@
                 <div class="content">
                     <div class="title-area">
                         <p>Below are other Consultants we partner with</p>
-                        <h1 class="title-modern" style="margin-bottom: 20px;">Our Partners</h1>
+                        <h1 class="title-modern" style="margin-bottom: 20px;">Our Consultants</h1>
                         <!--<h2>{{pageDetails.Content.heroText2}}</h2>-->
                        <div class="row row-centered">
                            
-                        <div class="col-md-4 col-centered" *ngFor="let partner of partnerDetails; let i = index;" >
+                        <div class="col-md-4 col-centered" *ngFor="let partner of fullPartnerList.consult; let i = index;" >
                           <div  class="card card-profile" style="transform: translate3d(0px, 0px, 0px); opacity: 1; height: 250px;">
                           <div class="card-avatar" style="width: 100px; height: 100px;" data-background-color="cureyo">
                     
@@ -355,6 +390,46 @@
     <h3 class="title-modern">{{partner.name}}
         <br><small>{{partner.category}}</small>
         <br><small>{{partner.type}}</small></h3>
+         <br><small>{{partner.brief}}</small>
+        <a *ngIf="partner.uid" href="{{partnerLink[i]}}" class="btn btn-danger btn-round">Visit</a>
+</div>
+
+</div>
+                       
+                        </div>
+                       </div>
+                    </div>
+
+                   
+                </div>
+
+            </div>
+        
+    </div>
+<div  *ngIf="partnerDetailsReady" id="partnerSection" class="section" style="background-color: #ccc;">
+       
+           
+            <div class="container">
+                <div class="content">
+                    <div class="title-area">
+                        <p>Our vendor partners</p>
+                        <h1 class="title-modern" style="margin-bottom: 20px;">Facilities we provide</h1>
+                        <!--<h2>{{pageDetails.Content.heroText2}}</h2>-->
+                       <div class="row row-centered">
+                           
+                        <div class="col-md-4 col-centered" *ngFor="let partner of fullPartnerList.vendor; let i = index;" >
+                          <div  class="card card-stats" style="transform: translate3d(0px, 0px, 0px); opacity: 1; height: 250px;">
+                          <div class="card-header " style="width: 100px; height: 100px;" data-background-color="cureyo">
+                    
+                        <img *ngIf="partner.uid" class="img" src="https://graph.facebook.com/{{partner.uid}}/picture?type=large" />
+                        <i *ngIf="!partner.uid" class="material-icons" style="color: #ffffff; line-height: 100px; font-size: 60px;">{{partner.icon}} </i>
+                </div>
+<div class="card-content">
+    <!--<p class="category">{{pageDetails.content.heroTile.card.title}}</p>-->
+    <h3 class="title-modern">{{partner.name}}
+        <br><small>{{partner.category}}</small>
+        <br><small>{{partner.type}}</small></h3>
+         <br><small>{{partner.brief}}</small>
         <a *ngIf="partner.uid" href="{{partnerLink[i]}}" class="btn btn-danger btn-round">Visit</a>
 </div>
 
