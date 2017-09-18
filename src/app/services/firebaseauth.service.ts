@@ -331,6 +331,7 @@ return this.afa.auth.signInWithRedirect(new firebase.auth.FacebookAuthProvider()
   }
 
   public _getAvailableSlots(clinicId, consultDate) {
+    console.log(this.db.clinicConsultSlots + clinicId + '/' + consultDate);
     return this.afd.object(this.db.clinicConsultSlots + clinicId + '/' + consultDate);
 
   }

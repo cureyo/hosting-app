@@ -52,11 +52,11 @@
     "ng2-metadata": "^1.4.2-final",
     "node-sass": "^4.0.0",
     "reflect-metadata": "~0.1.8",
-    "rxjs": "5.4.0",
+    "rxjs": "6.0.0-alpha.0",
     "systemjs": "~0.20.12",
     "timepicker": "^1.11.9",
     "ts-helpers": "^1.1.1",
-    "typescript": "^2.3.2",
+    "typescript": "2.3.4",
     "zone.js": "^0.8.10"
   },
   "devDependencies": {
@@ -83,6 +83,6 @@
     "protractor": "5.1.1",
     "ts-node": "3.0.4",
     "tslint": "5.2.0",
-    "typescript": "2.3.2"
+    "typescript": "2.3.4"
   }
 }
