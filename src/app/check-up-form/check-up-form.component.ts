@@ -25,6 +25,7 @@ export class CheckUpFormComponent implements OnInit {
   private latestPathway: any;
   private number: any;
   private userData: any
+  private userDataFound: boolean = false;
   private birthdate: string;
   private fname: any;
   private uid: any;
@@ -93,6 +94,9 @@ export class CheckUpFormComponent implements OnInit {
         if (usDat.isAuth == false) {
           this._authService.loginMailUser({email: "omni-user@cureyo.com", password: "pass9967092749"})
         }
+        else {
+          this.userDataFound = true;
+        }
         this.route.queryParams.subscribe(
           param => {
             console.log(param);
@@ -156,6 +160,7 @@ export class CheckUpFormComponent implements OnInit {
                         if (user.firstName) {
 
                           this.userId = user.uid;
+                          this.fname = user.firstName;
                           this.uid = user.uid;
                           this.latestPathway = user.latestPathway;
                           if (user.Job_conditions) {
@@ -166,10 +171,10 @@ export class CheckUpFormComponent implements OnInit {
                               phone: [user.phone, Validators.required],
                               DOB: [user.dateOfBirth],
                               language: ['English',  Validators.required],
-                              visit_Type: [, Validators.required],
+                              visit_Type: [(this.userDataFound)?'-Km22sYEbCy9X-VNZicq':'-Km21vBO8lVxI8Qp4jNE', Validators.required],
                               // description: [, Validators.required],
                               insurance: [user.insurance, Validators.required],
-                              primeSymptom: [, Validators.required],
+                              primeSymptom: [user.primeSymptom, Validators.required],
                               sex: [user.gender, Validators.required],
                               conditions: this._fb.array([
                                 this.initExistingConditions(user.Job_conditions[0])

@@ -18,6 +18,7 @@ export class FbloginComponent implements OnInit {
   private pageId: any;
   private online: boolean = false;
   private phNumber: any;
+  private content: any;
   private hosted: boolean = false;
   private displayResponse: any = "omg-happy-fucked-funny-cunny-sunny-munny-tunny-bunny-any";
   private clinicWebsite: any;
@@ -56,6 +57,7 @@ export class FbloginComponent implements OnInit {
             console.log(pageData)
             console.log(pageData.fbPageId);
             this.doctorId = pageData.doctorId;
+            this.content = pageData.content;
             this.pageId = pageData.fbPageId;
             if (params['number']) {
               this.online = true;

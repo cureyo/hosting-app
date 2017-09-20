@@ -11,9 +11,11 @@
                   <form *ngIf="formReady" [formGroup]="checkUpForm" class="formGroup"  novalidate >
                     <!-- card header portion-->
                     <div class="card-header" data-background-color="cureyo">
-                        <h4 class="title">Quick Information </h4>
+                        <h4 *ngIf="!userDataFound" class="title">Quick Information </h4>
+                        <h4 *ngIf="userDataFound" class="title">Welcome back, {{fname}}</h4>
 
-                        <p class="category"> Please provide your basic information</p>
+                        <p *ngIf="!userDataFound" class="category"> Please provide your basic information</p>
+                        <p *ngIf="userDataFound" class="category"> Please verify your personal information below and upload any reports/ scans requested by the doctor</p>
 
                     </div> <!-- card header portion end-->
                     
@@ -258,13 +260,13 @@
                      <!-- end of visit type formcontrol--> 
                      </div> <!-- end of second row-->
              <!-- third row-->
-              <div *ngIf="!connectED" class="row">
+              <!--<div *ngIf="!connectED" class="row">
                       <!-- interface implementation to repeat the div's -->
-                    <div class="medicines" formArrayName="conditions">
+                    <!--<div class="medicines" formArrayName="conditions">
                         <div class="clearfix medicine" *ngFor="let condition of checkUpForm.controls.conditions.controls; let i=index">
-                             <div [formGroupName]="i">
+                             <div [formGroupName]="i">-->
                     <!--  end of interface implementation -->  
-                    <div class="col-md-6">
+                    <!--<div class="col-md-6">
                             <div class="form-group">
                                   <label for="name">Existing Conditions </label>
   
@@ -275,9 +277,9 @@
                                    <option  value="thyroid-disorder">Thyroid Disorder</option>
                                  </select>  
                             </div>
-                    </div>    
+                    </div>    -->
                     
-                     <div class="col-md-6">
+                     <!--<div class="col-md-6">
                             <div class="form-group">
                                      <label for="name">Since </label>
   
@@ -290,23 +292,23 @@
                                         <option  value="7to10">7 - 10 Years</option>
                                         <option  value="morethan10">10+ Years</option>
                                  </select>  
-                            </div>
-                    </div>     
+                            </div>-->
+                    <!--</div>     
                     <!-- closing tags of interface implementation-->
-                      </div>
+                      <!--</div>
                     </div> 
-                  </div>
+                  </div>-->
                     <!-- closing tags of interface implementation-->
 
-              </div>       
+              <!--</div>       -->
               <!-- end of third row-->  
-              <div  *ngIf="!connectED" class="row">
+              <!--<div  *ngIf="!connectED" class="row">
   
                       <div class="pull-left" >
                           <button [ngClass]="{'hide': formSaved}" class="btn btn-primary btn-round"  (click)="AddConditions()">Add more</button>
                       </div>
               </div>
-              
+              -->
 
 <!-- submit button code    -->
                 <div class="actions clearfix">

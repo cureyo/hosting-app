@@ -5,8 +5,11 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import { FormGroup, FormBuilder, Validators, FormArray } from "@angular/forms";
 import { AuthService } from "../../services/firebaseauth.service";
 import { ActivatedRoute, Router } from "@angular/router";
+import * as firebase from 'firebase/app';
+import 'firebase/storage';
 //mport {FeedbackComponent} from "../feedback.component"
 declare var $: any;
+
 const URL = 'gs://cureyo-your-personal-hospital.appspot.com/files/';
 @Component({
   selector: 'app-file-upload-checkUp',
@@ -41,7 +44,7 @@ export class CheckUpFileUploadComponent implements OnInit {
     private router: Router,
     private activatedRouter: ActivatedRoute
     ) {
-    this.storage = firebaseApp.storage();
+    this.storage = firebase.storage();
     //this.ref = firebaseApp.database().ref();
     this.uid = localStorage.getItem('uid');
   }
