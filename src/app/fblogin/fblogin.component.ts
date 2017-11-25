@@ -56,6 +56,7 @@ export class FbloginComponent implements OnInit {
             console.log(pageData)
             console.log(pageData.fbPageId);
             this.doctorId = pageData.doctorId;
+           
             this.pageId = pageData.fbPageId;
             if (params['number']) {
               this.online = true;

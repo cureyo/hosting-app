@@ -91,7 +91,7 @@ export class CheckUpFormComponent implements OnInit {
       usDat => {
         console.log(usDat)
         if (usDat.isAuth == false) {
-          this._authService.loginMailUser({email: "omni-user@cureyo.com", password: "pass9967092749"})
+          this._authService.loginMailUser({ email: "omni-user@cureyo.com", password: "pass9967092749" })
         }
         this.route.queryParams.subscribe(
           param => {
@@ -104,10 +104,10 @@ export class CheckUpFormComponent implements OnInit {
               this.hosted = true;
               this.clinicWebsite = param['clinicWebsite'];
             }
-             if (param['connectUID']) {
+            if (param['connectUID']) {
               this.connectED = true;
               this.connectUID = param['connectUID'];
-              
+
             }
             this.userId = param['userId']
             console.log("userid is :", this.userId);
@@ -165,7 +165,7 @@ export class CheckUpFormComponent implements OnInit {
                               Email: [user.email, Validators.required],
                               phone: [user.phone, Validators.required],
                               DOB: [user.dateOfBirth],
-                              language: ['English',  Validators.required],
+                              language: ['English', Validators.required],
                               visit_Type: [, Validators.required],
                               // description: [, Validators.required],
                               insurance: [user.insurance, Validators.required],
@@ -195,7 +195,10 @@ export class CheckUpFormComponent implements OnInit {
                             this._authService._getfbPageId(this.clinicId)
                               .subscribe(
                               data => {
-                                this.pageId = data.$value;
+                                if (data.$value == "170992603444062")
+                                  this.pageId = "156386548250850";
+                                else
+                                  this.pageId = data.$value;
                                 //this.pageId = "164483500652387";
                                 this.userFBId = "FacbkId_" + this.userId;
                                 let fburl = "https://www.facebook.com/v2.3/plugins/send_to_messenger.php?messenger_app_id=" + this.appId + "&page_id=" + this.pageId + "&ref=" + this.userFBId;
@@ -204,27 +207,27 @@ export class CheckUpFormComponent implements OnInit {
                                 this.fbURLSanit = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
                                 console.log(this.fbURLSanit);
                                 this._authService._fetchUser(this.DoctorId)
-                                      .subscribe(
-                                      doctorData => {
-                                        if (!activePaths.pathway) {
-                                          this._authService._saveActivePathways(this.userId, clinicId, mode, this.pathwayId, this.itemId);
-                                          var nowDate = new Date();
+                                  .subscribe(
+                                  doctorData => {
+                                    if (!activePaths.pathway) {
+                                      this._authService._saveActivePathways(this.userId, clinicId, mode, this.pathwayId, this.itemId);
+                                      var nowDate = new Date();
 
-                                          var updtJSON = {
-                                            "actions": {
-                                              "chat": ["patient", doctorData.phone]
-                                            },
-                                            "description": user['firstName'] + " has initiated Consultation with " + doctorData.fullName + ", " + doctorData.speciality,
-                                            "icon": 'local_hospital',
-                                            "partnerId": doctorData.phone,
-                                            "status": "started",
-                                            "time": nowDate.getMonth() + ', ' + nowDate.getUTCDate() + ', ' + nowDate.getFullYear(),
-                                            "title": "Consultation with " + doctorData.fullName
-                                          };
-                                          this._authService._savePatientUpdates(this.userId, this.pathwayId, this.itemId, updtJSON);
-                                        }
-                                      }
-                                      )
+                                      var updtJSON = {
+                                        "actions": {
+                                          "chat": ["patient", doctorData.phone]
+                                        },
+                                        "description": user['firstName'] + " has initiated Consultation with " + doctorData.fullName + ", " + doctorData.speciality,
+                                        "icon": 'local_hospital',
+                                        "partnerId": doctorData.phone,
+                                        "status": "started",
+                                        "time": nowDate.getMonth() + ', ' + nowDate.getUTCDate() + ', ' + nowDate.getFullYear(),
+                                        "title": "Consultation with " + doctorData.fullName
+                                      };
+                                      this._authService._savePatientUpdates(this.userId, this.pathwayId, this.itemId, updtJSON);
+                                    }
+                                  }
+                                  )
                                 this.formReady = true;
                               }
                               )
@@ -237,7 +240,7 @@ export class CheckUpFormComponent implements OnInit {
                               Email: [user.email, Validators.required],
                               phone: [user.phone, Validators.required],
                               DOB: [user.dateOfBirth],
-                              language: ['English',  Validators.required],
+                              language: ['English', Validators.required],
                               visit_Type: [, Validators.required],
                               // description: [, Validators.required],
                               insurance: [user.insurance, Validators.required],
@@ -257,6 +260,9 @@ export class CheckUpFormComponent implements OnInit {
                             this._authService._getfbPageId(this.clinicId)
                               .subscribe(
                               data => {
+                                 if (data.$value == "170992603444062")
+                                  this.pageId = "156386548250850";
+                                else
                                 this.pageId = data.$value;
                                 //this.pageId = "164483500652387";
                                 this.userFBId = "FacbkId_" + this.userId;
@@ -266,27 +272,27 @@ export class CheckUpFormComponent implements OnInit {
                                 this.fbURLSanit = this.sanitizer.bypassSecurityTrustResourceUrl(fburl)
                                 console.log(this.fbURLSanit);
                                 this._authService._fetchUser(this.DoctorId)
-                                      .subscribe(
-                                      doctorData => {
-                                        if (!activePaths.pathway) {
-                                          this._authService._saveActivePathways(this.userId, clinicId, mode, this.pathwayId, this.itemId);
-                                          var nowDate = new Date();
+                                  .subscribe(
+                                  doctorData => {
+                                    if (!activePaths.pathway) {
+                                      this._authService._saveActivePathways(this.userId, clinicId, mode, this.pathwayId, this.itemId);
+                                      var nowDate = new Date();
 
-                                          var updtJSON = {
-                                            "actions": {
-                                              "chat": ["patient", doctorData.phone]
-                                            },
-                                            "description": user['firstName'] + " has initiated Consultation with " + doctorData.fullName + ", " + doctorData.speciality,
-                                            "icon": 'local_hospital',
-                                            "partnerId": doctorData.phone,
-                                            "status": "started",
-                                            "time": nowDate.getMonth() + ', ' + nowDate.getUTCDate() + ', ' + nowDate.getFullYear(),
-                                            "title": "Consultation with " + doctorData.fullName
-                                          };
-                                          this._authService._savePatientUpdates(this.userId, this.pathwayId, this.itemId, updtJSON);
-                                        }
-                                      }
-                                      )
+                                      var updtJSON = {
+                                        "actions": {
+                                          "chat": ["patient", doctorData.phone]
+                                        },
+                                        "description": user['firstName'] + " has initiated Consultation with " + doctorData.fullName + ", " + doctorData.speciality,
+                                        "icon": 'local_hospital',
+                                        "partnerId": doctorData.phone,
+                                        "status": "started",
+                                        "time": nowDate.getMonth() + ', ' + nowDate.getUTCDate() + ', ' + nowDate.getFullYear(),
+                                        "title": "Consultation with " + doctorData.fullName
+                                      };
+                                      this._authService._savePatientUpdates(this.userId, this.pathwayId, this.itemId, updtJSON);
+                                    }
+                                  }
+                                  )
                                 this.formReady = true;
                               }
                               )
@@ -325,7 +331,7 @@ export class CheckUpFormComponent implements OnInit {
                                   Email: [this.email, Validators.required],
                                   phone: [number, Validators.required],
                                   DOB: [this.birthdate],
-                                  language: ['English',  Validators.required],
+                                  language: ['English', Validators.required],
                                   visit_Type: [, Validators.required],
                                   // description: [, Validators.required],
                                   insurance: [, Validators.required],
@@ -339,6 +345,9 @@ export class CheckUpFormComponent implements OnInit {
                                 this._authService._getfbPageId(this.clinicId)
                                   .subscribe(
                                   data => {
+                                     if (data.$value == "170992603444062")
+                                  this.pageId = "156386548250850";
+                                else
                                     this.pageId = data.$value;
                                     //this.pageId = "164483500652387";
                                     this.userFBId = "FacbkId_" + this.userId;
@@ -361,7 +370,7 @@ export class CheckUpFormComponent implements OnInit {
                                             "icon": 'local_hospital',
                                             "partnerId": doctorData.phone,
                                             "status": "started",
-                                           "time": nowDate.getMonth() + ', ' + nowDate.getUTCDate() + ', ' + nowDate.getFullYear(),
+                                            "time": nowDate.getMonth() + ', ' + nowDate.getUTCDate() + ', ' + nowDate.getFullYear(),
                                             "title": "Consultation with " + doctorData.fullName
                                           };
                                           this._authService._savePatientUpdates(this.userId, this.pathwayId, this.itemId, updtJSON);
@@ -386,7 +395,7 @@ export class CheckUpFormComponent implements OnInit {
                                   Email: ['', Validators.required],
                                   phone: [number, Validators.required],
                                   DOB: [''],
-                                  language: ['English',  Validators.required],
+                                  language: ['English', Validators.required],
                                   visit_Type: [, Validators.required],
                                   // description: [, Validators.required],
                                   insurance: [, Validators.required],
@@ -399,6 +408,9 @@ export class CheckUpFormComponent implements OnInit {
                                 this._authService._getfbPageId(this.clinicId)
                                   .subscribe(
                                   data => {
+                                     if (data.$value == "170992603444062")
+                                  this.pageId = "156386548250850";
+                                else
                                     this.pageId = data.$value;
                                     //this.pageId = "164483500652387";
                                     this.userFBId = "FacbkId_" + this.userId;
@@ -531,72 +543,72 @@ export class CheckUpFormComponent implements OnInit {
               .then(
               data2 => {
                 console.log(reminders['phone'], this.userId);
-                this._authService._savePhone2FBId((this.connectUID)?this.connectUID:reminders['phone'], this.userId)
-                .then(
+                this._authService._savePhone2FBId((this.connectUID) ? this.connectUID : reminders['phone'], this.userId)
+                  .then(
                   data3 => {
-                    
-                  
-                console.log(data)
-                ///////////
-                if (this.connectED) {
-                  var str = window.location.hostname;
-                  var n = str.indexOf(".");
-                  var m = str.length;
-                  var clinicId = str.substring(0, n);
-                  var host = str.substring(n, m);
-                  
-                  this.router.navigate(['care-plan/'+ this.uid + '/' + this.latestPathway], {queryParams: {clinicId: this.clinicId}})
-                  // if (this.hosted) {
-                  //   window.location.href = 'http://' + this.clinicWebsite + '/care-plan/'+ this.uid + '/' + this.latestPathway;
-                  // }
-                  // else if (host == '.localhost') {
 
-                  //   window.location.href = 'http://' + this.clinicId + host + ':4200/' + 'care-plan/'+ this.uid + '/' + this.latestPathway;
-                  // } else {
-                  //   window.location.href = 'http://' + this.clinicId + host + '/care-plan/'+ this.uid + '/' + this.latestPathway;
-                  // }
-                }
-                else if (reminders['primeSymptom'] == "NA" || !reminders['primeSymptom']) {
-                  //this.router.navigate(['queue/' + param + '/' + this.userId], { queryParams: { triaged: false } });
-                  var str = window.location.hostname;
-                  var n = str.indexOf(".");
-                  var m = str.length;
-                  var clinicId = str.substring(0, n);
-                  var host = str.substring(n, m);
-                  console.log(host);
-                  if (this.hosted) {
-                    window.location.href = 'http://' + this.clinicWebsite + '/medical-history/' + param + '/' + reminders['visitType'] + '/' + this.userId + qParam;
-                  }
-                  else if (host == '.localhost') {
 
-                    window.location.href = 'http://' + this.clinicId + host + ':4200' + '/medical-history/' + param + '/' + reminders['visitType'] + '/' + this.userId + qParam;
-                  } else {
-                    window.location.href = 'http://' + this.clinicId + host + '/medical-history/' + param + '/' + reminders['visitType'] + '/' + this.userId + qParam;
-                  }
-                }
-                else if (param == 'x') {
+                    console.log(data)
+                    ///////////
+                    if (this.connectED) {
+                      var str = window.location.hostname;
+                      var n = str.indexOf(".");
+                      var m = str.length;
+                      var clinicId = str.substring(0, n);
+                      var host = str.substring(n, m);
 
-                }
-                else {
-                  //this.router.navigate(['medical-history/' + param + '/' + reminders['primeSymptom'] + '/' + this.userId]) 
-                  var str = window.location.hostname;
-                  var n = str.indexOf(".");
-                  var m = str.length;
-                  var clinicId = str.substring(0, n);
-                  var host = str.substring(n, m);
-                  console.log(host);
-                  if (this.hosted) {
-                    window.location.href = 'http://' + this.clinicWebsite + '/medical-history/' + param + '/' + reminders['visitType'] + '/' + this.userId + qParam;
-                  }
-                  else if (host == '.localhost') {
+                      this.router.navigate(['care-plan/' + this.uid + '/' + this.latestPathway], { queryParams: { clinicId: this.clinicId } })
+                      // if (this.hosted) {
+                      //   window.location.href = 'http://' + this.clinicWebsite + '/care-plan/'+ this.uid + '/' + this.latestPathway;
+                      // }
+                      // else if (host == '.localhost') {
 
-                    window.location.href = 'http://' + this.clinicId + host + ':4200' + '/medical-history/' + param + '/' + reminders['primeSymptom'] + '/' + this.userId + qParam;
-                  } else {
-                    window.location.href = 'http://' + this.clinicId + host + '/medical-history/' + param + '/' + reminders['primeSymptom'] + '/' + this.userId + qParam;
+                      //   window.location.href = 'http://' + this.clinicId + host + ':4200/' + 'care-plan/'+ this.uid + '/' + this.latestPathway;
+                      // } else {
+                      //   window.location.href = 'http://' + this.clinicId + host + '/care-plan/'+ this.uid + '/' + this.latestPathway;
+                      // }
+                    }
+                    else if (reminders['primeSymptom'] == "NA" || !reminders['primeSymptom']) {
+                      //this.router.navigate(['queue/' + param + '/' + this.userId], { queryParams: { triaged: false } });
+                      var str = window.location.hostname;
+                      var n = str.indexOf(".");
+                      var m = str.length;
+                      var clinicId = str.substring(0, n);
+                      var host = str.substring(n, m);
+                      console.log(host);
+                      if (this.hosted) {
+                        window.location.href = 'http://' + this.clinicWebsite + '/medical-history/' + param + '/' + reminders['visitType'] + '/' + this.userId + qParam;
+                      }
+                      else if (host == '.localhost') {
+
+                        window.location.href = 'http://' + this.clinicId + host + ':4200' + '/medical-history/' + param + '/' + reminders['visitType'] + '/' + this.userId + qParam;
+                      } else {
+                        window.location.href = 'http://' + this.clinicId + host + '/medical-history/' + param + '/' + reminders['visitType'] + '/' + this.userId + qParam;
+                      }
+                    }
+                    else if (param == 'x') {
+
+                    }
+                    else {
+                      //this.router.navigate(['medical-history/' + param + '/' + reminders['primeSymptom'] + '/' + this.userId]) 
+                      var str = window.location.hostname;
+                      var n = str.indexOf(".");
+                      var m = str.length;
+                      var clinicId = str.substring(0, n);
+                      var host = str.substring(n, m);
+                      console.log(host);
+                      if (this.hosted) {
+                        window.location.href = 'http://' + this.clinicWebsite + '/medical-history/' + param + '/' + reminders['visitType'] + '/' + this.userId + qParam;
+                      }
+                      else if (host == '.localhost') {
+
+                        window.location.href = 'http://' + this.clinicId + host + ':4200' + '/medical-history/' + param + '/' + reminders['primeSymptom'] + '/' + this.userId + qParam;
+                      } else {
+                        window.location.href = 'http://' + this.clinicId + host + '/medical-history/' + param + '/' + reminders['primeSymptom'] + '/' + this.userId + qParam;
+                      }
+                    }
                   }
-                }
-                }
-                )
+                  )
               }
               )
           }
