@@ -88,7 +88,14 @@ return this.afa.auth.signInWithRedirect(new firebase.auth.FacebookAuthProvider()
   clinicFblogin() {
   console.log("clinic login firebasee called:");
   //this.afa.
-  return this.afa.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider().addScope("user_education_history").addScope("user_birthday").addScope("user_work_history").addScope("user_hometown").addScope("user_location"));
+  var signingIn = new firebase.auth.FacebookAuthProvider();
+  signingIn.addScope("user_birthday");
+signingIn.addScope("user_education_history")
+signingIn.addScope("user_work_history")
+signingIn.addScope("user_hometown")
+signingIn.addScope("user_location")
+
+  return this.afa.auth.signInWithPopup(signingIn);
   //  return (
   //   this.afd.login({
   //     provider: AuthProviders.Facebook,
@@ -331,6 +338,7 @@ return this.afa.auth.signInWithRedirect(new firebase.auth.FacebookAuthProvider()
   }
 
   public _getAvailableSlots(clinicId, consultDate) {
+    console.log(this.db.clinicConsultSlots + clinicId + '/' + consultDate);
     return this.afd.object(this.db.clinicConsultSlots + clinicId + '/' + consultDate);
 
   }

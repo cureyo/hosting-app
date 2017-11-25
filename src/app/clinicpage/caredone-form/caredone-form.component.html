@@ -45,27 +45,33 @@
       <option value="first">First Consultation</option>
     </select>
   </div>-->
-      <div class="form-group" style="width: 48%; float: left; z-index: 100; margin-top: 0px; margin-bottom: 0px; margin-left:4%;"  [ngClass]="{'has-error':!caredone.controls['consultMode'].valid && (caredone.controls['consultMode'].touched || showErrorFlag)}" (change)="updateDate(caredone.controls['consultDate'].value, caredone.controls['consultMode'].value)">
+      <div class="form-group" style="width: 100%; float: left; z-index: 100; margin-top: 0px; margin-bottom: 0px;"  [ngClass]="{'has-error':!caredone.controls['consultMode'].valid && (caredone.controls['consultMode'].touched || showErrorFlag)}" (change)="updateDate(caredone.controls['consultDate'].value, caredone.controls['consultMode'].value)">
     <label class="control-label" for="co_consultMode">Consultation Mode</label>
     <select formControlName="consultMode" id="co_consultMode" class="form-control">
-      <option value="video">Video Consultation</option>
-      <option value="phone">Phone Consultation</option>
-      <option value="physical">Physical Consultation</option>
+      <option value="Online">Video Consultation</option>
+      <!--<option value="phone">Phone Consultation</option>-->
+      <option value="Physical">Physical Consultation</option>
     </select>
   </div>
-  <div class="form-group" style="float: left; width: 48%; z-index: 100; margin-top: 0px; margin-bottom: 0px;" [ngClass]="{'has-error':!caredone.controls['consultDate'].valid && (caredone.controls['consultDate'].touched || showErrorFlag2)}" (change)="updateDate(caredone.controls['consultDate'].value, caredone.controls['consultMode'].value)">
+  <div class="form-group" style="float: left; width: 100%; z-index: 100; margin-top: 0px; margin-bottom: 0px;" [ngClass]="{'has-error':!caredone.controls['consultDate'].valid && (caredone.controls['consultDate'].touched || showErrorFlag2)}" (change)="updateDate(caredone.controls['consultDate'].value, caredone.controls['consultMode'].value)">
     <label class="control-label" for="consultDate">Select date</label>
-    <input id="consultDTE"type ="date" class="form-control" formControlName="consultDate"  [(ngModel)]="consultDate"   min="{{minDate}}" value="consultDate"/>
+    <div class="date">
+    <input id="consultDTE" type ="date" data-provide="datepicker-inline" class="form-control" formControlName="consultDate"  [(ngModel)]="consultDate"   min="{{minDate}}" value="consultDate"/>
       <!--<select formControlName="consultDate"  class="form-control">
       <option [attr.selected]="" value="{{ i | date }}" *ngFor="let i of cbDay">{{ i | date }}</option>
     </select>-->
+    </div>
   </div>
-  <div class="form-group" style="float: left; width: 48%; z-index: 100; margin-top: 0px; margin-bottom: 0px; margin-left:4%;" [ngClass]="{'has-error':!caredone.controls['consultTime'].valid && (caredone.controls['consultTime'].touched || showErrorFlag2)}">
-  <label class="control-label" for="consultTime">Select time</label>
-    <select formControlName="consultTime"  class="form-control">
+  <div *ngIf="caredone.controls['consultDate'].value != undefined" class="form-group" style="float: left; width: 100%; z-index: 100; margin-top: 0px; margin-bottom: 0px; margin-left:4%;" [ngClass]="{'has-error':!caredone.controls['consultTime'].valid && (caredone.controls['consultTime'].touched || showErrorFlag2)}">
+  <label *ngIf="cbTime[0]" class="control-label" for="consultTime">Select time</label>
+  <label *ngIf="!cbTime[0]" class="control-label" for="consultTime">Apologies! The Doctor does not have any slots</label>
+  <hr/>
+  <a (click)="selectTime(k)" [ngClass]="(cbSelection[k])?'btn btn-xs btn-round btn-primary':'btn btn-xs btn-round btn-white'" *ngFor="let i of cbTime; let k = index">{{i}}</a>
+    <!--<select formControlName="consultTime"  class="form-control">
       <option [attr.selected]="" value="{{i}}" *ngFor="let i of cbTime">{{i}}</option>
-    </select>
+    </select>-->
   </div>
+  
   <!--<a (click)="reportsReqd()" style="width: 100%; cursor: pointer; float: left; z-index:100000;">Have reports?</a>
   <div class="form-group">
  

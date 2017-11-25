@@ -153,7 +153,7 @@
             </div>
         </div>
     </div>
-    	<div class="header" id="heroSection">
+    	<!--<div class="header" id="heroSection">
 			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 								<div class="carousel slide" data-ride="carousel">
 
@@ -174,7 +174,7 @@
 											<button class="btn btn-round" style="border-color: #FFFFFF; color: #FFFFFF; background-color: transparent; border: 1px solid white;">Learn More</button>
 											</div>
 												<!--<h4><i class="material-icons">location_on</i> Yellowstone National Park, United States</h4>-->
-											</div>
+											<!--</div>
 											</div>
 											<img [src]="pageDetails.content.heroTile.bgImage" alt="Awesome Image" >
 											
@@ -187,7 +187,44 @@
 									
 								</div>
 							</div>
-	</div>
+	</div>-->
+        <div *ngIf="!resourcePage && !blogPage" class="section section-header" id="heroSection">
+        <div *ngIf="pageDetails" class="parallax filter filter-color-blue"   style="min-height: 800px;">
+            <div class="image" 
+               [style.background-image]=getSafeURL(pageDetails.content.heroTile.bgImage)
+               style="min-height: 800px;">
+            </div>
+            <div *ngIf="pageDetails" class="container">
+                <div class="content">
+                    <div class="title-area">
+                        <p>{{pageDetails.content.heroTile.title}}</p>
+                        <h1 class="title-modern" style="margin-bottom: 20px;">{{pageDetails.content.heroTile.text}}</h1>
+                        <!--<h2>{{pageDetails.Content.heroText2}}</h2>-->
+                        <div class="col-sm-6 col-sm-offset-3">
+                          <div class="card card-profile" style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
+                        <div class="card-avatar" style="width: 90px; height: 90px; border-radius: 50%; padding: 1px; background-color:#fff; ">
+<!--<i class="material-icons">content_copy</i>-->
+<img src="{{pageDetails.content.heroTile.card.image}}" style="border-radius: 50%; width: 88px; height: 88px;">
+</div>
+<div class="card-content">
+    <!--<p class="category">{{pageDetails.content.heroTile.card.title}}</p>-->
+    <h3 class="title-modern">{{pageDetails.content.heroTile.card.title}}
+        <br><small>{{pageDetails.content.heroTile.card.qual}}</small>
+        <br><small>{{pageDetails.content.heroTile.card.experience}} years of experience</small></h3>
+        <button (click)="patientLogin()" class="btn btn-round"> Patient Check-in</button>
+</div>
+
+</div>
+                        </div>
+                        
+                    </div>
+
+                   
+                </div>
+
+            </div>
+        </div>
+    </div>
 <div *ngIf="blogPage" class="section section-header" id="heroSection">
         <div  class="parallax filter filter-color-blue"   style="min-height: 800px;">
             <div class="image" 
@@ -211,6 +248,7 @@
             </div>
         </div>
     </div>
+   
    <div *ngIf="blogPage" class="section" id="blogDetailSection" style="background-color: #ddd">
         <div *ngIf="blogData" class="container" >
            
@@ -275,8 +313,8 @@
         
 <div class="card-footer">
     <app-caredone-form
-        [clinicId]="clinicId"
-        [availableSlots]="pageDetails.availability"
+        [clinicId]="clinicId +'/' + pageDetails.docDetails.drPhone"
+        [availableSlots]="pageDetails.availability[pageDetails.docDetails.drPhone]"
         [fee]="fee"
         [drName]="pageDetails.content.profileTile.doctor.name"
         [drImage]="pageDetails.content.profileTile.doctor.image" 
