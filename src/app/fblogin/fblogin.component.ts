@@ -174,7 +174,7 @@ export class FbloginComponent implements OnInit {
 
           this._fs.getLoginStatus().then((response: FacebookLoginResponse) => {
             console.log(response);
-            this._fs.api('/' + loginData.user.providerData[0].uid + '?fields=first_name,last_name,email,education,birthday,work,location,hometown').then(
+            this._fs.api('/' + loginData.uid + '?fields=first_name,last_name,email,education,birthday,work,location,hometown').then(
               userData => {
                 //service to save the data into the firebase
                 console.log(userData);
@@ -247,7 +247,7 @@ export class FbloginComponent implements OnInit {
                                   console.log(usrData);
                                   if (usrData.firstName) {
 
-                                    usrData['uid'] = loginData.user.providerData[0].uid;
+                                    usrData['uid'] = loginData.uid;
                                     console.log(usrData);
                                     this._authService._saveCaredOne(usrData, this.doctorId)
                                       .then(
@@ -259,7 +259,7 @@ export class FbloginComponent implements OnInit {
                                           cs3Data => {
                                             cs3Data['email'] = { status: "sent" };
 
-                                            this._authService._saveCareSchedule(this.pageId, loginData.user.providerData[0].uid, cs3Data)
+                                            this._authService._saveCareSchedule(this.pageId, loginData.uid, cs3Data)
                                               .then(
                                               csData => {
                                                 this._authService._deleteCareSchedule(this.doctorId, this.connectedID)

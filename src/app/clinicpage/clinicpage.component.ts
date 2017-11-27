@@ -76,6 +76,7 @@ export class ClinicPageComponent implements OnInit, AfterViewInit {
     console.log(n);
     var res = str.substring(0, n);
     console.log("location", res);
+    res = "drakashmalik";
     this.clinicId = res;
 
     this.pageDetailsData = this._cacheService.get('pageDetailsData')
